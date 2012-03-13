@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * A Formatter that checks the syntax of a String according to a regex Pattern.
  * 
- * @author Hallvard Tr¾tteberg
+ * @author Hallvard Trï¿½tteberg
  *  
  * @version $Revision: 1.2 $ - $Date: 2005/02/20 18:33:16 $
  */
