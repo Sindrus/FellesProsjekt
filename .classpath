@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Even/Java/FellesProsjekt/lib/jlfgr-1_0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Even/Java/FellesProsjekt/lib/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Even/Java/FellesProsjekt/lib/xom-1.0b5.jar"/>
+	<classpathentry kind="lib" path="C:/Dropbox/Fellesprosjekt Gr 13/FellesProsjekt/lib/jlfgr-1_0.jar"/>
+	<classpathentry kind="lib" path="C:/Dropbox/Fellesprosjekt Gr 13/FellesProsjekt/lib/junit.jar"/>
+	<classpathentry kind="lib" path="C:/Dropbox/Fellesprosjekt Gr 13/FellesProsjekt/lib/xom-1.0b5.jar"/>
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
 	<classpathentry kind="lib" path="lib/ktn_admin_and_a2.jar"/>
 	<classpathentry kind="output" path="bin"/>
