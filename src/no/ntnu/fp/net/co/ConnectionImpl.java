@@ -162,7 +162,6 @@ public class ConnectionImpl extends AbstractConnection {
     	}
     	usedPorts.put(portnum, true);
     	return portnum;
-    	
     }
 
     /**
@@ -178,7 +177,11 @@ public class ConnectionImpl extends AbstractConnection {
      * @see no.ntnu.fp.net.co.Connection#send(String)
      */
     public void send(String msg) throws ConnectException, IOException {
-        throw new NotImplementedException();
+    	if (state != State.ESTABLISHED){
+    		throw new IllegalStateException("Data packets can only be sent in established state");
+    	}
+    	
+//        throw new NotImplementedException();
     }
 
     /**
