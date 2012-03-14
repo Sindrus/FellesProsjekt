@@ -78,7 +78,24 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-    	
+//    	if (state != State.CLOSED){
+//    		throw new IllegalStateException("Need to be in closed state before trying to connect.");
+//    	}
+    	//Set state information
+//    	this.remoteAddress = remoteAddress.getHostAddress();
+//    	this.remotePort = remotePort;
+    	//Send SYN, receive SYN_ACK and send ACK on SYN_ACK
+//    	synAck = safelySendPacket(syn, State.CLOSED, State.SYN_SENT);
+//    	if (isReallyValid(synAck)){
+//    		lastValidPacketReceived = synAck;
+//    		this.remotePort = synAck.getSrc_port();
+//    		System.out.println("\nSENDING ACK on SYN_ACK.");
+//    		safelySendAck(synAck);
+//    	}else{
+//    		throw new IOException("Could not connect; did not receive valid SYN_ACK.");
+//    	}
+//    	System.out.println("\nESTABLISHED.\n");
+//    	state = State.ESTABLISHED;
         throw new NotImplementedException();
     }
 
