@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import no.ntnu.fp.net.admin.Log;
@@ -78,25 +77,26 @@ public class ConnectionImpl extends AbstractConnection {
      */
     public void connect(InetAddress remoteAddress, int remotePort) throws IOException,
             SocketTimeoutException {
-//    	if (state != State.CLOSED){
-//    		throw new IllegalStateException("Need to be in closed state before trying to connect.");
-//    	}
+    	if (state != State.CLOSED){
+    		throw new IllegalStateException("Need to be in closed state before trying to connect.");
+    	}
     	//Set state information
-//    	this.remoteAddress = remoteAddress.getHostAddress();
-//    	this.remotePort = remotePort;
+    	this.remoteAddress = remoteAddress.getHostAddress();
+    	this.remotePort = remotePort;
     	//Send SYN, receive SYN_ACK and send ACK on SYN_ACK
-//    	synAck = safelySendPacket(syn, State.CLOSED, State.SYN_SENT);
-//    	if (isReallyValid(synAck)){
-//    		lastValidPacketReceived = synAck;
-//    		this.remotePort = synAck.getSrc_port();
-//    		System.out.println("\nSENDING ACK on SYN_ACK.");
-//    		safelySendAck(synAck);
-//    	}else{
-//    		throw new IOException("Could not connect; did not receive valid SYN_ACK.");
-//    	}
-//    	System.out.println("\nESTABLISHED.\n");
-//    	state = State.ESTABLISHED;
-        throw new NotImplementedException();
+    	KtnDatagram synAck = null, syn = constructInternalPacket(Flag.SYN);
+    	synAck = safelySendPacket(syn, State.CLOSED, State.SYN_SENT);
+    	if (isReallyValid(synAck)){
+    		lastValidPacketReceived = synAck;
+    		this.remotePort = synAck.getSrc_port();
+    		System.out.println("\nSENDING ACK on SYN_ACK.");
+    		safelySendAck(synAck);
+    	}else{
+    		throw new IOException("Could not connect; did not receive valid SYN_ACK.");
+    	}
+    	System.out.println("\nESTABLISHED.\n");
+    	state = State.ESTABLISHED;
+//        throw new NotImplementedException();
     }
 
     /**
@@ -106,7 +106,63 @@ public class ConnectionImpl extends AbstractConnection {
      * @see Connection#accept()
      */
     public Connection accept() throws IOException, SocketTimeoutException {
-        throw new NotImplementedException();
+    	if (state != State.CLOSED){
+        	throw new IllegalStateException("Need to be in closed state to accept connections.");
+      }
+    	//System.out.println("\nserver:LISTEN\n");
+    	state = State.LISTEN;
+    	//Receiving SYN
+    	KtnDatagram syn = null;
+    	while(!isReallyValid(syn)) try{
+    		//System.out.println("\nRECEIVING SYN\n");
+    		syn = receivePacket(true);
+    	} catch (Exception e) {} //Ignore
+    	//Create new connection
+    	ConnectionImpl connection = new ConnectionImpl(newPortNumber());
+    	connection.remoteAddress = syn.getSrc_addr();
+    	connection.remotePort = syn.getSrc_port();
+    	//System.out.println("\nSYN_RCVD\n");
+    	connection.state = State.SYN_RCVD;
+    	//Send SYN_ACK and receive ACK
+    	KtnDatagram ack = null;
+    	try{
+    		int triesLeft = MAX_SEND_ATTEMPTS;
+    		while (!connection.isReallyValid(ack) && triesLeft-- > 0) try{
+    			//System.out.println("\sending SYN_ACK");
+    			connection.sendAck(syn, true);
+    			//System.out.println("\nRECEIVING ACK ON SYN_ACK");
+    			ack = connection.receiveAck();
+    		} catch (ConnectException e) {//Try again on A2 fail
+    		} catch (IOException e) {}
+    	} catch (Exception e) {
+    		throw new IOException("Unable to connect");
+    	}
+    	//System.out.println("\nserver: ClOSED\n");
+    	state = State.CLOSED;
+    	//Finalize connection
+    	if (connection.isReallyValid(ack)) {
+    		System.out.println("\nEstablished\n");
+    		connection.state = State.ESTABLISHED;
+    		connection.lastValidPacketReceived = ack;
+    		return connection;
+    	}else{
+    		throw new IOException("Unable to connect; did not receive valid ACK on SYN_ACK");
+    	}
+//    	throw new NotImplementedException();
+    }
+    
+    /**
+     * Find, reserve and return a new port number to be usd in a new connection.
+     * @return int
+     */
+    public static int newPortNumber(){
+    	int portnum = -1;
+    	while (portnum == -1 || usedPorts.containsKey(portnum)){
+    		portnum = (int) ((Math.random()*8999)+1001);
+    	}
+    	usedPorts.put(portnum, true);
+    	return portnum;
+    	
     }
 
     /**
