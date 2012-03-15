@@ -194,9 +194,9 @@ public class ConnectionImpl extends AbstractConnection {
     	}
 	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
 	   int triesLeft = MAX_SEND_ATTEMPTS;
-	   while(!isReallyValid(ack) && triesleft-- > 0){
+	   while(!isReallyValid(ack) && triesLeft-- > 0){
 		   //System.out.println("\nSENDING DATA + RECEIVE ACK");
-		   ack = sendDataPAcketWithRetransmit(datapacket);
+		   ack = sendDataPacketWithRetransmit(datapacket);
 	   }
 	   if (!isReallyValid(ack)){
 		   state = State.CLOSED;
@@ -247,18 +247,115 @@ public class ConnectionImpl extends AbstractConnection {
      * @throws IOException
      */
    private void safelySendAck(KtnDatagram ktnd) throws IOException{
-	   if (ktnd.getFlag() != (Flag.NONE || Flag.SYN || null || Flag.FIN || Flag.SYN_ACK))
+	   if (ktnd.getFlag() != Flag.NONE && ktnd.getFlag() != Flag.SYN && 
+			ktnd.getFlag() != null && ktnd.getFlag() != Flag.FIN &&
+			ktnd.getFlag() != Flag.SYN_ACK){
 		   throw new IllegalArgumentException("Cannot ACK "+ktnd.getFlag().toString()+" packet.");
+	   }
+	   int triesLeft = MAX_SEND_ATTEMPTS;
+	   do {
+		   try {
+			   sendAck(ktnd, ktnd.getFlag() == Flag.SYN);
+			   return;
+		   } catch (IOException e){} //Ignore
+	   } while (triesLeft-- > 0);
+	   throw new IOException("Could not send ACK");
    }
    
-    
+    /*
+     * Send a packet and wait for aCK. If no ACK is received, null is returned.
+     * @param ktnd
+     * @return KtnDatagram
+     * @throw EOFException
+     */
+   private KtnDatagram safelySendPacket(KtnDatagram ktnd, State before, State after) 
+		   throws EOFException{
+	   KtnDatagram ack = null;
+	   int triesLeft = MAX_SEND_ATTEMPTS;
+	   while (!isReallyValid(ack) && triesLeft-- > 0){
+		   try {
+			   state = before;
+			   //System.out.println("\n"+state.toString());
+			   //System.out.println("\nSENDING "+ktnd.getFlag().toString());
+			   simplySendPacket(ktnd);
+			   state = after;
+			   //System.out.println("\n"+state.toString());
+			   //System.out.println("\nRECEIVING "+ktnd.getFlag() +" ACK");
+			   ack = receiveAck();
+		   } catch (ClException e) {//Ignore A2 errors
+		   } catch (ConnectException e){
+		   } catch (SocketException e) {
+		   } catch (IOException e) {}
+	   }
+	   return ack;
+   }
+   
     /**
      * Close the connection.
      * 
      * @see Connection#close()
      */
     public void close() throws IOException {
-        throw new NotImplementedException();
+    	if (state != State.ESTABLISHED){
+    		throw new IllegalStateException("Cannot close unless connected.");
+    	}
+    	//Sending FIN_ACK if disconnect request has been received, if not send FIN
+    	if (disconnectRequest != null){
+    		//Send FIN_ACK
+    		KtnDatagram resend = null;
+    		int triesLeft = MAX_SEND_ATTEMPTS;
+    		do {
+    			//System.out.println("\nSENDING FIN_ACK");
+    			safelySendAck(disconnectRequest);
+    			state = State.CLOSE_WAIT;
+    			//Wait until the ACK should have arrived
+    			try {
+    				Thread.sleep(2000);
+    			} catch (InterruptedException e) { }
+    			try {
+    				resend = receivePacket(true);
+    			} catch (SocketException e) { }
+    		} while (isReallyValid(resend) && triesLeft-- > 0);
+	    	//Still got FIN packet to ACK
+	    	if (isReallyValid(resend)){
+	    		throw new IOException("Could not close connection; first FIN_ACK never received.");
+	    	}
+	    	//Send FIN and receive FIN_ACK
+	    	KtnDatagram fin = constructInternalPacket(Flag.FIN), fin_ack = null;
+	    	fin_ack = safelySendPacket(fin, State.CLOSE_WAIT, State.LAST_ACK);
+	    	if (isReallyValid(fin_ack)){
+	    		state = State.CLOSED;
+	    	}
+    	} else {
+    		//Send FIN and receive FIN_ACK
+    		KtnDatagram fin = constructInternalPacket(Flag.FIN), fin_ack = null;
+    		fin_ack = safelySendPacket(fin, State.ESTABLISHED, State.FIN_WAIT_1);
+    		if (!isReallyValid(fin_ack)){
+    			throw new IOException("Could not close connection; did not receive FIN_ACK");
+    		}
+    		state = State.FIN_WAIT_2;
+    		//Receive FIN
+    		fin = null;
+    		int triesLeft = MAX_SEND_ATTEMPTS;
+    		do {
+    			//System.out.println("\Receiving FIN");
+    			fin.receivePacket(true);
+    		} while (!isReallyValid(fin) && triesLeft-- > 0);
+    		if (!isReallyValid(fin)){
+    			throw new IOException("Failed to close connection; never received final FIN");
+    		}
+    		long start = System.currentTimeMillis();
+    		do {
+    			if (isReallyValid(fin)){
+    				//System.out.println("\SENDING FIN_ACK");
+    				safelySendAck(fin);
+    				//sendAck(fin,false);
+    			}
+    			fin = receivePacket(true);
+    		} while (System.currentTimeMillis() - start < TIME_WAIT_DURATION);
+    		state = State.CLOSED;
+    	}
+    	//        throw new NotImplementedException();
     }
 
     /**
