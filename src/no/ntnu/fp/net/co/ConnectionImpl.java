@@ -7,6 +7,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Collections;
@@ -180,10 +181,31 @@ public class ConnectionImpl extends AbstractConnection {
     	if (state != State.ESTABLISHED){
     		throw new IllegalStateException("Data packets can only be sent in established state");
     	}
-    	
+    	//if SYN_ACK is still the last valid paket received, send ACK on SYN_ACK again
+    	//TODO: is this the solution to lost ACK on SYN_ACK?
+    	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
+    		boolean sent = false;
+    		do try {
+    			sendAck(lastValidPacketReceived, false);
+    			sent = true;
+    		}catch (SocketException e) {
+    		}
+    		while (sent == false);
+    	}
+	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
+	   int triesLeft = MAX_SEND_ATTEMPTS;
+	   while(!isReallyValid(ack) && triesleft-- > 0){
+		   //System.out.println("\nSENDING DATA + RECEIVE ACK");
+		   ack = sendDataPAcketWithRetransmit(datapacket);
+	   }
+	   if (!isReallyValid(ack)){
+		   state = State.CLOSED;
+		   throw new IOException("Failed to send packet");
+	   }
+	   //To prevent the fix above from running forever
+	   lastValidPacketReceived = ack;
 //        throw new NotImplementedException();
-    }
-
+}
     /**
      * Wait for incoming data.
      * 
@@ -193,7 +215,23 @@ public class ConnectionImpl extends AbstractConnection {
      * @see AbstractConnection#sendAck(KtnDatagram, boolean)
      */
     public String receive() throws ConnectException, IOException {
-        throw new NotImplementedException();
+    	if (state != State.ESTABLISHED){
+    		throw new IllegalStateException("Data packets can only be received in established state");
+    	}
+    	//System.out.println("\nRECEIVING DATA");
+    	KtnDatagram ktnd = null;
+    	try{
+    		ktnd = receivePacket(false);
+    	} catch (EOFException e){
+    		//System.out.println("\nEOFException");
+    		throw e;
+    	} catch (IOException e) {} //Ignore
+    	//Send ACK and deliver content to application
+    	if(isReallyValid(ktnd) && ktnd.getFlag() == Flag.NONE)
+    		&& ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
+    			
+    		}
+    	//        throw new NotImplementedException();
     }
 
     /**
