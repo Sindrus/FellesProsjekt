@@ -339,7 +339,7 @@ public class ConnectionImpl extends AbstractConnection {
     		int triesLeft = MAX_SEND_ATTEMPTS;
     		do {
     			//System.out.println("\Receiving FIN");
-    			fin.receivePacket(true);
+    			fin  = receivePacket(true);
     		} while (!isReallyValid(fin) && triesLeft-- > 0);
     		if (!isReallyValid(fin)){
     			throw new IOException("Failed to close connection; never received final FIN");
@@ -366,7 +366,61 @@ public class ConnectionImpl extends AbstractConnection {
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
+    @Override
     protected boolean isValid(KtnDatagram packet) {
-        throw new NotImplementedException();
+    	return (packet != null && packet.getChecksum() == packet.calculateChecksum());
+//        throw new NotImplementedException();
+    }
+    
+    /**
+     * Extra method for thorough validation to avoid rewriting the same code
+     * Each state has different requirements for valid packets.
+     * This method requires that the {lastValidPacketReceived} and
+     * {lastDataPacketSent} variables are used properly.
+     * @param packet
+     * @return boolean
+     */
+    private boolean isReallyValid(KtnDatagram packet){
+    	if (!isValid(packet)){
+    		return false;
+    	}
+    	switch (state){
+    	case CLOSED:
+    		return false;
+    	case LISTEN:
+    		return (packet.getFlag() == Flag.SYN);
+    	case SYN_SENT:
+    		return (packet.getFlag() == Flag.SYN_ACK
+    				&& packet.getSrc_addr().equals(remoteAddress));
+    	case SYN_RCVD:
+    		return (packet.getFlag() == Flag.ACK
+    				&& packet.getSrc_addr().equals(remoteAddress)
+    				&& packet.getSrc_port() == remotePort);
+    	case LAST_ACK:
+    	case FIN_WAIT_1:
+    		return (packet.getFlag() == Flag.ACK
+    				&& packet.getSrc_addr().equals(remoteAddress) 
+    				&& packet.getSrc_port() == remotePort);
+    	case ESTABLISHED:
+    		return ((packet.getFlag() == Flag.NONE
+    				|| packet.getFlag() == Flag.ACK
+    				|| packet.getFlag() == Flag.FIN)
+    				&& (packet.getFlag() == Flag.NONE
+    				|| packet.getAck() == lastDataPacketSent.getSeq_nr())
+    				&& (packet.getFlag() == Flag.ACK
+    				|| packet.getSeq_nr() > lastValidPacketReceived.getSeq_nr())
+    				&& packet.getSrc_addr().equals(remoteAddress)
+    				&& packet.getSrc_port() == remotePort);
+    	case FIN_WAIT_2:
+    		return (packet.getFlag() == Flag.FIN
+    				&& packet.getSrc_addr().equals(remoteAddress)
+    				&& packet.getSrc_port() == remotePort);
+    	case TIME_WAIT: //Retransmit
+    	case CLOSE_WAIT: //Retransmit
+    		return (packet.getFlag() == Flag.FIN
+					&& packet.getSrc_addr().equals(remoteAddress)
+					&& packet.getSrc_port() == remotePort);
+    	}
+    	return false;
     }
 }
