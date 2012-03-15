@@ -247,8 +247,19 @@ public class ConnectionImpl extends AbstractConnection {
      * @throws IOException
      */
    private void safelySendAck(KtnDatagram ktnd) throws IOException{
-	   if (ktnd.getFlag() != (Flag.NONE || Flag.SYN || null || Flag.FIN || Flag.SYN_ACK))
+	   if (ktnd.getFlag() != Flag.NONE && ktnd.getFlag() != Flag.SYN && 
+			ktnd.getFlag() != null && ktnd.getFlag() != Flag.FIN &&
+			ktnd.getFlag() != Flag.SYN_ACK){
 		   throw new IllegalArgumentException("Cannot ACK "+ktnd.getFlag().toString()+" packet.");
+	   }
+	   int triesLeft = MAX_SEND_ATTEMPTS;
+	   do {
+		   try {
+			   sendAck(ktnd, ktnd.getFlag() == Flag.SYN);
+			   return;
+		   } catch (IOException e){} //Ignore
+	   } while (triesLeft-- > 0);
+	   throw new IOException("Could not send ACK");
    }
    
     
