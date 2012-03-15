@@ -227,8 +227,7 @@ public class ConnectionImpl extends AbstractConnection {
     		throw e;
     	} catch (IOException e) {} //Ignore
     	//Send ACK and deliver content to application
-    	if(isReallyValid(ktnd) && ktnd.getFlag() == Flag.NONE
-    		&& ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
+    	if(isReallyValid(ktnd) && ktnd.getFlag() == Flag.NONE && ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
     			//TODO:Sequence number check merged in validation method. And maybe bugs with "+2"?
     			lastValidPacketReceived = ktnd;
     			//System.out.println("\nSENDING ACK");
