@@ -181,7 +181,7 @@ public class ConnectionImpl extends AbstractConnection {
     	if (state != State.ESTABLISHED){
     		throw new IllegalStateException("Data packets can only be sent in established state");
     	}
-    	//if SYN_ACK is still the last valid paket received, send ACK on SYN_ACK again
+    	//if SYN_ACK is still the last valid packet received, send ACK on SYN_ACK again
     	//TODO: is this the solution to lost ACK on SYN_ACK?
     	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
     		boolean sent = false;
@@ -229,11 +229,29 @@ public class ConnectionImpl extends AbstractConnection {
     	//Send ACK and deliver content to application
     	if(isReallyValid(ktnd) && ktnd.getFlag() == Flag.NONE)
     		&& ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
-    			
+    			//TODO:Sequence number check merged in validation method. And maybe bugs with "+2"?
+    			lastValidPacketReceived = ktnd;
+    			//System.out.println("\nSENDING ACK");
+    			safelySendAck(ktnd);
+    			return (String) ktnd.getPayload();
     		}
+    		//Receive duplicate, try again
+    		safelySendAck(lastValidPacketReceived);
+    		return receive();
     	//        throw new NotImplementedException();
     }
-
+    
+    /*
+     * Sending an ACK and handling errors
+     * @param ktnd
+     * @throws IOException
+     */
+   private void safelySendAck(KtnDatagram ktnd) throws IOException{
+	   if (ktnd.getFlag() != (Flag.NONE || Flag.SYN || null || Flag.FIN || Flag.SYN_ACK))
+		   throw new IllegalArgumentException("Cannot ACK "+ktnd.getFlag().toString()+" packet.");
+   }
+   
+    
     /**
      * Close the connection.
      * 
