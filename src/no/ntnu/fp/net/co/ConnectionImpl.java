@@ -268,6 +268,8 @@ public class ConnectionImpl extends AbstractConnection {
      * @return KtnDatagram
      * @throw EOFException
      */
+   
+   
    private KtnDatagram safelySendPacket(KtnDatagram ktnd, State before, State after) 
 		   throws EOFException{
 	   KtnDatagram ack = null;
@@ -384,6 +386,7 @@ public class ConnectionImpl extends AbstractConnection {
     	if (!isValid(packet)){
     		return false;
     	}
+    	System.out.println(packet.getFlag().toString());
     	switch (state){
     	case CLOSED:
     		return false;
