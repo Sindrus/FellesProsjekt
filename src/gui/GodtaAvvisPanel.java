@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 public class GodtaAvvisPanel extends JPanel {
 	
 	JButton Godta, Avvis;
-	JTextField Hva,Når,Beskrivelse;
+	JTextField Hva,Nar,Beskrivelse;
 	PropertyChangeSupport pcs;
 	
 	public GodtaAvvisPanel(){
@@ -35,12 +35,12 @@ public class GodtaAvvisPanel extends JPanel {
 		
 		g.anchor = GridBagConstraints.WEST;
 		g.gridy=1;
-		Når = new JTextField("Når:" ); //+ Read in the meeting time.
-		Når.setBorder(null);
-		Når.setFont(f);
-		Når.setColumns(25);
-		Når.setEditable(false);
-		add(Når,g);
+		Nar = new JTextField("Når:" ); //+ Read in the meeting time.
+		Nar.setBorder(null);
+		Nar.setFont(f);
+		Nar.setColumns(25);
+		Nar.setEditable(false);
+		add(Nar,g);
 		
 		g.anchor = GridBagConstraints.WEST;
 		g.gridy=2;
