@@ -34,7 +34,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 
 	LoginPanel login;
 
-	private User person;
+	private User user;
 	private Boolean loggedIn;
 
 
@@ -85,14 +85,14 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		}
 
 		if(ct == ChangeType.LOGIN){
-<<<<<<< HEAD
-			person = new Person();
-=======
-			System.out.println("btn pushed");
-			person = new User();
->>>>>>> c76cbfd5e715daac6be6c91aab9e5310d3e7a8f3
 
-			if(person.validateLogin((String)list.get(0),(String)list.get(1))){
+			user = new User();
+
+			System.out.println("btn pushed");
+			user = new User();
+
+
+			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
 				changePanel("calendar");
