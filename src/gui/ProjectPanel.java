@@ -10,10 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.User;
+
 import util.ChangeType;
 import util.GuiListener;
 
-import Model.Person;
 import database.*;
 
 /**
@@ -33,25 +34,32 @@ public class ProjectPanel extends JPanel implements GuiListener{
 
 	LoginPanel login;
 
-	private Person person;
-	private Boolean loggedIn = false;
+	private User person;
+	private Boolean loggedIn;
 
 
 
 	public ProjectPanel()
 	{
+		loggedIn = false;
 		login = new LoginPanel();
 		login.addGuiListener(this);
 		add(login);
 	}
 
-	
-	public void rebuildProjectPanel(){
-		try {
-			System.out.println("removing all");
-			removeAll();
-		} catch (Exception e) {}
-		
+
+	/**
+	 * Changes the content of ProjectPanel to the specified JPanel.<p>
+	 * 
+	 * @param panel
+	 * <p>"calendar" opens the CalendarPanel.
+	 */
+	public void changePanel(String panel){
+
+		System.out.println("removing all");
+		removeAll();
+
+
 		if (!loggedIn){
 			System.out.println("Not logged in");
 			login = new LoginPanel();
@@ -59,41 +67,35 @@ public class ProjectPanel extends JPanel implements GuiListener{
 			add(login);
 		}
 		else{
-			System.out.println("adding JLabel");
-			add(new JLabel("Logget inn"));
-			repaint();
-			revalidate();
+			if(panel.equals("calendar")){
+				System.out.println("adding JLabel");
+				add(new JLabel("Logget inn"));
+				repaint();
+				revalidate();
+			}
 		}
 	}
 
 
-//	public void propertyChange(PropertyChangeEvent evt) {
-//		if(evt.getPropertyName()==LOGINBTNPUSHED){
-//			System.out.println("btn pushed");
-//			person = new Person();
-//			if(person.validateLogin(evt.getOldValue().toString(), evt.getNewValue().toString())){
-//				System.out.println("logged in");
-//				loggedIn= true;
-//				rebuildProjectPanel();
-//			}
-//			else{
-//				System.out.println("did not match");
-//			}
-//		}
-//	}
+
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
 		}
-		
+
 		if(ct == ChangeType.LOGIN){
+<<<<<<< HEAD
 			person = new Person();
+=======
+			System.out.println("btn pushed");
+			person = new User();
+>>>>>>> c76cbfd5e715daac6be6c91aab9e5310d3e7a8f3
 
 			if(person.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
-				rebuildProjectPanel();
+				changePanel("calendar");
 			}
 			else{
 				System.out.println("did not match");
