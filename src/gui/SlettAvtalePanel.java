@@ -18,6 +18,7 @@ public class SlettAvtalePanel extends JPanel {
 	PropertyChangeSupport pcs;
 	
 	public SlettAvtalePanel(){
+		
 		pcs = new PropertyChangeSupport(this);
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
@@ -25,7 +26,7 @@ public class SlettAvtalePanel extends JPanel {
 		g.anchor = GridBagConstraints.CENTER;
 		g.gridx=0;
 		g.gridy=0;
-		Msg = new JTextField("Er du sikkert pa at du vil slette avtale?");
+		Msg = new JTextField("Er du sikkert på at du vil slette avtale?");
 		Msg.setHorizontalAlignment(JTextField.CENTER);
 		Font f = new Font(Msg.getFont().getName(),Msg.getFont().getStyle(),18);
 		Msg.setBorder(null);
