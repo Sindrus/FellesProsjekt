@@ -2,6 +2,9 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Database {
 
@@ -18,6 +21,13 @@ public class Database {
 			return null;
 		}
 		
+	}
+	
+	public static ResultSet execute(String sql) throws SQLException{
+		Connection conn = connectionSetup();
+		Statement st = conn.createStatement();
+		ResultSet rs = st.executeQuery(sql);
+		return rs;
 	}
 	
 }
