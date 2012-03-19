@@ -50,7 +50,6 @@ public class LoginPanel extends JPanel implements ActionListener{
 		
 		g.gridx=1;
 		g.gridy=1;
-//		System.out.println("Passord "+pwd);
 		add(usernameField,g);
 		
 		g.gridx=0;

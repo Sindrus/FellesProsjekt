@@ -60,7 +60,7 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 		jf.setVisible(true);
 		
 	}
-
+	
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName()==LOGINBTNPUSHED){
 			String username = evt.getOldValue().toString();
@@ -68,5 +68,4 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 			auth.authenticate(username, password);
 		}
 	}
-	
 }
