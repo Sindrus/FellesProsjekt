@@ -63,11 +63,9 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName()==LOGINBTNPUSHED){
-		//Har problemer med at ikke passordet kommer hit i som text, men som object.	
-			System.out.println("btn pushed");
-		//Her må det endres om vi skal droppe authenticate klassen.
-			auth.authenticate(evt.getOldValue().toString(), evt.getNewValue().toString());
-			System.out.println(auth.getAuthenicationStatus());
+			String username = evt.getOldValue().toString();
+			String password = evt.getNewValue().toString();
+			auth.authenticate(username, password);
 		}
 	}
 	

@@ -50,11 +50,12 @@ public class LoginPanel extends JPanel implements ActionListener{
 		
 		g.gridx=1;
 		g.gridy=1;
+//		System.out.println("Passord "+pwd);
 		add(usernameField,g);
 		
 		g.gridx=0;
 		g.gridy=2;
-		add(new JLabel("Passord:"),g);
+		add(new JLabel("Passord: "),g);
 		
 		passwordField = new JPasswordField("",15);
 		
@@ -75,12 +76,13 @@ public class LoginPanel extends JPanel implements ActionListener{
 	public void addPropertyChangeListener(PropertyChangeListener listener){
 		pcs.addPropertyChangeListener(listener);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==loginBtn){
-			pcs.firePropertyChange("LoginBtnPushed", usernameField.getText(), passwordField.getPassword());
-			System.out.println("Passord"+passwordField.getPassword().toString());
+			String pwd = new String(passwordField.getPassword());
+			String usr = new String(usernameField.getText());
+			pcs.firePropertyChange("LoginBtnPushed", usr, pwd);
 		}
 	}
 }

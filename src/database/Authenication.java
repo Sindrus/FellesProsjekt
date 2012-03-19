@@ -32,8 +32,6 @@ public class Authenication {
 	public void authenticate(String username, String password){
 		System.out.println("Username "+username);
 		System.out.println("Password "+password);
-		System.out.println("user "+user);
-		System.out.println("pass "+pass);
 // Midlertidig brukergodkjenning, frem til vi får satt opp tilkobling til database
 		if(username==user)
 			if (password==pass){
