@@ -19,8 +19,14 @@ import database.*;
 
 /**
  * 
- * Dette vil være selve driveren til guiet.
- * Her ligger mainmetoden.
+ * Dette vil være selve 'driveren' til guiet.
+ * Kan skal kunne vise flere forskjellige paneler:
+ * 
+ * LoginPanel
+ * CalendarPanel
+ * NewPanel
+ * DeletePanel
+ * EditPanel
  *
  */
 
@@ -79,8 +85,12 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		}
 
 		if(ct == ChangeType.LOGIN){
+<<<<<<< HEAD
+			person = new Person();
+=======
 			System.out.println("btn pushed");
 			person = new User();
+>>>>>>> c76cbfd5e715daac6be6c91aab9e5310d3e7a8f3
 
 			if(person.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
