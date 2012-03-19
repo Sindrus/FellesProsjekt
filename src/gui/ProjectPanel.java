@@ -8,7 +8,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import database.*;
+
+import database.Authenication;
 
 /**
  * 
@@ -25,10 +26,10 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 	final static String LOGINBTNPUSHED="LoginBtnPushed";
 	
 	public ProjectPanel(){
-		auth=new Authenication();
+		auth = new Authenication();
 		rebuildProjectPanel();
 	}
-// Metode for å endre utseende til panele når det trengs.	
+// Metode for å endre utseendet til panelet når det trengs.	
 	public void rebuildProjectPanel(){
 		try {
 		// Husk å ta bort gamle paneler	
@@ -57,6 +58,7 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 		jf.add(pp, g);
 		jf.pack();
 		jf.setSize(600, 400);
+		jf.setLocationRelativeTo(null);
 		jf.setVisible(true);
 		
 	}

@@ -15,7 +15,6 @@ public class RoundButton extends JButton {
 	public RoundButton(String text){
 		
 		setText(text);
-		setBackground(Color.GREEN);
 		
 	}
 	
@@ -25,17 +24,17 @@ public class RoundButton extends JButton {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING
         		, RenderingHints.VALUE_ANTIALIAS_ON));
-        Shape firstClip = g.getClip();
+        Shape first = g.getClip();
         
         RoundRectangle2D rect = new RoundRectangle2D.Double();
         double arc = Math.ceil(getSize().getHeight()/3);
         rect.setRoundRect(0, 0, Math.ceil(getSize().getWidth()), 
         		Math.ceil(getSize().getHeight()), arc, arc);
 
-        Area secondClip = new Area(getBounds());
-        secondClip.subtract(new Area(rect));
-        Area finalClip = new Area(firstClip);
-        finalClip.subtract(secondClip);
+        Area second = new Area(getBounds());
+        second.subtract(new Area(rect));
+        Area finalClip = new Area(first);
+        finalClip.subtract(second);
         g2.setClip(finalClip);
         super.paintComponent(g2);
     }
