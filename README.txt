@@ -1,3 +1,18 @@
+Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
+å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
+
+Foreslår at bare en tar seg av endringene som trengs å gjøres i ProjectPanel, slik at vi på den
+måten slipper at det blir like jævlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
+ta på meg jobben med å gjøre det.
+
+Sindre: 
+Christian: 
+Jørgen: 
+Nenad: 
+Made: 
+Even: 
+
+
 Innlevering
 Frist
 FE1
