@@ -14,8 +14,14 @@ import database.*;
 
 /**
  * 
- * Dette vil være selve driveren til guiet.
- * Her ligger mainmetoden.
+ * Dette vil være selve 'driveren' til guiet.
+ * Kan skal kunne vise flere forskjellige paneler:
+ * 
+ * LoginPanel
+ * CalendarPanel
+ * NewPanel
+ * DeletePanel
+ * EditPanel
  *
  */
 
@@ -25,9 +31,8 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 
 	private Person person;
 	private Boolean loggedIn = false;
-
 	final static String LOGINBTNPUSHED="LoginBtnPushed";
-
+	
 	public ProjectPanel()
 	{
 		login = new LoginPanel();
@@ -49,7 +54,6 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 			add(new JLabel("Logget inn"));
 		}
 	}
-
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName()==LOGINBTNPUSHED){
