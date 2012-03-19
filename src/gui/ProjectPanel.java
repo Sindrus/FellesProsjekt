@@ -1,12 +1,7 @@
 package gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,8 +9,6 @@ import model.User;
 
 import util.ChangeType;
 import util.GuiListener;
-
-import database.*;
 
 /**
  * 
@@ -36,9 +29,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 
 	private User user;
 	private Boolean loggedIn;
-
-
-
+	
 	public ProjectPanel()
 	{
 		loggedIn = false;
@@ -46,8 +37,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		login.addGuiListener(this);
 		add(login);
 	}
-
-
+	
 	/**
 	 * Changes the content of ProjectPanel to the specified JPanel.<p>
 	 * 
@@ -76,8 +66,6 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		}
 	}
 
-
-
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		for (int i = 0; i < list.size(); i++) {
@@ -85,13 +73,12 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		}
 
 		if(ct == ChangeType.LOGIN){
-
+			
 			user = new User();
-
+			
 			System.out.println("btn pushed");
 			user = new User();
-
-
+			
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
@@ -102,12 +89,4 @@ public class ProjectPanel extends JPanel implements GuiListener{
 			}
 		}
 	}
-
-
-
-
-
-
 }
-
-
