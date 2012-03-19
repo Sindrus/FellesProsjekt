@@ -60,7 +60,7 @@ public class GodtaAvvisPanel extends JPanel {
 		g.anchor = GridBagConstraints.EAST;
 		g.gridy=3;
 		g.gridx=0;
-		Avvis = new JButton("Ja");
+		Avvis = new JButton("Avvis");
 		Avvis.addActionListener(new Avvis());
 		add(Avvis,g);
 	}
