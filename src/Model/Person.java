@@ -5,6 +5,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Date;
 
+import sun.security.util.Password;
+
 /**
  * The <code>Person</code> class stores information about a single person.
  *
@@ -20,7 +22,7 @@ public class Person {
 	private long id;
 	private PropertyChangeSupport propChangeSupp;
 	private String password = "123";
-	private String username;
+	private String username = "per";
 	public final static String NAME_PROPERTY_NAME = "name";
 	public final static String EMAIL_PROPERTY_NAME = "email";
 	public final static String DATEOFBIRTH_PROPERTY_NAME = "dateOfBirth";
@@ -236,7 +238,11 @@ public class Person {
 	}
 	
 	public boolean validateLogin(String user, String pass){
-		if (user == username && pass == password){
+		System.out.println("real login: " + username + " " + password);
+		System.out.println("Login: " + user + " " + pass);
+		System.out.println(user.equals(username));
+		System.out.println(pass.equals(password));
+		if (pass.equals(password) && user.equals(username)){
 			return true;
 		}
 		return false;
