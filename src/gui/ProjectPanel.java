@@ -8,6 +8,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import Model.Person;
 import database.*;
 
 /**
@@ -18,23 +20,27 @@ import database.*;
  */
 
 public class ProjectPanel extends JPanel implements PropertyChangeListener{
-	
+
 	LoginPanel login;
-	Authenication auth;
-	
+
+	private Person person;
+	private Boolean loggedIn = false;
+
 	final static String LOGINBTNPUSHED="LoginBtnPushed";
-	
-	public ProjectPanel(){
-		auth=new Authenication();
-		rebuildProjectPanel();
+
+	public ProjectPanel()
+	{
+		login = new LoginPanel();
+		login.addPropertyChangeListener(this);
+		add(login);
 	}
-// Metode for å endre utseende til panele når det trengs.	
+	// Metode for å endre utseende til panele når det trengs.	
 	public void rebuildProjectPanel(){
 		try {
-		// Husk å ta bort gamle paneler	
-			remove(login);
+			// Husk å ta bort gamle paneler	
+			removeAll();
 		} catch (Exception e) {}
-		if (!auth.getAuthenicationStatus()){
+		if (!loggedIn){
 			login = new LoginPanel();
 			login.addPropertyChangeListener(this);
 			add(login);
@@ -43,32 +49,19 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 			add(new JLabel("Logget inn"));
 		}
 	}
-	
-	public static void main(String[] args){
-		
-		JFrame jf = new JFrame("Kalender");
-		ProjectPanel pp = new ProjectPanel();
-		jf.setLayout(new GridBagLayout());
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		GridBagConstraints g = new GridBagConstraints();
-		g.anchor = GridBagConstraints.CENTER;
-		
-		jf.add(pp, g);
-		jf.pack();
-		jf.setSize(600, 400);
-		jf.setVisible(true);
-		
-	}
+
+
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName()==LOGINBTNPUSHED){
-		//Har problemer med at ikke passordet kommer hit i som text, men som object.	
 			System.out.println("btn pushed");
-		//Her må det endres om vi skal droppe authenticate klassen.
-			auth.authenticate(evt.getOldValue().toString(), evt.getNewValue().toString());
-			System.out.println(auth.getAuthenicationStatus());
+			person = new Person();
+			if(person.validateLogin(evt)){
+			loggedIn= true;
+			rebuildProjectPanel();
 		}
+
 	}
-	
 }
+
+

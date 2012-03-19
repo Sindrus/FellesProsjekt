@@ -1,6 +1,9 @@
 package database;
 
 /**
+ * 
+ * @deprecated Moved to Person.<p>
+ *
  * Når en bruker logger på vil det lages et nytt Authentication object, som inneholder 
  * informasjon om brukeren:
  * 	brukernavn
