@@ -51,17 +51,22 @@ public class ProjectPanel extends JPanel implements PropertyChangeListener{
 	}
 
 
-
 	public void propertyChange(PropertyChangeEvent evt) {
 		if(evt.getPropertyName()==LOGINBTNPUSHED){
 			System.out.println("btn pushed");
 			person = new Person();
-			if(person.validateLogin(evt)){
-			loggedIn= true;
-			rebuildProjectPanel();
+			if(person.validateLogin(evt.getOldValue().toString(), evt.getNewValue().toString())){
+				loggedIn= true;
+				rebuildProjectPanel();
+			}
 		}
-
 	}
+
+
+
+
+
+
 }
 
 
