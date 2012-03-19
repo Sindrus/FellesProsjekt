@@ -4,60 +4,101 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Model.Person;
+import model.User;
+
+import util.ChangeType;
+import util.GuiListener;
+
 import database.*;
 
 /**
  * 
- * Dette vil være selve driveren til guiet.
- * Her ligger mainmetoden.
+ * Dette vil være selve 'driveren' til guiet.
+ * Kan skal kunne vise flere forskjellige paneler:
+ * 
+ * LoginPanel
+ * CalendarPanel
+ * NewPanel
+ * DeletePanel
+ * EditPanel
  *
  */
 
-public class ProjectPanel extends JPanel implements PropertyChangeListener{
+public class ProjectPanel extends JPanel implements GuiListener{
 
 	LoginPanel login;
 
-	private Person person;
-	private Boolean loggedIn = false;
+	private User user;
+	private Boolean loggedIn;
 
-	final static String LOGINBTNPUSHED="LoginBtnPushed";
+
 
 	public ProjectPanel()
 	{
+		loggedIn = false;
 		login = new LoginPanel();
-		login.addPropertyChangeListener(this);
+		login.addGuiListener(this);
 		add(login);
 	}
-	// Metode for å endre utseende til panele når det trengs.	
-	public void rebuildProjectPanel(){
-		try {
-			// Husk å ta bort gamle paneler	
-			removeAll();
-		} catch (Exception e) {}
+
+
+	/**
+	 * Changes the content of ProjectPanel to the specified JPanel.<p>
+	 * 
+	 * @param panel
+	 * <p>"calendar" opens the CalendarPanel.
+	 */
+	public void changePanel(String panel){
+
+		System.out.println("removing all");
+		removeAll();
+
+
 		if (!loggedIn){
+			System.out.println("Not logged in");
 			login = new LoginPanel();
-			login.addPropertyChangeListener(this);
+			login.addGuiListener(this);
 			add(login);
 		}
 		else{
-			add(new JLabel("Logget inn"));
+			if(panel.equals("calendar")){
+				System.out.println("adding JLabel");
+				add(new JLabel("Logget inn"));
+				repaint();
+				revalidate();
+			}
 		}
 	}
 
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		if(evt.getPropertyName()==LOGINBTNPUSHED){
+
+	@Override
+	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+
+		if(ct == ChangeType.LOGIN){
+
+			user = new User();
+
 			System.out.println("btn pushed");
-			person = new Person();
-			if(person.validateLogin(evt.getOldValue().toString(), evt.getNewValue().toString())){
+			user = new User();
+
+
+			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
+				System.out.println("logged in");
 				loggedIn= true;
-				rebuildProjectPanel();
+				changePanel("calendar");
+			}
+			else{
+				System.out.println("did not match");
 			}
 		}
 	}
