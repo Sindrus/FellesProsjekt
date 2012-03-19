@@ -1,5 +1,8 @@
 package gui;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
  * 
  * @author sindre
@@ -13,6 +16,8 @@ package gui;
  * 
  */
 
-public class CalendarPanel {
-
+public class CalendarPanel extends JPanel {
+	public CalendarPanel(){
+		add(new JLabel("Trollolol"));
+	}
 }

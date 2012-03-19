@@ -25,7 +25,11 @@ import util.GuiListener;
 
 public class ProjectPanel extends JPanel implements GuiListener{
 
-	LoginPanel login;
+	LoginPanel loginPanel;
+	CalendarPanel calendarPanel;
+	EditPanel editPanel;
+	NewPanel newPanel;
+	DeletePanel deletePanel;
 
 	private User user;
 	private Boolean loggedIn;
@@ -33,9 +37,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 	public ProjectPanel()
 	{
 		loggedIn = false;
-		login = new LoginPanel();
-		login.addGuiListener(this);
-		add(login);
+		changePanel("");
 	}
 	
 	/**
@@ -52,17 +54,17 @@ public class ProjectPanel extends JPanel implements GuiListener{
 
 		if (!loggedIn){
 			System.out.println("Not logged in");
-			login = new LoginPanel();
-			login.addGuiListener(this);
-			add(login);
+			loginPanel = new LoginPanel();
+			loginPanel.addGuiListener(this);
+			add(loginPanel);
 		}
-		else{
-			if(panel.equals("calendar")){
-				System.out.println("adding JLabel");
-				add(new JLabel("Logget inn"));
-				repaint();
-				revalidate();
-			}
+		else if(panel.equals("calendar")){
+			System.out.println("adding JLabel");
+			calendarPanel = new CalendarPanel();
+			add(calendarPanel);
+			//add(new JLabel("Logget inn"));
+			repaint();
+			revalidate();
 		}
 	}
 
@@ -71,7 +73,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
 		}
-
+		
 		if(ct == ChangeType.LOGIN){
 			
 			user = new User();
