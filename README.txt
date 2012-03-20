@@ -1,4 +1,4 @@
--*- coding:utf-8 -*-
+﻿-*- coding:utf-8 -*-
 Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
 å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
 
@@ -7,7 +7,7 @@ m�ten slipper at det blir like j�vlig som idag. Hvis ingen andre har superly
 ta p� meg jobben med � gj�re det.
 
 Sindre: Starter med newMeetingPanel og ser litt p� newAppointmentPanel
-Christian: 
+Christian: Holder på med KTN... ennå... 
 J�rgen: 
 Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
 Made: 
