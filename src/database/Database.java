@@ -1,5 +1,14 @@
 package database;
 
+/*
+ * Database
+ * 
+ * Author Even Lislebø
+ * Version 1.0
+ * 
+ * Class used for interaction between the database and the rest of the system
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,18 +17,15 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 /**
- * 
  * Class used for interaction between the database and the rest of the system
  * 
  * @author Even
  * @version 1.0
- *
  */
 
 public class Database {
 
 	/**
-	 * 
 	 * Sets up a connection to the database
 	 * 
 	 * @return an operative <code>Connection</code> otherwise; <code>null</code>
@@ -42,7 +48,6 @@ public class Database {
 	}
 	
 	/**
-	 * 
 	 * Get a result from database (SELECT)
 	 * 
 	 * @param sql
@@ -50,7 +55,6 @@ public class Database {
 	 * 
 	 * @return	a <code>ResultSet</code> with the data selection
 	 * @throws SQLException
-	 * 
 	 */
 	
 	public static ResultSet execute(String sql) throws SQLException{
@@ -66,7 +70,6 @@ public class Database {
 	}
 	
 	/**
-	 * 
 	 * Executes an update statement(UPDATE, INSERT or DELETE)
 	 * 
 	 * @param sql
@@ -83,7 +86,6 @@ public class Database {
 	}
 	
 	/**
-	 * 
 	 * Executes an update statement(INSERT, UPDATE or DELETE) and returns
 	 * a unique insertion ID if so is specified
 	 * 
@@ -95,7 +97,6 @@ public class Database {
 	 * @return a positive <code>int</code> if the update was executed 
 	 * 			without errors, the integer may be a unique insertion ID if
 	 * 			specified; otherwise <code>-1</code>
-	 * 
 	 */
 	
 	public static int executeUpdate(String sql, boolean returnInsertionID){
@@ -169,7 +170,6 @@ public class Database {
 	 * @return an <code>int</code> representing the number of rows in the 
 	 * 			specified table, counting on the specified column; 
 	 * 			<code>0</code> if an error occured or the table was empty
-	 *	
 	 */
 	
 	public static int getRowCount(String table, String column){
