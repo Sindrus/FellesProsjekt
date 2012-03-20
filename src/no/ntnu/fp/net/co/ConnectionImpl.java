@@ -46,7 +46,7 @@ public class ConnectionImpl extends AbstractConnection{
     	this.myPort = Port;
     	this.myAddress = getIPv4Address();
     }
-
+    
     private String getIPv4Address(){
         try {
             return InetAddress.getLocalHost().getHostAddress();
