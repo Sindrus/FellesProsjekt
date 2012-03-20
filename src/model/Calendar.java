@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Calendar {
+	
 	private User owner;
 	private ArrayList appointments;
 	
@@ -17,5 +18,9 @@ public class Calendar {
 	
 	public ArrayList getAppointments(){
 		return appointments;
+	}
+	
+	public User getOwner(){
+		return owner;
 	}
 }
