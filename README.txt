@@ -5,7 +5,7 @@ Foreslår at bare en tar seg av endringene som trengs å gjøres i ProjectPanel, sl
 måten slipper at det blir like jævlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
 ta på meg jobben med å gjøre det.
 
-Sindre: Starter med newMeetingPanel
+Sindre: Starter med newMeetingPanel og ser litt på newAppointmentPanel
 Christian: 
 Jørgen: 
 Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
