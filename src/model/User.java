@@ -3,6 +3,7 @@ package model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Date;
 
 import sun.security.util.Password;
@@ -23,6 +24,7 @@ public class User {
 	private PropertyChangeSupport propChangeSupp;
 	private String password = "123";
 	private String username = "per";
+	private ArrayList<Message> messages;
 	public final static String NAME_PROPERTY_NAME = "name";
 	public final static String EMAIL_PROPERTY_NAME = "email";
 	public final static String DATEOFBIRTH_PROPERTY_NAME = "dateOfBirth";
@@ -246,5 +248,10 @@ public class User {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	public void addMsg(Message m){
+		messages.add(m);
 	}
 }

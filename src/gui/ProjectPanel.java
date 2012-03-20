@@ -23,6 +23,8 @@ import util.GuiListener;
  *
  */
 
+
+
 public class ProjectPanel extends JPanel implements GuiListener{
 
 	LoginPanel loginPanel;
@@ -33,6 +35,7 @@ public class ProjectPanel extends JPanel implements GuiListener{
 
 	private User user;
 	private Boolean loggedIn;
+
 	
 	public ProjectPanel()
 	{
