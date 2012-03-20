@@ -8,7 +8,7 @@ ta på meg jobben med å gjøre det.
 Sindre: 
 Christian: 
 Jørgen: 
-Nenad: Dialog Popup for calenderPanel done.
+Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
 Made: 
 Even: 
 
