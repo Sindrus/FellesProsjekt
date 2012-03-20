@@ -1,16 +1,17 @@
-Alle jobber med hver sin klasse p� tirsdag. For at ikke alle skal sitte i samme fil
-� lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
+﻿-*- coding:utf-8 -*-
+Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
+å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
 
-Foresl�r at bare en tar seg av endringene som trengs � gj�res i ProjectPanel, slik at vi p� den
+Foreslår at bare en tar seg av endringene som trengs � gj�res i ProjectPanel, slik at vi p� den
 m�ten slipper at det blir like j�vlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
 ta p� meg jobben med � gj�re det.
 
 Sindre: Starter med newMeetingPanel og ser litt p� newAppointmentPanel
-Christian: 
+Christian: Holder på med KTN... ennå... (connectionImpl)
 J�rgen: 
-Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
+Nenad: Working a bit on kalendarpanel for main.
 Made: 
-Even: TestDB - testklasse til Database.java
+Even: Authentication
 
 
 Innlevering

@@ -90,8 +90,8 @@ public abstract class AbstractConnection implements Connection {
 
     /** The sequence number used in disconnection. */
     protected int disconnectSeqNo;
-     /** If a FIN has been received, it is stored in disconnectRequest. */
-     protected KtnDatagram disconnectRequest;
+    /** If a FIN has been received, it is stored in disconnectRequest. */
+    protected KtnDatagram disconnectRequest;
 
     /** Initialize variables to default values. */
     public AbstractConnection() {
@@ -281,13 +281,11 @@ public abstract class AbstractConnection implements Connection {
     
         int tries = 3;
         boolean sent = false;
-    
         KtnDatagram ackToSend = constructInternalPacket(synAck ? Flag.SYN_ACK : Flag.ACK);
         ackToSend.setAck(packetToAck.getSeq_nr());
     
         // Send the ack, trying at most `tries' times.
         Log.writeToLog(ackToSend, "Sending Ack: " + ackToSend.getAck(), "AbstractConnection");
-    
         do {
             try {
                 new ClSocket().send(ackToSend);
@@ -308,7 +306,6 @@ public abstract class AbstractConnection implements Connection {
             }
         }
         while (!sent && (tries-- > 0));
-    
         if (!sent) {
             nextSequenceNo--;
             throw new ConnectException("Unable to send ACK.");
@@ -320,7 +317,7 @@ public abstract class AbstractConnection implements Connection {
      * concurrency issues related to that only one thread may listen to a port
      * at the same time.<br>
      * <br>
-     * It calls {@link #isValid(KtnDatagram)} on FIN-packets in ESTABLISHED
+     * It calls {@link #checksumCheck(KtnDatagram)} on FIN-packets in ESTABLISHED
      * state, before an EOFException is thrown.
      * 
      * @param internal
@@ -342,7 +339,6 @@ public abstract class AbstractConnection implements Connection {
          */
         synchronized (this) {
             long before, after;
-    
             before = System.currentTimeMillis();
             while (isReceiving) {
                 try {
@@ -379,11 +375,8 @@ public abstract class AbstractConnection implements Connection {
             // allowed to enter the listening part of doReceive().
             isReceiving = true;
         }
-    
         Log.writeToLog("Waiting for incoming packet in doReceive()", "AbstractConnection");
-    
         KtnDatagram incomingPacket;
-    
         /*
          * Waiting for internal and external packets should be handled
          * differently. Waiting for internal packets should time out.
@@ -402,7 +395,6 @@ public abstract class AbstractConnection implements Connection {
                 }
                 catch (InterruptedException e) { /* do nothing */
                 }
-    
                 receiver.stopReceive();
                 incomingPacket = receiver.getPacket();
                 if (incomingPacket == null) {
@@ -419,7 +411,6 @@ public abstract class AbstractConnection implements Connection {
                         // Packet is internal
                         Log.writeToLog("Received an internal packet in doReceive",
                                 "AbstractConnection");
-    
                         if (incomingPacket.getFlag() == Flag.FIN && state == State.ESTABLISHED) {
                             // A FIN-packet has arrived in established state,
                             // stop receiving and throw and exception
@@ -445,7 +436,6 @@ public abstract class AbstractConnection implements Connection {
                         // listening until timeout.
                         Log.writeToLog("Received an external packet in doReceive",
                                 "AbstractConnection");
-    
                         synchronized (this) {
                             synchronized (this) {
                                 externalQueue.add(incomingPacket);
@@ -524,7 +514,7 @@ public abstract class AbstractConnection implements Connection {
      * also be returned.<br>
      * <br>
      * If a FIN-packet is received and the connection is in ESTABLISHED state,
-     * an EOFException is thrown. It calls {@link #isValid(KtnDatagram)} on
+     * an EOFException is thrown. It calls {@link #checksumCheck(KtnDatagram)} on
      * FIN-packets in ESTABLISHED state, before an EOFException is thrown.
      * 
      * @return The ACK or SYN_ACK KtnDatagram recieved (can be null), may also
@@ -570,11 +560,8 @@ public abstract class AbstractConnection implements Connection {
             // allowed to enter the listening part of doReceive().
             isReceiving = true;
         }
-
         Log.writeToLog("Waiting for incoming packet in receiveAck()", "AbstractConnection");
-
         KtnDatagram incomingPacket;
-
         // We are waiting for an ack or syn_ack packet
         long start = System.currentTimeMillis();
         while (System.currentTimeMillis() - start < TIMEOUT) {
@@ -666,5 +653,5 @@ public abstract class AbstractConnection implements Connection {
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
-    protected abstract boolean isValid(KtnDatagram packet);
+    protected abstract boolean checksumCheck(KtnDatagram packet);
 }
