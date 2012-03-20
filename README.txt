@@ -9,7 +9,7 @@ ta p� meg jobben med � gj�re det.
 Sindre: Starter med newMeetingPanel og ser litt p� newAppointmentPanel
 Christian: Holder på med KTN... ennå... 
 J�rgen: 
-Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
+Nenad: Working a bit on kalendarpanel for main.
 Made: 
 Even: Authentication
 
