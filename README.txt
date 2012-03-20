@@ -7,7 +7,7 @@ m�ten slipper at det blir like j�vlig som idag. Hvis ingen andre har superly
 ta p� meg jobben med � gj�re det.
 
 Sindre: Starter med newMeetingPanel og ser litt p� newAppointmentPanel
-Christian: Holder på med KTN... ennå... 
+Christian: Holder på med KTN... ennå... (connectionImpl)
 J�rgen: 
 Nenad: Working a bit on kalendarpanel for main.
 Made: 
