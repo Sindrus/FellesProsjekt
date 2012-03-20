@@ -317,7 +317,7 @@ public abstract class AbstractConnection implements Connection {
      * concurrency issues related to that only one thread may listen to a port
      * at the same time.<br>
      * <br>
-     * It calls {@link #isValid(KtnDatagram)} on FIN-packets in ESTABLISHED
+     * It calls {@link #checksumCheck(KtnDatagram)} on FIN-packets in ESTABLISHED
      * state, before an EOFException is thrown.
      * 
      * @param internal
@@ -514,7 +514,7 @@ public abstract class AbstractConnection implements Connection {
      * also be returned.<br>
      * <br>
      * If a FIN-packet is received and the connection is in ESTABLISHED state,
-     * an EOFException is thrown. It calls {@link #isValid(KtnDatagram)} on
+     * an EOFException is thrown. It calls {@link #checksumCheck(KtnDatagram)} on
      * FIN-packets in ESTABLISHED state, before an EOFException is thrown.
      * 
      * @return The ACK or SYN_ACK KtnDatagram recieved (can be null), may also
@@ -653,5 +653,5 @@ public abstract class AbstractConnection implements Connection {
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
-    protected abstract boolean isValid(KtnDatagram packet);
+    protected abstract boolean checksumCheck(KtnDatagram packet);
 }
