@@ -1,7 +1,8 @@
-Alle jobber med hver sin klasse p� tirsdag. For at ikke alle skal sitte i samme fil
-� lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
+-*- coding:utf-8 -*-
+Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
+å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
 
-Foresl�r at bare en tar seg av endringene som trengs � gj�res i ProjectPanel, slik at vi p� den
+Foreslår at bare en tar seg av endringene som trengs � gj�res i ProjectPanel, slik at vi p� den
 m�ten slipper at det blir like j�vlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
 ta p� meg jobben med � gj�re det.
 
