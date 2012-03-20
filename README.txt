@@ -1,16 +1,16 @@
-Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
-å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
+Alle jobber med hver sin klasse pï¿½ tirsdag. For at ikke alle skal sitte i samme fil
+ï¿½ lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
 
-Foreslår at bare en tar seg av endringene som trengs å gjøres i ProjectPanel, slik at vi på den
-måten slipper at det blir like jævlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
-ta på meg jobben med å gjøre det.
+Foreslï¿½r at bare en tar seg av endringene som trengs ï¿½ gjï¿½res i ProjectPanel, slik at vi pï¿½ den
+mï¿½ten slipper at det blir like jï¿½vlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
+ta pï¿½ meg jobben med ï¿½ gjï¿½re det.
 
-Sindre: Starter med newMeetingPanel og ser litt på newAppointmentPanel
+Sindre: Starter med newMeetingPanel og ser litt pï¿½ newAppointmentPanel
 Christian: 
-Jørgen: 
+Jï¿½rgen: 
 Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
 Made: 
-Even: 
+Even: TestDB - testklasse til Database.java
 
 
 Innlevering
@@ -26,7 +26,7 @@ MMI D2a
 FE3
 16. mars, fredag
 MMI D2b
-25. mars,  søndag
+25. mars,  sï¿½ndag
 FE4
 30. mars, fredag
 MMI D3
@@ -34,7 +34,7 @@ MMI D3
 Database 4
 12. april, torsdag
 KTN 2
-21. april, lørdag
+21. april, lï¿½rdag
 
 FE1: Prosjektplan i henhold til krav i kapitel 4.1
 FE2: Systemtestplan i henhold til krav i kapitel 4.1
@@ -43,25 +43,25 @@ FE4: Sluttrapport i henhold til krav i kapitel 4.3
 
 KTN 1
 Beskrivelse:
-	Dere skal her vise hva dere tenker å gjøre med A1 for å kunne løse oppgaven. KTN1 skal
-	leveres i to faser. Fase 1 er en foreløpig innlevering slik at dere kan få tilbakemelding på
-	hvordan dere tenker å løse oppgaven. NB: Selv om den er foreløpig, må alle levere den!
-	Basert på tilbakemeldingen dere får på fase 1, kan dere forbedre og gjøre de nødvendige
-	endringene før dere leverer fase 2 en uke senere. Ved denne faseinndelingen kan dere få
-	en pekepinn på hva dere trenger å forandre for at fase 2, og dermed KTN1, kan bli
+	Dere skal her vise hva dere tenker ï¿½ gjï¿½re med A1 for ï¿½ kunne lï¿½se oppgaven. KTN1 skal
+	leveres i to faser. Fase 1 er en forelï¿½pig innlevering slik at dere kan fï¿½ tilbakemelding pï¿½
+	hvordan dere tenker ï¿½ lï¿½se oppgaven. NB: Selv om den er forelï¿½pig, mï¿½ alle levere den!
+	Basert pï¿½ tilbakemeldingen dere fï¿½r pï¿½ fase 1, kan dere forbedre og gjï¿½re de nï¿½dvendige
+	endringene fï¿½r dere leverer fase 2 en uke senere. Ved denne faseinndelingen kan dere fï¿½
+	en pekepinn pï¿½ hva dere trenger ï¿½ forandre for at fase 2, og dermed KTN1, kan bli
 	godkjent.
-Mål:
-Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal håndtere
-	alle feil som oppstår i underliggende nettverk og sørge for at applikasjonen oppfatter
-	nettverket som forbindelsesorientert og pålitelig.
+Mï¿½l:
+Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal hï¿½ndtere
+	alle feil som oppstï¿½r i underliggende nettverk og sï¿½rge for at applikasjonen oppfatter
+	nettverket som forbindelsesorientert og pï¿½litelig.
 
 
 KTN 2
 Beskrivelse:
-	Basert på det arbeid som ble gjort i KTN1, skal dere nå implementere løsningen. Dere skal
-	gjøre de nødvendige endringene og forbedringene i A1, slik at feilene som kan oppstå i
+	Basert pï¿½ det arbeid som ble gjort i KTN1, skal dere nï¿½ implementere lï¿½sningen. Dere skal
+	gjï¿½re de nï¿½dvendige endringene og forbedringene i A1, slik at feilene som kan oppstï¿½ i
 	A2 ikke merkes av applikasjonen.
-Mål:
-Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal håndtere
-	alle feil som oppstår i underliggende nettverk og sørge for at applikasjonen oppfatter
-	nettverket som forbindelsesorientert og pålitelig.
+Mï¿½l:
+Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal hï¿½ndtere
+	alle feil som oppstï¿½r i underliggende nettverk og sï¿½rge for at applikasjonen oppfatter
+	nettverket som forbindelsesorientert og pï¿½litelig.
