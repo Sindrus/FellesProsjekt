@@ -14,7 +14,7 @@ import database.*;
 public class ProjectPanel extends JPanel{
 	
 	LoginPanel login;
-	Authenication auth;
+	Authentication auth;
 	
 	
 	public ProjectPanel(){
