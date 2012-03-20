@@ -11,7 +11,7 @@ Christian: Holder på med KTN... ennå...
 J�rgen: 
 Nenad: Dialog Popup for calenderPanel done. Jeg skal ta reservere rom vindu.
 Made: 
-Even: 
+Even: Authentication
 
 
 Innlevering
