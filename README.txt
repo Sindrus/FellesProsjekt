@@ -11,7 +11,7 @@ Christian: Holder på med KTN... ennå... (connectionImpl)
 J�rgen: 
 Nenad: Working a bit on kalendarpanel for main.
 Made: 
-Even: Authentication
+Even: Appointment
 
 
 Innlevering
