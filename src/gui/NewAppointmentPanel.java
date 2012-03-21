@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import util.GuiListenerSupport;
+import util.GUIListenerSupport;
 
 public class NewAppointmentPanel extends JPanel {
 
@@ -27,7 +27,7 @@ public class NewAppointmentPanel extends JPanel {
 	JTextField what;
 	JTextArea description;
 	JComboBox day, month, startTime, endTime;
-	GuiListenerSupport gls;
+	GUIListenerSupport gls;
 
 	public NewAppointmentPanel() {
 		String[] td = new String[24];
