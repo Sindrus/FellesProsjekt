@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.ChangeType;
+import util.GUIListener;
 import util.GUIListenerSupport;
 
 public class NewAppointmentPanel extends JPanel {
@@ -143,19 +147,19 @@ public class NewAppointmentPanel extends JPanel {
 		btng.insets = new Insets(0, 30, 0, 30);
 
 		complete = new JButton("Fullført");
-		complete.addActionListener(new Decline());
+		complete.addActionListener(new Done());
 		btnPanel.add(complete, btng);
 
 		btng.insets.left = 5;
 		btng.gridx = 1;
 		cancel = new JButton("Avbryt");
-		cancel.addActionListener(new Accept());
+		cancel.addActionListener(new Cancel());
 		btnPanel.add(cancel, btng);
 
 		btng.gridx = 2;
 		btng.insets.right = 0;
 		invite = new JButton("Inviter til møte");
-		invite.addActionListener(new Decline());
+		invite.addActionListener(new Meeting());
 		btnPanel.add(invite, btng);
 		
 // end btnPanel
@@ -164,20 +168,34 @@ public class NewAppointmentPanel extends JPanel {
 		add(btnPanel, g);
 	}
 
-	class Accept implements ActionListener { // no logic.
+	class Cancel implements ActionListener { // no logic.
 		public void actionPerformed(ActionEvent e) {
+			ArrayList<Object> array = new ArrayList<Object>();
+			gls.notifyListeners(ChangeType.CANCEL, array);
 		}
 	}
-
-	class Decline implements ActionListener { // no logic.
-		public void actionPerformed(ActionEvent e) {
+	class Meeting implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			ArrayList<Object> array = new ArrayList<Object>();
+			gls.notifyListeners(ChangeType.MEETING, array);
 		}
 	}
-
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.add(new NewAppointmentPanel());
-		frame.pack();
-		frame.setVisible(true);
+	class Done implements ActionListener { // no logic.
+		public void actionPerformed(ActionEvent e) {
+			ArrayList<Object> array = new ArrayList<Object>();
+			gls.notifyListeners(ChangeType.CREATE, array);
+		}
 	}
+	
+	
+	public void addGuiListener(GUIListener listener){
+		gls.add(listener);
+	}
+
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame();
+//		frame.add(new NewAppointmentPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 }

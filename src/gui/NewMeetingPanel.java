@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -14,6 +15,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
+import util.ChangeType;
+import util.GUIListener;
+import util.GUIListenerSupport;
 
 /**
  * 
@@ -30,8 +35,12 @@ public class NewMeetingPanel extends JPanel{
 	DefaultListModel defaultPersonListModel, defaultRomListModel;
 	JPanel innerPanel, btnPanel;
 	
+	GUIListenerSupport gls;
+	
 	public NewMeetingPanel(){
-
+		
+		gls = new GUIListenerSupport();
+		
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.CENTER;
@@ -112,21 +121,27 @@ public class NewMeetingPanel extends JPanel{
 	class backAction implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+			ArrayList<Object> array = new ArrayList<Object>();
+			gls.notifyListeners(ChangeType.BACK, array);
 		}
 	}
 	class createAction implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			ArrayList<Object> array = new ArrayList<Object>();
+			gls.notifyListeners(ChangeType.CREATE, array);
 		}
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.setSize(700,700);
-		frame.add(new NewMeetingPanel());
-		frame.pack();
-		frame.setVisible(true);
+	public void addGuiListener(GUIListener listener){
+		gls.add(listener);
 	}
+	
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame();
+//		frame.setSize(700,700);
+//		frame.add(new NewMeetingPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 }
