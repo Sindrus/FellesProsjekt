@@ -305,6 +305,13 @@ public class User {
 		
 	}
 	
+	/**
+	 * Get all appointments participated in by the user with the submitted user ID
+	 * @param userID
+	 * 			A unique database user ID
+	 * @return an <code>ArrayList</code> containing all appointments 
+	 * participated in by the user with the submitted user ID
+	 */
 	public static ArrayList<Appointment> getUserAppointments(int userID){
 		
 		ArrayList<Appointment> list = new ArrayList<Appointment>();
