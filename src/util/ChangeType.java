@@ -11,5 +11,6 @@ public enum ChangeType {
 	LOGIN,
 	MEETING,
 	CREATE,
+	CANCEL,
 	BACK,
 }
