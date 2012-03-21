@@ -2,13 +2,13 @@
 Alle jobber med hver sin klasse på tirsdag. For at ikke alle skal sitte i samme fil
 å lage kvalm og helvete lager jeg en liste her som alle kan skrive ned den klassen de jobber med. 
 
-Foreslår at bare en tar seg av endringene som trengs � gj�res i ProjectPanel, slik at vi p� den
-m�ten slipper at det blir like j�vlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
-ta p� meg jobben med � gj�re det.
+Foreslår at bare en tar seg av endringene som trengs å gjøres i ProjectPanel, slik at vi på den
+måten slipper at det blir like jævlig som idag. Hvis ingen andre har superlyst til det, kan jeg godt
+ta på meg jobben med å gjøre det.
 
-Sindre: Starter med newMeetingPanel og ser litt p� newAppointmentPanel
+Sindre: Starter med newMeetingPanel og ser litt på newAppointmentPanel. Lager newPanel, som binder disse sammen
 Christian: Holder på med KTN... ennå... (connectionImpl)
-J�rgen: 
+Jørgen: 
 Nenad: Working a bit on kalendarpanel for main.
 Made: 
 Even: Appointment
@@ -27,7 +27,7 @@ MMI D2a
 FE3
 16. mars, fredag
 MMI D2b
-25. mars,  s�ndag
+25. mars,  søndag
 FE4
 30. mars, fredag
 MMI D3
@@ -35,7 +35,7 @@ MMI D3
 Database 4
 12. april, torsdag
 KTN 2
-21. april, l�rdag
+21. april, lørdag
 
 FE1: Prosjektplan i henhold til krav i kapitel 4.1
 FE2: Systemtestplan i henhold til krav i kapitel 4.1
@@ -44,25 +44,25 @@ FE4: Sluttrapport i henhold til krav i kapitel 4.3
 
 KTN 1
 Beskrivelse:
-	Dere skal her vise hva dere tenker � gj�re med A1 for � kunne l�se oppgaven. KTN1 skal
-	leveres i to faser. Fase 1 er en forel�pig innlevering slik at dere kan f� tilbakemelding p�
-	hvordan dere tenker � l�se oppgaven. NB: Selv om den er forel�pig, m� alle levere den!
-	Basert p� tilbakemeldingen dere f�r p� fase 1, kan dere forbedre og gj�re de n�dvendige
-	endringene f�r dere leverer fase 2 en uke senere. Ved denne faseinndelingen kan dere f�
-	en pekepinn p� hva dere trenger � forandre for at fase 2, og dermed KTN1, kan bli
+	Dere skal her vise hva dere tenker å gjøre med A1 for å kunne løse oppgaven. KTN1 skal
+	leveres i to faser. Fase 1 er en foreløpig innlevering slik at dere kan få tilbakemelding på
+	hvordan dere tenker å løse oppgaven. NB: Selv om den er foreløpig, må alle levere den!
+	Basert på tilbakemeldingen dere før på fase 1, kan dere forbedre og gjøre de nødvendige
+	endringene før dere leverer fase 2 en uke senere. Ved denne faseinndelingen kan dere få
+	en pekepinn på hva dere trenger å forandre for at fase 2, og dermed KTN1, kan bli
 	godkjent.
-M�l:
-Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal h�ndtere
-	alle feil som oppst�r i underliggende nettverk og s�rge for at applikasjonen oppfatter
-	nettverket som forbindelsesorientert og p�litelig.
+Mål:
+Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal håndtere
+	alle feil som oppstår i underliggende nettverk og sørge for at applikasjonen oppfatter
+	nettverket som forbindelsesorientert og pålitelig.
 
 
 KTN 2
 Beskrivelse:
-	Basert p� det arbeid som ble gjort i KTN1, skal dere n� implementere l�sningen. Dere skal
-	gj�re de n�dvendige endringene og forbedringene i A1, slik at feilene som kan oppst� i
+	Basert på det arbeid som ble gjort i KTN1, skal dere nå implementere løsningen. Dere skal
+	gjøre de nødvendige endringene og forbedringene i A1, slik at feilene som kan oppstå i
 	A2 ikke merkes av applikasjonen.
-M�l:
-Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal h�ndtere
-	alle feil som oppst�r i underliggende nettverk og s�rge for at applikasjonen oppfatter
-	nettverket som forbindelsesorientert og p�litelig.
+Mål:
+Applikasjonen skal kunne kommunisere over nettverket ved hjelp av A1. A1 skal håndtere
+	alle feil som oppstår i underliggende nettverk og sørge for at applikasjonen oppfatter
+	nettverket som forbindelsesorientert og pålitelig.

@@ -47,7 +47,7 @@ public class NewAppointmentPanel extends JPanel {
 			dag[i] = Integer.toString(i);
 		}
 
-		gls = new GuiListenerSupport();
+		gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.NORTHWEST;
