@@ -1,10 +1,6 @@
 package model;
 
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-
-import database.Database;
 
 public class Appointment {
 
@@ -26,7 +22,7 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	private Appointment(int id, Timestamp start, Timestamp end, String description){
+	public Appointment(int id, Timestamp start, Timestamp end, String description){
 		
 		this.id = id;
 		this.start = start;
@@ -35,68 +31,6 @@ public class Appointment {
 		
 	}
 	
-	/**
-	 * Get an appointment in database from unique appointment ID
-	 * 
-	 * @param appointmentID
-	 * 				Unique database appointment ID
-	 * @return a fully initialized <code>Appointment</code> object.
-	 */
-	public static Appointment getAppointment(int appointmentID){
-		
-		String sql = "SELECT ID, Tid_start, Tid_slutt, Beskrivelse FROM Avtale WHERE Avtale.ID = "
-			+ appointmentID + ";";
-		try{
-			
-			ResultSet results = Database.execute(sql);
-			while(results.next()){
-				
-				int id = results.getInt("ID");
-				Timestamp start = results.getTimestamp("Tid_start");
-				Timestamp end = results.getTimestamp("Tid_slutt");
-				String desc = results.getString("Beskrivelse");
-				return new Appointment(id, start, end, desc);
-				
-			}
-			
-		} catch(Exception e){
-			System.out.println("Nå gikk det til helvete!");
-			e.printStackTrace();
-		}
-		
-		return null;
-		
-	}
-	
-	/**
-	 * Add a new appointment to the database
-	 * 
-	 * @param start
-	 * 			The desired time for the appointment to start
-	 * @param end
-	 * 			The desired time for the appointment to end
-	 * @param description
-	 * 			A textual description of the appointment
-	 * @return a fully initialized <code>Appointment</code> object for the new
-	 *  		appointment
-	 */
-	public static Appointment newAppointment(Date start, Date end, String description){
-		
-		String sql = "INSERT INTO Avtale(ID, Tid_start, Tid_slutt, Beskrivelse)" +
-				" VALUES (" 
-				+ start
-				+ ", "
-				+ end
-				+ ", '"
-				+ description
-				+ "');";
-		
-		int id = Database.executeUpdate(sql, true);
-		
-		return Appointment.getAppointment(id);
-		
-	}
-
 	public int getId() {
 		return id;
 	}
