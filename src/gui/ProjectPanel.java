@@ -79,8 +79,7 @@ public class ProjectPanel extends JPanel implements GUIListener{
 		
 		if(ct == ChangeType.LOGIN){
 			
-			user = new User();
-			
+
 			System.out.println("btn pushed");
 			user = new User();
 			

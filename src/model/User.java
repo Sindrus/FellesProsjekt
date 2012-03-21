@@ -35,6 +35,8 @@ public class User {
 	
 	public User() {
 		name = "";
+		username = "per";
+		password = "123";
 //		email = "";
 //		dateOfBirth = new Date();
 		id = System.currentTimeMillis();

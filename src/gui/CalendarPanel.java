@@ -21,6 +21,6 @@ public class CalendarPanel extends JPanel {
 	
 	
 	public CalendarPanel(){
-		add(new JLabel("Trollolol"));
+		add(new CalendarListPanel());
 	}
 }
