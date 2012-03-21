@@ -140,7 +140,6 @@ public class WeeklyCalendarPanel extends JPanel {
 			else{
 			int h = c.get(Calendar.DAY_OF_WEEK)+ i - 7;
 			day[i] = new JLabel(weekdays[h] + "." + (daynum+i) + "." + monthnum + "           ");
-			System.out.println(i);
 			add(day[i],g);
 			}
 		}
