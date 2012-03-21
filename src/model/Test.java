@@ -11,7 +11,7 @@ public class Test {
 	}
 
 	private static void testGetUsersInSystem() {
-		ArrayList<User> list = User.getUsersInSystem();
+		ArrayList<User> list = DBUser.getUsersInSystem();
 		for(User user : list){
 			
 			System.out.println("Navn: " + user.getName());
@@ -22,7 +22,7 @@ public class Test {
 	}
 	
 	private static void testGetUserAppointments(){
-		ArrayList<Appointment> list = User.getUserAppointments(1);
+		ArrayList<Appointment> list = DBUser.getUserAppointments(1);
 		for(Appointment a : list){
 			System.out.println("Start: " + a.getStart());
 			System.out.println("Slutt: " + a.getEnd());
