@@ -4,10 +4,10 @@ package util;
 import java.util.ArrayList;
 
 
-public interface GuiListener {
+public interface GUIListener {
 
 
-	abstract void notifyGui(ChangeType ct, ArrayList<Object> list);
+	void notifyGui(ChangeType ct, ArrayList<Object> list);
 
 
 }

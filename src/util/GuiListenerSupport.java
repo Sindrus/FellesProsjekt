@@ -2,15 +2,15 @@ package util;
 
 import java.util.ArrayList;
 
-public class GuiListenerSupport {
+public class GUIListenerSupport {
 
-	private ArrayList<GuiListener> listeners;
+	private ArrayList<GUIListener> listeners;
 
-	public GuiListenerSupport(){
-		listeners = new ArrayList<GuiListener>();
+	public GUIListenerSupport(){
+		listeners = new ArrayList<GUIListener>();
 	}
 
-	public void add(GuiListener l){
+	public void add(GUIListener l){
 		listeners.add(l);
 	}
 

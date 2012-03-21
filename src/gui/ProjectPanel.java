@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import model.User;
 
 import util.ChangeType;
-import util.GuiListener;
+import util.GUIListener;
 
 /**
  * 
@@ -25,7 +25,7 @@ import util.GuiListener;
 
 
 
-public class ProjectPanel extends JPanel implements GuiListener{
+public class ProjectPanel extends JPanel implements GUIListener{
 
 	LoginPanel loginPanel;
 	CalendarPanel calendarPanel;

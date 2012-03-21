@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import util.ChangeType;
-import util.GuiListener;
-import util.GuiListenerSupport;
+import util.GUIListener;
+import util.GUIListenerSupport;
 
 /**
  * 
@@ -27,10 +27,10 @@ public class LoginPanel extends JPanel implements ActionListener{
 	JTextField passwordField;
 	JButton loginBtn;
 
-	GuiListenerSupport gls;
+	GUIListenerSupport gls;
 
 	public LoginPanel(){
-		gls = new GuiListenerSupport();
+		gls = new GUIListenerSupport();
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
@@ -79,7 +79,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	}
 
 
-	public void addGuiListener(GuiListener listener){
+	public void addGuiListener(GUIListener listener){
 		gls.add(listener);
 	}
 
