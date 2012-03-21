@@ -12,7 +12,7 @@ public class Calendar {
 		appointments = new ArrayList();
 	}
 	
-	public void addAppointment(Appointment a){
+	public void addAppointment(Meeting a){
 		appointments.add(a);
 	}
 	

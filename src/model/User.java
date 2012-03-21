@@ -3,10 +3,10 @@ package model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-//import java.util.Date;
 
 import database.Database;
 
@@ -284,7 +284,7 @@ public class User {
 	 * @return an <code>ArrayList</code> containing all <code>User</code>s in 
 	 * 			the system
 	 */
-	public ArrayList<User> getUsersInSystem(){
+	public static ArrayList<User> getUsersInSystem(){
 		
 		String sql = "SELECT Brukernavn, Navn FROM Bruker;";
 		ArrayList<User> list = new ArrayList<User>();
@@ -298,6 +298,31 @@ public class User {
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
+	
+	public static ArrayList<Appointment> getUserAppointments(int userID){
+		
+		ArrayList<Appointment> list = new ArrayList<Appointment>();
+		
+		String sql = "SELECT ID FROM Avtale WHERE Avtale.ID IN " +
+				"(SELECT Avtale_ID FROM Bruker JOIN Deltaker ON " +
+				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ");";
+		
+		try{
+			
+			ResultSet results = Database.execute(sql);
+			while(results.next()){
+				
+				int id = results.getInt("ID");
+				list.add(Appointment.getAppointment(id));
+			}
+			
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		
