@@ -3,10 +3,12 @@ package model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 
-import sun.security.util.Password;
+import database.Database;
 
 /**
  * The <code>Person</code> class stores information about a single person.
@@ -18,24 +20,40 @@ public class User {
 	 * Field variables. Their purpose should be obvious.
 	 */
 	private String name;
-	private String email;
-	private Date dateOfBirth;
+//	private String email;
+//	private Date dateOfBirth;
 	private long id;
 	private PropertyChangeSupport propChangeSupp;
-	private String password = "123";
-	private String username = "per";
+	private String password;
+	private String username;
 	private ArrayList<Message> messages;
 	public final static String NAME_PROPERTY_NAME = "name";
-	public final static String EMAIL_PROPERTY_NAME = "email";
-	public final static String DATEOFBIRTH_PROPERTY_NAME = "dateOfBirth";
+	public final static String USERNAME_PROPERTY_NAME = "username";
+//	public final static String EMAIL_PROPERTY_NAME = "email";
+//	public final static String DATEOFBIRTH_PROPERTY_NAME = "dateOfBirth";
 	
 	
 	public User() {
 		name = "";
-		email = "";
-		dateOfBirth = new Date();
+//		email = "";
+//		dateOfBirth = new Date();
 		id = System.currentTimeMillis();
 		propChangeSupp = new PropertyChangeSupport(this);
+	}
+	
+	/**
+	 * Constructs a new <code>User</code> object with the submitted name and 
+	 * username
+	 * @param name
+	 * 			The user's name
+	 * @param username
+	 * 			The user's username
+	 */
+	public User(String name, String username){
+		
+		this.name = name;
+		this.username = username;
+		
 	}
 	
 	/**
@@ -46,11 +64,11 @@ public class User {
 	 * @param email The person's e-mail address
 	 * @param dateOfBirth The person's date of birth.
 	 */
-	public User(String name, String email, Date dateOfBirth) {
+	public User(String name) {
 		this();
 		this.name = name;
-		this.email = email;
-		this.dateOfBirth = dateOfBirth;
+//		this.email = email;
+//		this.dateOfBirth = dateOfBirth;
 	}
 	
 	/**
@@ -93,7 +111,7 @@ public class User {
 	 * <code>propertyChange(java.beans.PropertyChangeEvent)</code> method on 
 	 * all {@linkplain
 	 * #addPropertyChangeListener(java.beans.PropertyChangeListener) registered
-	 * <code>PropertyChangeListener<code> objecs}.  The {@link java.beans.PropertyChangeEvent}
+	 * <code>PropertyChangeListener<code> objects}.  The {@link java.beans.PropertyChangeEvent}
 	 * passed with the {@link java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)}
 	 * method has the following characteristics:
 	 * 
@@ -112,12 +130,12 @@ public class User {
 	 * @see java.beans.PropertyChangeListener <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/beans/PropertyChangeListener.html">java.beans.PropertyChangeListener</a>
 	 * @see java.beans.PropertyChangeEvent <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/beans/PropertyChangeEvent.html">java.beans.PropertyChangeEvent</a>
 	 */
-	public void setEmail(String email) {
-		String oldEmail = this.email;
-		this.email = email;
-		PropertyChangeEvent event = new PropertyChangeEvent(this, EMAIL_PROPERTY_NAME, oldEmail, this.email);
-		propChangeSupp.firePropertyChange(event);
-	}
+//	public void setEmail(String email) {
+//		String oldEmail = this.email;
+//		this.email = email;
+//		PropertyChangeEvent event = new PropertyChangeEvent(this, EMAIL_PROPERTY_NAME, oldEmail, this.email);
+//		propChangeSupp.firePropertyChange(event);
+//	}
 	
 	/**
 	 * Assigns a new date of birth to the person.<P>
@@ -146,12 +164,12 @@ public class User {
 	 * @see java.beans.PropertyChangeListener <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/beans/PropertyChangeListener.html">java.beans.PropertyChangeListener</a>
 	 * @see java.beans.PropertyChangeEvent <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/beans/PropertyChangeEvent.html">java.beans.PropertyChangeEvent</a>
 	 */	
-	public void setDateOfBirth(Date dateOfBirth) {
-		Date oldDateOfBirth = this.dateOfBirth;
-		this.dateOfBirth = dateOfBirth;
-		PropertyChangeEvent event = new PropertyChangeEvent(this, DATEOFBIRTH_PROPERTY_NAME, oldDateOfBirth, this.dateOfBirth);
-		propChangeSupp.firePropertyChange(event);
-	}
+//	public void setDateOfBirth(Date dateOfBirth) {
+//		Date oldDateOfBirth = this.dateOfBirth;
+//		this.dateOfBirth = dateOfBirth;
+//		PropertyChangeEvent event = new PropertyChangeEvent(this, DATEOFBIRTH_PROPERTY_NAME, oldDateOfBirth, this.dateOfBirth);
+//		propChangeSupp.firePropertyChange(event);
+//	}
 	
 	/**
 	 * Returns the person's name.
@@ -167,8 +185,16 @@ public class User {
 	 * 
 	 * @return The person's email address.
 	 */
-	public String getEmail() {
-		return email;
+//	public String getEmail() {
+//		return email;
+//	}
+	
+	/**
+	 * Yields this <code>Person</code>'s username
+	 * @return this <code>Person</code>'s username
+	 */
+	public String getUsername(){
+		return this.username;
 	}
 	
 	/**
@@ -176,9 +202,9 @@ public class User {
 	 * 
 	 * @return The person's date of birth.
 	 */
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
+//	public Date getDateOfBirth() {
+//		return dateOfBirth;
+//	}
 	
 	/**
 	 * Returns this object's unique identification.
@@ -221,10 +247,13 @@ public class User {
 		
 		if (aPerson.getName().compareTo(getName()) != 0) 
 			return false;
-		if (aPerson.getEmail().compareTo(getEmail()) != 0)
+		if (!aPerson.getUsername().equals(this.username)){
 			return false;
-		if (aPerson.getDateOfBirth().compareTo(getDateOfBirth()) != 0)
-			return false;
+		}
+//		if (aPerson.getEmail().compareTo(getEmail()) != 0)
+//			return false;
+//		if (aPerson.getDateOfBirth().compareTo(getDateOfBirth()) != 0)
+//			return false;
 		
 		return true;
 	}
@@ -234,8 +263,8 @@ public class User {
 	 */
 	public String toString() {
 		String s = "Name: " + getName() + "; ";
-		s += "Email: " + getEmail() + "; ";
-		s += "Date of birth: " + getDateOfBirth().toString();
+//		s += "Email: " + getEmail() + "; ";
+//		s += "Date of birth: " + getDateOfBirth().toString();
 		return s;
 	}
 	
@@ -250,6 +279,31 @@ public class User {
 		return false;
 	}
 	
+	/**
+	 * Finds all the users currently in the database
+	 * @return an <code>ArrayList</code> containing all <code>User</code>s in 
+	 * 			the system
+	 */
+	public ArrayList<User> getUsersInSystem(){
+		
+		String sql = "SELECT Brukernavn, Navn FROM Bruker;";
+		ArrayList<User> list = new ArrayList<User>();
+		try {
+			
+			ResultSet results = Database.execute(sql);
+			while(results.next()){
+				String name = results.getString("Navn");
+				String username = results.getString("Brukernavn");
+				list.add(new User(name, username));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
 	
 	public void addMsg(Message m){
 		messages.add(m);
