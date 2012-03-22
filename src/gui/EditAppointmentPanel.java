@@ -33,7 +33,16 @@ public class EditAppointmentPanel extends JPanel {
 	JTextField startYear, endYear;
 	GUIListenerSupport gls;
 	GridBagConstraints wheng;
+	CalendarPanel calendarPanel;
 
+	public void changePanel(String panel){
+		removeAll();
+		calendarPanel = new CalendarPanel();
+		add(calendarPanel);
+		repaint();
+		revalidate();
+	}
+	
 	public EditAppointmentPanel() {
 		String[] td = new String[24];
 		for (int i = 0; i <= 23; i++) {
@@ -242,9 +251,9 @@ public class EditAppointmentPanel extends JPanel {
 			Object message = "Er du sikker pa at du vil slette avtale?";
 			int answer = JOptionPane.showOptionDialog(JOptionPane.getFrameForComponent(delete),message, "", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]);
 		    if (answer == JOptionPane.YES_OPTION) {
-		      //insert logic to delete database.
-		    } else if (answer == JOptionPane.NO_OPTION) {
-		      //insert logic to go back.
+			changePanel("calendar");
+			//DELETE APPOINTMENT FROM DATABASE.
+		    } else if (answer == JOptionPane.NO_OPTION){
 		    }
 		}
 	}
