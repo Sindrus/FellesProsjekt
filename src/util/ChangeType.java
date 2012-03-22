@@ -14,4 +14,5 @@ public enum ChangeType {
 	CANCEL,
 	BACK,
 	CREATEMEETING,
+	DELETE,
 }
