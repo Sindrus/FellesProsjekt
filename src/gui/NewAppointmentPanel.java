@@ -256,7 +256,18 @@ public class NewAppointmentPanel extends JPanel {
 	public String getEndDay(){
 		return endDay.getSelectedItem().toString();
 	}
-	
+	public String getEndMonth(){
+		return endMonth.getSelectedItem().toString();
+	}
+	public String getEndTime(){
+		return endTime.getSelectedItem().toString();
+	}
+	public String getEndYear(){
+		return endYear.getText();
+	}
+	public String getDesc(){
+		return description.getText();
+	}
 	
 	class Cancel implements ActionListener { // no logic.
 		public void actionPerformed(ActionEvent e) {
