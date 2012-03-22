@@ -35,6 +35,10 @@ public class NewAppointmentPanel extends JPanel {
 	JTextField startYear, endYear;
 	GUIListenerSupport gls;
 
+	/**
+	 * Constructor for the <code>NewAppointmentPanel</code> that creates all the JObjects
+	 */
+	
 	public NewAppointmentPanel() {
 		String[] td = new String[24];
 		for (int i = 0; i <= 23; i++) {
@@ -210,10 +214,50 @@ public class NewAppointmentPanel extends JPanel {
 		add(btnPanel, g);
 	}
 	
+	/**
+	 * Returns the name of the event
+	 * @return the name of the event as a string
+	 */
+	public String getWhat(){
+		return what.getText();
+	}
+	/**
+	 * Returns what day of the month the event starts
+	 * @return a day of the month as a string
+	 */
+	public String getStartDay(){
+		return startDay.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what month the event starts 
+	 * @return the name of the month as a string
+	 */
+	public String getStartMonth(){
+		return startMonth.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what time the event starts
+	 * @return the time the events starts as a string
+	 */
+	public String getStartTime(){
+		return startTime.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what year the evnent starts
+	 * @return what year as a string
+	 */
+	public String getStartYear(){
+		return startYear.getText();
+	}
+	/**
+	 * Returns what day the event ends
+	 * @return returns the day as a string
+	 */
+	public String getEndDay(){
+		return endDay.getSelectedItem().toString();
+	}
 	
-	public 
 	
-
 	class Cancel implements ActionListener { // no logic.
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
