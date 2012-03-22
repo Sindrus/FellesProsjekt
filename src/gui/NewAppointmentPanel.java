@@ -5,7 +5,4 @@ package gui;
  * 
  */
 
-public class NewAppointmentPanel extends AppointmentPanel {
-
-
-}
+public class NewAppointmentPanel extends AppointmentPanel {}

@@ -31,7 +31,9 @@ public class EditAppointmentPanel extends AppointmentPanel {
 	JButton delete;
 	
 	public EditAppointmentPanel() {
+		super();
 		delete = new JButton("Slett");
+		
 		super.btng.gridx=3;
 		super.btnPanel.add(delete,super.btng);
 	}

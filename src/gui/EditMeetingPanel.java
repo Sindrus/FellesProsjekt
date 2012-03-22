@@ -8,6 +8,6 @@ package gui;
  * 
  */
 
-public class EditMeetingPanel {
+public class EditMeetingPanel extends MeetingPanel{
 
 }

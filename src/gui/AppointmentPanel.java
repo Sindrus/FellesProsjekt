@@ -187,20 +187,18 @@ public class AppointmentPanel extends JPanel{
 		btng.anchor = GridBagConstraints.CENTER;
 		btng.gridx = 0;
 		btng.gridy = 0;
-		btng.insets = new Insets(0, 30, 0, 30);
+		btng.insets = new Insets(0, 20, 0, 20);
 
 		complete = new JButton("Fullført");
 		complete.addActionListener(new Done());
 		btnPanel.add(complete, btng);
 
-		btng.insets.left = 5;
 		btng.gridx = 1;
 		cancel = new JButton("Avbryt");
 		cancel.addActionListener(new Cancel());
 		btnPanel.add(cancel, btng);
 
 		btng.gridx = 2;
-		btng.insets.right = 0;
 		invite = new JButton("Inviter til møte");
 		invite.addActionListener(new Meeting());
 		btnPanel.add(invite, btng);
