@@ -19,6 +19,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import model.Appointment;
+import model.DBAppointment;
 import util.ChangeType;
 import util.GUIListener;
 import util.GUIListenerSupport;
@@ -34,6 +37,7 @@ public class EditAppointmentPanel extends JPanel {
 	GUIListenerSupport gls;
 	GridBagConstraints wheng;
 	CalendarPanel calendarPanel;
+	static int appointmentID;
 
 	public void changePanel(String panel){
 		removeAll();
@@ -252,6 +256,7 @@ public class EditAppointmentPanel extends JPanel {
 			int answer = JOptionPane.showOptionDialog(JOptionPane.getFrameForComponent(delete),message, "", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]);
 		    if (answer == JOptionPane.YES_OPTION) {
 			changePanel("calendar");
+			DBAppointment.deleteAppointment(appointmentID);
 			//DELETE APPOINTMENT FROM DATABASE.
 		    } else if (answer == JOptionPane.NO_OPTION){
 		    }
