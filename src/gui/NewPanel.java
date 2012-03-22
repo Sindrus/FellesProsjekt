@@ -30,7 +30,6 @@ public class NewPanel extends JPanel implements GUIListener{
 	NewMeetingPanel newMeetingPanel;
 	NewAppointmentPanel newAppointmentPanel;
 	private boolean isMeetingPanel;
-	private boolean isMeeting;
 	GridBagConstraints g;
 	
 	public NewPanel(){
