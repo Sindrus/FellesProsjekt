@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -37,6 +36,9 @@ public class NewMeetingPanel extends JPanel{
 	
 	GUIListenerSupport gls;
 	
+	/**
+	 * Constructor for the <code>NewMeetingPanel</code> that creates all the JObjects
+	 */
 	public NewMeetingPanel(){
 		
 		gls = new GUIListenerSupport();
@@ -129,7 +131,7 @@ public class NewMeetingPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
-			gls.notifyListeners(ChangeType.CREATE, array);
+			gls.notifyListeners(ChangeType.CREATEMEETING, array);
 		}
 	}
 	

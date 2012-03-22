@@ -2,6 +2,7 @@ package gui;
 
 /**
  * -*- coding:utf-8 -*-
+ * 
  */
 
 import java.awt.Font;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -30,9 +30,15 @@ public class NewAppointmentPanel extends JPanel {
 	JPanel whatPanel, whenPanel, desPanel, btnPanel;
 	JTextField what;
 	JTextArea description;
-	JComboBox day, month, startTime, endTime;
+	JComboBox startDay, startMonth, startTime, endDay, endMonth, endTime;
+	JTextField startYear, endYear;
 	GUIListenerSupport gls;
+	GridBagConstraints wheng;
 
+	/**
+	 * Constructor for the <code>NewAppointmentPanel</code> that creates all the JObjects
+	 */
+	
 	public NewAppointmentPanel() {
 		String[] td = new String[24];
 		for (int i = 0; i <= 23; i++) {
@@ -46,9 +52,9 @@ public class NewAppointmentPanel extends JPanel {
 				"Juli", "August", "September", "Oktober", "November",
 				"Desember" };
 
-		String[] dag = new String[32];
-		for (int i = 0; i <= 31; i++) {
-			dag[i] = Integer.toString(i);
+		String[] dag = new String[31];
+		for (int i = 1; i <= 31; i++) {
+			dag[i-1] = Integer.toString(i);
 		}
 
 		gls = new GUIListenerSupport();
@@ -80,39 +86,82 @@ public class NewAppointmentPanel extends JPanel {
 
 // whenPanel
 		whenPanel = new JPanel();
-		GridBagConstraints wheng = new GridBagConstraints();
-
-		whenPanel.add(new JLabel("Når:"), whatg);
+		whenPanel.setLayout(new GridBagLayout());
+		wheng = new GridBagConstraints();
 
 		wheng.anchor = GridBagConstraints.WEST;
 		wheng.gridx = 0;
 		wheng.gridy = 0;
+		
+		whenPanel.add(new JLabel("Når:"), wheng);
+	// Fra tidspunkt
+		wheng.insets = new Insets(5, 5, 5, 5);
+		wheng.gridy=1;
+		whenPanel.add(new JLabel("Fra:"),wheng);
+		
+		wheng.gridx = 1;
 		whenPanel.add(new JLabel("Dag:"), wheng);
 
-		wheng.gridx = 1;
-		day = new JComboBox(dag);
-		whenPanel.add(day, wheng);
-
 		wheng.gridx = 2;
-		whenPanel.add(new JLabel("Måned:"), wheng);
+		startDay = new JComboBox(dag);
+		whenPanel.add(startDay, wheng);
 
 		wheng.gridx = 3;
-		month = new JComboBox(mnd);
-		whenPanel.add(month, wheng);
+		whenPanel.add(new JLabel("Måned:"), wheng);
 
 		wheng.gridx = 4;
-		whenPanel.add(new JLabel("Fra:"), wheng);
+		startMonth = new JComboBox(mnd);
+		startMonth.addActionListener(new startMonth());
+		whenPanel.add(startMonth, wheng);
 
 		wheng.gridx = 5;
+		whenPanel.add(new JLabel("Klokken:"), wheng);
+		
+		wheng.gridx = 6;
 		startTime = new JComboBox(td);
 		whenPanel.add(startTime, wheng);
-
-		wheng.gridx = 6;
-		whenPanel.add(new JLabel("Til:"), wheng);
-
+		
 		wheng.gridx = 7;
+		whenPanel.add(new JLabel("År:"),wheng);
+		
+		wheng.gridx = 8;
+		startYear = new JTextField("",4);
+		whenPanel.add(startYear,wheng);
+	// Til tidspunkt
+		
+		wheng.gridy = 2;
+		wheng.gridx = 0;
+		
+		whenPanel.add(new JLabel("Til:"),wheng);
+		
+		wheng.gridx=1;
+		whenPanel.add(new JLabel("Dag:"),wheng);
+		
+		wheng.gridx=2;
+		endDay = new JComboBox(dag);
+		whenPanel.add(endDay,wheng);
+		
+		wheng.gridx=3;
+		whenPanel.add(new JLabel("Måned"),wheng);
+		
+		wheng.gridx=4;
+		endMonth = new JComboBox(mnd);
+		endMonth.addActionListener(new endMonth());
+		whenPanel.add(endMonth,wheng);
+		
+		wheng.gridx=5;
+		whenPanel.add(new JLabel("Klokken:"),wheng);
+		
+		wheng.gridx=6;
 		endTime = new JComboBox(td);
 		whenPanel.add(endTime, wheng);
+		
+		wheng.gridx=7;
+		whenPanel.add(new JLabel("År:"),wheng);
+		
+		wheng.gridx=8;
+		endYear = new JTextField("",4);
+		whenPanel.add(endYear,wheng);
 
 // end whenPanel
 		g.gridy = 1;
@@ -167,7 +216,62 @@ public class NewAppointmentPanel extends JPanel {
 		g.gridy = 3;
 		add(btnPanel, g);
 	}
-
+	
+	/**
+	 * Returns the name of the event
+	 * @return the name of the event as a string
+	 */
+	public String getWhat(){
+		return what.getText();
+	}
+	/**
+	 * Returns what day of the month the event starts
+	 * @return a day of the month as a string
+	 */
+	public String getStartDay(){
+		return startDay.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what month the event starts 
+	 * @return the name of the month as a string
+	 */
+	public String getStartMonth(){
+		return startMonth.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what time the event starts
+	 * @return the time the events starts as a string
+	 */
+	public String getStartTime(){
+		return startTime.getSelectedItem().toString();
+	}
+	/**
+	 * Returns what year the evnent starts
+	 * @return what year as a string
+	 */
+	public String getStartYear(){
+		return startYear.getText();
+	}
+	/**
+	 * Returns what day the event ends
+	 * @return returns the day as a string
+	 */
+	public String getEndDay(){
+		return endDay.getSelectedItem().toString();
+	}
+	public String getEndMonth(){
+		return endMonth.getSelectedItem().toString();
+	}
+	public String getEndTime(){
+		return endTime.getSelectedItem().toString();
+	}
+	public String getEndYear(){
+		return endYear.getText();
+	}
+	public String getDesc(){
+		return description.getText();
+	}
+	
 	class Cancel implements ActionListener { // no logic.
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
@@ -186,7 +290,92 @@ public class NewAppointmentPanel extends JPanel {
 			gls.notifyListeners(ChangeType.CREATE, array);
 		}
 	}
-	
+	class startMonth implements ActionListener { //Combobox listener.
+		public void actionPerformed(ActionEvent e) {
+			if (startMonth.getSelectedItem() == "April" || startMonth.getSelectedItem() == "Juni" || startMonth.getSelectedItem() == "September" || startMonth.getSelectedItem() == "November"){
+				String[] dag = new String[30]; //days in a month.
+				for (int i = 1; i <= 30; i++) {
+					dag[i-1] = Integer.toString(i);
+				}
+				whenPanel.remove(startDay);
+				validate();
+				startDay = new JComboBox(dag);
+				wheng.gridx = 2;
+				wheng.gridy = 1;
+				whenPanel.add(startDay,wheng);
+				validate();
+			}
+			if (startMonth.getSelectedItem() == "Februar"){
+				String[] dag = new String[28]; //days in a month.
+				for (int i = 1; i <= 28; i++) {
+					dag[i-1] = Integer.toString(i);
+				}
+				whenPanel.remove(startDay);
+				validate();
+				startDay = new JComboBox(dag);
+				wheng.gridx = 2;
+				wheng.gridy = 1;
+				whenPanel.add(startDay,wheng);
+				validate();
+			}
+			if (startMonth.getSelectedItem() == "Januar" || startMonth.getSelectedItem() == "Mars" || startMonth.getSelectedItem() == "Mai" || startMonth.getSelectedItem() == "Juli" || startMonth.getSelectedItem() == "August" || startMonth.getSelectedItem() == "Oktober" || startMonth.getSelectedItem() == "Desember"){
+				String[] dag = new String[31]; //days in a month.
+				for (int i = 1; i <= 31; i++) {
+					dag[i-1] = Integer.toString(i);
+				}
+				whenPanel.remove(startDay);
+				validate();
+				startDay = new JComboBox(dag);
+				wheng.gridx = 2;
+				wheng.gridy = 1;
+				whenPanel.add(startDay,wheng);
+				validate();
+			}
+		}
+	}
+	class endMonth implements ActionListener { //Combobox listener.
+			public void actionPerformed(ActionEvent e) {
+				if (endMonth.getSelectedItem() == "April" || startMonth.getSelectedItem() == "Juni" || startMonth.getSelectedItem() == "September" || startMonth.getSelectedItem() == "November"){
+					String[] dag = new String[30]; //days in a month.
+					for (int i = 1; i <= 30; i++) {
+						dag[i-1] = Integer.toString(i);
+					}
+					whenPanel.remove(endDay);
+					validate();
+					endDay = new JComboBox(dag);
+					wheng.gridx = 2;
+					wheng.gridy = 2;
+					whenPanel.add(endDay,wheng);
+					validate();
+				}
+				if (endMonth.getSelectedItem() == "Februar"){
+					String[] dag = new String[28]; //days in a month.
+					for (int i = 1; i <= 28; i++) {
+						dag[i-1] = Integer.toString(i);
+					}
+					whenPanel.remove(endDay);
+					validate();
+					endDay = new JComboBox(dag);
+					wheng.gridx = 2;
+					wheng.gridy = 2;
+					whenPanel.add(endDay,wheng);
+					validate();
+				}
+				if (endMonth.getSelectedItem() == "Januar" || startMonth.getSelectedItem() == "Mars" || startMonth.getSelectedItem() == "Mai" || startMonth.getSelectedItem() == "Juli" || startMonth.getSelectedItem() == "August" || startMonth.getSelectedItem() == "Oktober" || startMonth.getSelectedItem() == "Desember"){
+					String[] dag = new String[31]; //days in a month.
+					for (int i = 1; i <= 31; i++) {
+						dag[i-1] = Integer.toString(i);
+					}
+					whenPanel.remove(endDay);
+					validate();
+					endDay = new JComboBox(dag);
+					wheng.gridx = 2;
+					wheng.gridy = 2;
+					whenPanel.add(endDay,wheng);
+					validate();
+				}
+		}
+	}
 	
 	public void addGuiListener(GUIListener listener){
 		gls.add(listener);
