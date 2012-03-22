@@ -47,7 +47,7 @@ public class DBUser {
 		
 		String sql = "SELECT ID FROM Avtale WHERE Avtale.ID IN " +
 				"(SELECT Avtale_ID FROM Bruker JOIN Deltaker ON " +
-				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ");";
+				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ") ORDER BY Tid_start;";
 		
 		try{
 			

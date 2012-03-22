@@ -23,7 +23,6 @@ import database.Database;
  * @version 1.0
  *
  */
-
 public class DBAppointment {
 
 	
@@ -128,7 +127,7 @@ public class DBAppointment {
 					+ to
 					+ " AND Bruker.ID = "
 					+ userID
-					+ ") ORDER BY Tid_start DESC;";
+					+ ") ORDER BY Tid_start;";
 		
 		try {
 			
@@ -151,13 +150,27 @@ public class DBAppointment {
 		
 	}
 	
+	/**
+	 * Updates the time of the appointment in database corresponding to the 
+	 * submitted appointment ID, and returns an <code>int</code> telling 
+	 * whether the change was successful or not
+	 * 
+	 * @param newTimeFrom
+	 * 			New start time to be set for the appointment 
+	 * @param newTimeTo
+	 * 			New end time to be set for the appointment
+	 * @param appointmentID
+	 * 			A unique database appointment ID
+	 * @return a positive <code>int</code> if the update was successful;
+	 * 			otherwise <code>-1</code>
+	 */
 	public static int changeTimeOfAppointment(long newTimeFrom, long newTimeTo, int appointmentID){
 		
 		String sql = "UPDATE Avtale SET Tid_start="
 					+ newTimeFrom
 					+ ", Tid_slutt="
 					+ newTimeTo
-					+ "WHERE ID = "
+					+ " WHERE ID = "
 					+ appointmentID
 					+ ";";
 		
