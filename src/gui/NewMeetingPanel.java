@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -140,11 +139,11 @@ public class NewMeetingPanel extends JPanel{
 		gls.add(listener);
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.setSize(700,700);
-		frame.add(new NewMeetingPanel());
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame();
+//		frame.setSize(700,700);
+//		frame.add(new NewMeetingPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 }
