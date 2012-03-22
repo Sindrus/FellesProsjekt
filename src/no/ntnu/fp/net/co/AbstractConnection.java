@@ -574,7 +574,6 @@ public abstract class AbstractConnection implements Connection {
             }
             catch (InterruptedException e) { /* do nothing */
             }
-
             receiver.stopReceive();
             incomingPacket = receiver.getPacket();
             if (incomingPacket == null) {
@@ -635,7 +634,7 @@ public abstract class AbstractConnection implements Connection {
                     }
                 }
             }
-        }
+        }        
         // We have now waited at least TIMEOUT milliseconds, still no
         // packet.
         synchronized (this) {

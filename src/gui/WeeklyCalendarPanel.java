@@ -26,6 +26,13 @@ import javax.swing.table.TableColumnModel;
  * 
  * Panelet som inneholder den ukentlige kalendern.
  * 
+ * Static variables:
+ * c = Calendar.instance er kalender na.
+ * weeknum = ukenummer na
+ * daynum = dag (i manad) na.
+ * monthnum = manadnummer (i ar).
+ * 
+ * Alle andre er et (fail) logikk for a sette in korrekt dato i uka.
  */
 
 public class WeeklyCalendarPanel extends JPanel implements ActionListener{
@@ -49,7 +56,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
-		g.gridx = 0;
 		left = new JButton("<=");
 		left.addActionListener(this);
 		add(left,g);
@@ -73,6 +79,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 	}
 
+
 	private void updateWeek(){
 
 		DefaultTableModel l = new DefaultTableModel();
@@ -91,10 +98,10 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		for (int i = 0; i < weekdays.length; i++) {
 			weekTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+
 		}
 
 	}
-
 
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();

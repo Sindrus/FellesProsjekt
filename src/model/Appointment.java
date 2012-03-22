@@ -3,8 +3,7 @@ package model;
 import java.sql.Timestamp;
 
 public class Appointment {
-
-	private int id;
+	
 	private Timestamp start;
 	private Timestamp end;
 	private String description;
@@ -22,21 +21,12 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	public Appointment(int id, Timestamp start, Timestamp end, String description){
+	public Appointment(Timestamp start, Timestamp end, String description){
 		
-		this.id = id;
 		this.start = start;
 		this.end = end;
 		this.description = description;
 		
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public Timestamp getStart() {
