@@ -18,12 +18,18 @@ import util.GUIListener;
  * NewAppointmentPanel
  * NewMeetingPanel
  * 
+ * To create new appointment id use:
+ * 
+ * DBAppointment.newAppointment(Timestamp startTimestamp, Timestamp endTimestamp, String desc)
+ * returnerer et nytt appointmentobject.
+ * 
  */
 
 public class NewPanel extends JPanel implements GUIListener{
 	
 	NewMeetingPanel newMeetingPanel;
 	NewAppointmentPanel newAppointmentPanel;
+	private boolean isMeetingPanel;
 	private boolean isMeeting;
 	GridBagConstraints g;
 	
@@ -33,7 +39,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		
 		g.anchor = GridBagConstraints.CENTER;
 		
-		isMeeting=false;
+		isMeetingPanel=false;
 		newMeetingPanel = new NewMeetingPanel();
 		newMeetingPanel.addGuiListener(this);
 		newAppointmentPanel = new NewAppointmentPanel();
@@ -43,7 +49,7 @@ public class NewPanel extends JPanel implements GUIListener{
 	
 	public void redraw(){
 		removeAll();
-		if(!isMeeting){
+		if(!isMeetingPanel){
 			add(newAppointmentPanel,g);
 		}else{
 			add(newMeetingPanel,g);
@@ -55,13 +61,15 @@ public class NewPanel extends JPanel implements GUIListener{
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		if(ct==ChangeType.MEETING){
-			isMeeting=true;
+			isMeetingPanel=true;
 		}else if(ct==ChangeType.BACK){
-			isMeeting=false;
+			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
 			System.exit(0);
+		}else if(ct==ChangeType.CREATEMEETING){
+			
 		}else{
-			isMeeting=false;
+			isMeetingPanel=false;
 		}
 		redraw();
 	}
