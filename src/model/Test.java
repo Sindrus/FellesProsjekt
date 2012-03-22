@@ -12,7 +12,7 @@ public class Test {
 
 	private static void testGetAppointmentsInInterval(){
 		
-		ArrayList<Appointment> list = DBAppointment.getAppointmentsInInterval(20120321110000L, 20120322140000L);
+		ArrayList<Appointment> list = DBAppointment.getAppointmentsInInterval(20120321110000L, 20120322140000L, 1);
 		for(Appointment a : list){
 			
 			System.out.println("Fra: " + a.getStart());
