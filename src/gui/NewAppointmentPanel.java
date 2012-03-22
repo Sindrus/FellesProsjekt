@@ -2,6 +2,7 @@ package gui;
 
 /**
  * -*- coding:utf-8 -*-
+ * 
  */
 
 import java.awt.Font;
@@ -30,7 +31,8 @@ public class NewAppointmentPanel extends JPanel {
 	JPanel whatPanel, whenPanel, desPanel, btnPanel;
 	JTextField what;
 	JTextArea description;
-	JComboBox day, month, startTime, endTime;
+	JComboBox startDay, startMonth, startTime, endDay, endMonth, endTime;
+	JTextField startYear, endYear;
 	GUIListenerSupport gls;
 
 	public NewAppointmentPanel() {
@@ -42,7 +44,7 @@ public class NewAppointmentPanel extends JPanel {
 				td[i] = i + ":00";
 		}
 
-		String[] mnd = { "Januar", "Februar", "Mars", "April", "Mai", "Juni",
+		String[] mnd = { "Jauar", "Februar", "Mars", "April", "Mai", "Juni",
 				"Juli", "August", "September", "Oktober", "November",
 				"Desember" };
 
@@ -80,40 +82,80 @@ public class NewAppointmentPanel extends JPanel {
 
 // whenPanel
 		whenPanel = new JPanel();
+		whenPanel.setLayout(new GridBagLayout());
 		GridBagConstraints wheng = new GridBagConstraints();
-
-		whenPanel.add(new JLabel("Når:"), whatg);
 
 		wheng.anchor = GridBagConstraints.WEST;
 		wheng.gridx = 0;
 		wheng.gridy = 0;
+		
+		whenPanel.add(new JLabel("Når:"), wheng);
+	// Fra tidspunkt
+		wheng.insets = new Insets(5, 5, 5, 5);
+		wheng.gridy=1;
+		whenPanel.add(new JLabel("Fra:"),wheng);
+		
+		wheng.gridx = 1;
 		whenPanel.add(new JLabel("Dag:"), wheng);
 
-		wheng.gridx = 1;
-		day = new JComboBox(dag);
-		whenPanel.add(day, wheng);
-
 		wheng.gridx = 2;
-		whenPanel.add(new JLabel("Måned:"), wheng);
+		startDay = new JComboBox(dag);
+		whenPanel.add(startDay, wheng);
 
 		wheng.gridx = 3;
-		month = new JComboBox(mnd);
-		whenPanel.add(month, wheng);
+		whenPanel.add(new JLabel("Måned:"), wheng);
 
 		wheng.gridx = 4;
-		whenPanel.add(new JLabel("Fra:"), wheng);
+		startMonth = new JComboBox(mnd);
+		whenPanel.add(startMonth, wheng);
 
 		wheng.gridx = 5;
+		whenPanel.add(new JLabel("Klokken:"), wheng);
+		
+		wheng.gridx = 6;
 		startTime = new JComboBox(td);
 		whenPanel.add(startTime, wheng);
-
-		wheng.gridx = 6;
-		whenPanel.add(new JLabel("Til:"), wheng);
-
+		
 		wheng.gridx = 7;
+		whenPanel.add(new JLabel("År:"),wheng);
+		
+		wheng.gridx = 8;
+		startYear = new JTextField("",4);
+		whenPanel.add(startYear,wheng);
+	// Til tidspunkt
+		
+		wheng.gridy = 2;
+		wheng.gridx = 0;
+		
+		whenPanel.add(new JLabel("Til:"),wheng);
+		
+		wheng.gridx=1;
+		whenPanel.add(new JLabel("Dag:"),wheng);
+		
+		wheng.gridx=2;
+		endDay = new JComboBox(dag);
+		whenPanel.add(endDay,wheng);
+		
+		wheng.gridx=3;
+		whenPanel.add(new JLabel("Måned"),wheng);
+		
+		wheng.gridx=4;
+		endMonth = new JComboBox(mnd);
+		whenPanel.add(endMonth,wheng);
+		
+		wheng.gridx=5;
+		whenPanel.add(new JLabel("Klokken:"),wheng);
+		
+		wheng.gridx=6;
 		endTime = new JComboBox(td);
 		whenPanel.add(endTime, wheng);
-
+		
+		wheng.gridx=7;
+		whenPanel.add(new JLabel("År:"),wheng);
+		
+		wheng.gridx=8;
+		endYear = new JTextField("",4);
+		whenPanel.add(endYear,wheng);
 // end whenPanel
 		g.gridy = 1;
 		add(whenPanel, g);
@@ -167,6 +209,10 @@ public class NewAppointmentPanel extends JPanel {
 		g.gridy = 3;
 		add(btnPanel, g);
 	}
+	
+	
+	public 
+	
 
 	class Cancel implements ActionListener { // no logic.
 		public void actionPerformed(ActionEvent e) {
