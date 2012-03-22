@@ -17,6 +17,13 @@ import javax.swing.JPanel;
  * 
  * Panelet som inneholder den ukentlige kalendern.
  * 
+ * Static variables:
+ * c = Calendar.instance er kalender na.
+ * weeknum = ukenummer na
+ * daynum = dag (i manad) na.
+ * monthnum = manadnummer (i ar).
+ * 
+ * Alle andre er et (fail) logikk for a sette in korrekt dato i uka.
  */
 
 public class WeeklyCalendarPanel extends JPanel {
@@ -39,6 +46,7 @@ public class WeeklyCalendarPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		Left = new JButton("<=");
+		Left.addActionListener(new Left());
 		add(Left,g);
 		Right = new JButton("=>");
 		Right.addActionListener(new Right());
@@ -292,6 +300,144 @@ public class WeeklyCalendarPanel extends JPanel {
 			}
 		}
 	}
+	
+	class Left implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			for (int i = 0; i<7; i++){
+				remove(day[i]);
+				validate();
+			}
+			daynum = daynum - 7;
+			weeknum = weeknum - 1;
+			
+			if (monthnum == 0)
+			{
+				monthnum = 12;
+				weeknum = 52;
+			}
+			
+			remove(ukenummer);
+			validate();
+			ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
+			add (ukenummer,g);
+			validate();
+			
+			for (int i = 0; i<7; i++){
+				if (daynum+i <= 0 && monthnum == 3)
+				{
+					monthnum = monthnum - 1;
+					if (i == 0){
+						daynum = 22;
+					}
+					if (i == 1)
+					{
+						daynum = 23;
+					}
+					if (i == 2)
+					{
+						daynum = 24;
+					}
+					if (i == 3)
+					{
+						daynum = 25;
+					}
+					if (i == 4)
+					{
+						daynum = 26;
+					}
+					if (i == 5)
+					{
+						daynum = 27;
+					}
+					if (i == 6)
+					{
+						daynum = 28;
+					}
+				}
+				if (daynum+i <= 0 && (monthnum == 5 || monthnum == 7 || monthnum == 10 || monthnum == 12) )
+				{
+					monthnum = monthnum - 1;
+					
+					if (i == 0){
+						daynum = 24;
+					}
+					if (i == 1){
+						
+						daynum = 25;
+					}
+					monthnum = monthnum + 1;
+					if (i == 2)
+					{
+						daynum = 26;
+					}
+					if (i == 3)
+					{
+						daynum = 27;
+					}
+					if (i == 4)
+					{
+						daynum = 28;
+					}
+					if (i == 5)
+					{
+						daynum = 29;
+					}
+					if (i == 6)
+					{
+						daynum = 30;
+					}
+				}
+				if (daynum+i <= 0 && (monthnum == 2 || monthnum == 4 || monthnum == 6 || monthnum == 8 || monthnum == 9 || monthnum == 11 || monthnum == 1) )
+				{
+					if (monthnum - 1 == 0){
+						monthnum = 12;
+						weeknum = 52;
+						}
+					else
+					monthnum = monthnum - 1;
+					if (i == 0){
+						daynum = 25;
+					}
+					if (i == 1)
+					{
+						daynum = 26;
+					}
+					if (i == 2)
+					{
+						daynum = 27;
+					}
+					if (i == 3)
+					{
+						daynum = 28;
+					}
+					if (i == 4)
+					{
+						daynum = 29;
+					}
+					if (i == 5)
+					{
+						daynum = 30;
+					}
+					if (i == 6)
+					{
+						daynum = 31;
+					}
+				}
+				if (c.get(Calendar.DAY_OF_WEEK)+i <= 7 ){
+				day[i] = new JLabel(weekdays[c.get(Calendar.DAY_OF_WEEK)+i] + "." + (daynum+i) + "." + monthnum + "           ");
+				add(day[i],g);
+				}
+				else{
+				int h = c.get(Calendar.DAY_OF_WEEK)+ i - 7;
+				day[i] = new JLabel(weekdays[h] + "." + (daynum+i) + "." + monthnum + "           ");
+				add(day[i],g);
+				}
+				validate();
+			
+			}
+		}
+	}
+	
 	
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
