@@ -165,11 +165,15 @@ public class WeeklyCalendarPanel extends JPanel {
 				else if (daynum + 6 == 30 && (monthnum == 4 || monthnum == 6 || monthnum == 9 || monthnum == 11)){
 				daynum = 1;
 				monthnum = monthnum+1;}
+				else if (daynum + 7 == 30 && (monthnum == 4 || monthnum == 6 || monthnum == 9 || monthnum == 11)){
+					daynum = 30;}
 			if (daynum + 7 < 28 && (monthnum == 2)){
 				daynum = daynum + 7;}
 				else if (daynum + 6 == 28 && (monthnum == 2)){
 				daynum = 1;
 				monthnum = monthnum+1;}
+				else if (daynum + 7 == 28 && (monthnum == 2)){
+					daynum = 28;}
 			
 			weeknum = weeknum +1;
 			
