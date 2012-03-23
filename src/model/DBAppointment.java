@@ -72,9 +72,9 @@ public class DBAppointment {
 	 * @return a fully initialized <code>Appointment</code> object for the new
 	 *  		appointment
 	 */
-	public static Appointment newAppointment(Timestamp start, Timestamp end, String desc){
+	public static Appointment newAppointment(long start, long end, String desc){
 
-		String sql = "INSERT INTO Avtale(ID, Tid_start, Tid_slutt, Beskrivelse)" +
+		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Beskrivelse)" +
 		" VALUES (" 
 		+ start
 		+ ", "

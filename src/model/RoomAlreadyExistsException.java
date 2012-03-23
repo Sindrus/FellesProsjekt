@@ -7,7 +7,6 @@ package model;
  * @author Even
  * @version 1.0
  */
-
 public class RoomAlreadyExistsException extends Exception {
 
 	@Override
