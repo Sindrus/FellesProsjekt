@@ -1,11 +1,29 @@
 package model;
 
+/*
+ * DBUser
+ * 
+ * Author: Even
+ * Version: 1.0
+ * 
+ * Class handling interaction between database and model layers for the user
+ * class
+ */
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.Database;
 
+/**
+ * Class handling interaction between database and model layers for the user
+ * class
+ * 
+ * @author Even
+ * @version 1.0
+ * @see Database Database layer
+ */
 public class DBUser {
 
 	/**

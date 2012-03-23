@@ -1,10 +1,27 @@
 package model;
 
+/*
+ * DBMeeting
+ * 
+ * Author: Even
+ * Version: 1.0
+ * 
+ * Class handling interaction between database and model layers for the
+ * meeting class
+ */
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.Database;
 
+/**
+ * Class handling interaction between database and model layers for the
+ * meeting class
+ * 
+ * @author Even
+ * @see Database Database layer
+ */
 public class DBMeeting {
 
 	/**
@@ -14,6 +31,8 @@ public class DBMeeting {
 	 * 			A unique database appointment ID
 	 * @return <code>1</code> if the deletion was successful; otherwise
 	 * 			<code>-1</code>
+	 * @see DBAppointment#deleteAppointment Appointment deletion
+	 * @see DBRoom#deleteReservation Reservation deletion
 	 */
 	public static int deleteMeeting(int appointmentID){
 		

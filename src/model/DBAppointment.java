@@ -21,7 +21,7 @@ import database.Database;
  * 
  * @author Even
  * @version 1.0
- *
+ * @see Database Database layer
  */
 public class DBAppointment {
 
