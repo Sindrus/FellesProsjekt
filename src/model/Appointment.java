@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 public class Appointment {
 	
-	private int id;
-	private Timestamp start;
-	private Timestamp end;
-	private String description;
+	protected int id;
+	protected Timestamp start;
+	protected Timestamp end;
+	protected String description;
 	
 	
 	/**
