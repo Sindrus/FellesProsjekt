@@ -9,7 +9,7 @@ ta på meg jobben med å gjøre det.
 Sindre: Starter med newMeetingPanel og ser litt på newAppointmentPanel. Lager newPanel, som binder disse sammen
 Christian: Holder på med KTN... ennå... (connectionImpl)
 Jørgen: 
-Nenad: Working a bit on kalendarpanel for main.
+Nenad: Start building the framework for the Calendar panel.
 Made: 
 Even: DBAppointment, DBRoom
 
