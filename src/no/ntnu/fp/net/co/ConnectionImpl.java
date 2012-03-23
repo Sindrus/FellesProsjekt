@@ -104,12 +104,9 @@ public class ConnectionImpl extends AbstractConnection{
     	}
     	this.state = State.LISTEN;
     	KtnDatagram syn = null; //Make a SYN packet
-    	while(checksumCheck(syn)){
-    		try{ //Send SYN Packet
-    			syn = receivePacket(true);
-    			break;
-    		} catch (Exception e) {}
-    	}
+		try{ //Send SYN Packet
+			syn = receivePacket(true);
+		} catch (Exception e) {}
     	//Create new connection
     	ConnectionImpl connection = new ConnectionImpl(newPortNumber()); //Make Received state packet
     	connection.remoteAddress = syn.getSrc_addr();
