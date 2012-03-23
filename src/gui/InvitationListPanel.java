@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import model.Calendar;
+import model.DBAppointment;
+
 import util.GUIListenerSupport;
 
 /**
@@ -53,6 +56,7 @@ public class InvitationListPanel extends JPanel {
 		inkallingPanel.add(minkall,invg);
 		
 		defaultPersonListModel = new DefaultListModel();
+		defaultPersonListModel.addElement(Calendar.getAppointments());
 		inkallingList = new JList(defaultPersonListModel);
 		inkallingList.setVisibleRowCount(5);
 		inkallingList.setFixedCellWidth(140);

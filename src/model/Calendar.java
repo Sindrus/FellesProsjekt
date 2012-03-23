@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Calendar {
 	
 	private User owner;
-	private ArrayList appointments;
+	public static ArrayList appointments;
 	
 	public Calendar(User owner){
 		this.owner = owner;
@@ -16,7 +16,7 @@ public class Calendar {
 		appointments.add(a);
 	}
 	
-	public ArrayList getAppointments(){
+	public static ArrayList getAppointments(){
 		return appointments;
 	}
 	
