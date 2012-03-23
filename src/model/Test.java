@@ -6,13 +6,13 @@ public class Test {
 	
 	public static void main(String[] args) {
 
-		
+		testGetAvailableRooms();
 		
 	}
 	
 	private static void testGetAvailableRooms(){
 		
-		ArrayList<Room> list = DBRoom.getAvailibleRooms(4);
+		ArrayList<Room> list = DBRoom.getAvailibleRooms(20, 20120323140000L, 20120323150000L);
 		for(Room r : list){
 			
 			System.out.println("Romnr: " + r.getRoomNumber());
