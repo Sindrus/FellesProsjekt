@@ -11,7 +11,7 @@ Christian: Holder på med KTN... ennå... (connectionImpl)
 Jørgen: 
 Nenad: Working a bit on kalendarpanel for main.
 Made: 
-Even: 
+Even: Jobber i appointment og meeting
 
 
 Innlevering
