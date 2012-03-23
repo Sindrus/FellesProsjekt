@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import util.ChangeType;
+import util.GUIListener;
+
 /**
  * 
  * @author sindre
@@ -8,6 +13,11 @@ package gui;
  * 
  */
 
-public class EditPanel {
-
+public class EditPanel extends JPanel implements GUIListener{
+	
+	
+	
+	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
+		
+	}
 }

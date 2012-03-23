@@ -21,9 +21,8 @@ import database.Database;
  * 
  * @author Even
  * @version 1.0
- *
+ * @see Database Database layer
  */
-
 public class DBAppointment {
 
 	
@@ -44,10 +43,11 @@ public class DBAppointment {
 			while(results.next()){
 
 				int id = results.getInt("ID");
+				int ownerID = results.getInt("Eier_ID");
 				Timestamp start = results.getTimestamp("Tid_start");
 				Timestamp end = results.getTimestamp("Tid_slutt");
 				String desc = results.getString("Beskrivelse");
-				return new Appointment(id, start, end, desc);
+				return new Appointment(id,DBUser.getUser(ownerID), start, end, desc);
 
 			}
 
@@ -73,9 +73,9 @@ public class DBAppointment {
 	 * @return a fully initialized <code>Appointment</code> object for the new
 	 *  		appointment
 	 */
-	public static Appointment newAppointment(Timestamp start, Timestamp end, String desc){
+	public static Appointment newAppointment(long start, long end, String desc){
 
-		String sql = "INSERT INTO Avtale(ID, Tid_start, Tid_slutt, Beskrivelse)" +
+		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Beskrivelse)" +
 		" VALUES (" 
 		+ start
 		+ ", "
@@ -128,18 +128,19 @@ public class DBAppointment {
 					+ to
 					+ " AND Bruker.ID = "
 					+ userID
-					+ ") ORDER BY Tid_start DESC;";
+					+ ") ORDER BY Tid_start;";
 		
 		try {
 			
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
 				
+				int ownerID = results.getInt("Eier_ID");
 				int id = results.getInt("ID");
 				Timestamp start = results.getTimestamp("Tid_start");
 				Timestamp end = results.getTimestamp("Tid_slutt");
 				String desc = results.getString("Beskrivelse");
-				list.add(new Appointment(id, start, end, desc));
+				list.add(new Appointment(id, DBUser.getUser(ownerID), start, end, desc));
 				
 			}
 			
@@ -151,13 +152,27 @@ public class DBAppointment {
 		
 	}
 	
+	/**
+	 * Updates the time of the appointment in database corresponding to the 
+	 * submitted appointment ID, and returns an <code>int</code> telling 
+	 * whether the change was successful or not
+	 * 
+	 * @param newTimeFrom
+	 * 			New start time to be set for the appointment 
+	 * @param newTimeTo
+	 * 			New end time to be set for the appointment
+	 * @param appointmentID
+	 * 			A unique database appointment ID
+	 * @return a positive <code>int</code> if the update was successful;
+	 * 			otherwise <code>-1</code>
+	 */
 	public static int changeTimeOfAppointment(long newTimeFrom, long newTimeTo, int appointmentID){
 		
 		String sql = "UPDATE Avtale SET Tid_start="
 					+ newTimeFrom
 					+ ", Tid_slutt="
 					+ newTimeTo
-					+ "WHERE ID = "
+					+ " WHERE ID = "
 					+ appointmentID
 					+ ";";
 		

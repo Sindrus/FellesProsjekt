@@ -1,11 +1,29 @@
 package model;
 
+/*
+ * DBUser
+ * 
+ * Author: Even
+ * Version: 1.0
+ * 
+ * Class handling interaction between database and model layers for the user
+ * class
+ */
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.Database;
 
+/**
+ * Class handling interaction between database and model layers for the user
+ * class
+ * 
+ * @author Even
+ * @version 1.0
+ * @see Database Database layer
+ */
 public class DBUser {
 
 	/**
@@ -47,7 +65,7 @@ public class DBUser {
 		
 		String sql = "SELECT ID FROM Avtale WHERE Avtale.ID IN " +
 				"(SELECT Avtale_ID FROM Bruker JOIN Deltaker ON " +
-				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ");";
+				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ") ORDER BY Tid_start;";
 		
 		try{
 			
@@ -63,6 +81,35 @@ public class DBUser {
 		}
 		
 		return list;
+		
+	}
+	
+	/**
+	 * Fetches a specific user from the database
+	 * 
+	 * @param userID
+	 * 			A unique database user ID
+	 * @return A fully initialized <code>User</code> object
+	 */
+	public static User getUser(int userID){
+		
+		String sql = "SELECT * FROM Bruker WHERE ID = "
+					+ userID
+					+ ";";
+		
+		try {
+			ResultSet results = Database.execute(sql);
+			if(results.next()){
+				String name = results.getString("Navn");
+				String username = results.getString("Brukernavn");
+				//The user is successfully returned
+				return new User(name, username);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//Something went wrong
+		return null;
 		
 	}
 	
