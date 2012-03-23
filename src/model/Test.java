@@ -6,19 +6,40 @@ public class Test {
 	
 	public static void main(String[] args) {
 
-		testGetAvailableRooms();
+		testReserveRoom();
+		
+	}
+	
+	private static void testAddRoom(){
+		
+		try {
+			System.out.println((DBRoom.addRoom(12, 8)==-1 ? "Gikk dritt" : "Gikk bra"));
+		} catch (RoomAlreadyExistsException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private static void testReserveRoom(){
+		
+		System.out.println((DBRoom.reserveRoom(12, 3, 20120323180000L, 20120323230000L)==-1 ? 
+				"Detta gikk rakt til helvete" : "Gikk ganske greit igrunn detta!"));
 		
 	}
 	
 	private static void testGetAvailableRooms(){
 		
-		ArrayList<Room> list = DBRoom.getAvailibleRooms(20, 20120323140000L, 20120323150000L);
-		for(Room r : list){
-			
-			System.out.println("Romnr: " + r.getRoomNumber());
-			System.out.println("Størrelse: " + r.getSize());
-			System.out.println("-----------------------------------");
-			
+		try {
+			ArrayList<Room> list = DBRoom.getAvailibleRooms(20, 20120323140000L, 20120323150000L);
+			for(Room r : list){
+				
+				System.out.println("Romnr: " + r.getRoomNumber());
+				System.out.println("Størrelse: " + r.getSize());
+				System.out.println("-----------------------------------");
+				
+			}
+		} catch (NoAvailableRoomsException e) {
+			e.printStackTrace();
 		}
 		
 	}
