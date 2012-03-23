@@ -24,7 +24,6 @@ public class Meeting extends Appointment{
 
 	private User owner;
 	private Room room;
-	private Reservation res;
 	private String description;
 	private ArrayList<User> participants; 
 	
@@ -46,13 +45,12 @@ public class Meeting extends Appointment{
 	 * @param description
 	 * 			A textual description of the meeting
 	 */
-	public Meeting(User owner, Room room, Reservation res, int id, 
+	public Meeting(User owner, Room room, int id, 
 			Timestamp start, Timestamp end, String description){
 		
-		super(id, start, end, description);
+		super(id, owner, start, end, description);
 		this.owner = owner;
 		this.room = room;
-		this.res = res;
 	}
 	
 	public void notifyUser(User usr, Message n){

@@ -84,4 +84,33 @@ public class DBUser {
 		
 	}
 	
+	/**
+	 * Fetches a specific user from the database
+	 * 
+	 * @param userID
+	 * 			A unique database user ID
+	 * @return A fully initialized <code>User</code> object
+	 */
+	public static User getUser(int userID){
+		
+		String sql = "SELECT * FROM Bruker WHERE ID = "
+					+ userID
+					+ ";";
+		
+		try {
+			ResultSet results = Database.execute(sql);
+			if(results.next()){
+				String name = results.getString("Navn");
+				String username = results.getString("Brukernavn");
+				//The user is successfully returned
+				return new User(name, username);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//Something went wrong
+		return null;
+		
+	}
+	
 }

@@ -6,8 +6,28 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		testDeleteMeeting();
+		testGetInvitedUsers();
 
+	}
+	
+	private static void testGetInvitedUsers(){
+		
+		ArrayList<User> list = DBMeeting.getInvitedUsers(3);
+		for(User u : list){
+			
+			System.out.println("Navn: " + u.getName());
+			System.out.println("Brukernavn: " + u.getUsername());
+			System.out.println("----------------------------------");
+			
+		}
+		
+	}
+	
+	private static void testChangeReservation(){
+		
+		int success = DBRoom.changeReservation(4, 12);
+		System.out.println((success==-1 ? "Gikk dritt" : "Gikk fint"));
+		
 	}
 	
 	private static void testDeleteMeeting(){
@@ -19,8 +39,7 @@ public class Test {
 
 	private static void testCreateMeeting(){
 
-		int success = DBMeeting.createMeeting(1337, 20120324100000L, 20120324140000L, "Test av createMeeting");
-		System.out.println((success==-1 ? "Gikk dritt" : "Gikk fint"));
+		Meeting m = DBMeeting.newMeeting(1337, 20120324100000L, 20120324140000L, "Test av createMeeting");
 
 	}
 

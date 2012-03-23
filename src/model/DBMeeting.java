@@ -12,6 +12,7 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import database.Database;
 
@@ -39,6 +40,39 @@ public class DBMeeting {
 		boolean successfulAppointmentDeletion = DBAppointment.deleteAppointment(appointmentID) > 0;
 		boolean successfulReservationDeletion = DBRoom.deleteReservation(appointmentID) > 0;
 		return (successfulAppointmentDeletion && successfulReservationDeletion ? 1 : -1);
+		
+	}
+	
+	/**
+	 * Fetches a specific meeting from the database
+	 * 
+	 * @param appointmentID
+	 * 			A unique database appointment ID
+	 * @return An initialized <code>Meeting</code> object
+	 */
+	public static Meeting getMeeting(int appointmentID){
+		
+		ArrayList<User> invited = DBMeeting.getInvitedUsers(appointmentID);
+		Appointment appointment = DBAppointment.getAppointment(appointmentID);
+		String sql = "SELECT Romnr FROM Reservasjon WHERE Avtale_ID = "
+					+ appointmentID
+					+ ";";
+		try{
+			
+			ResultSet results = Database.execute(sql);
+			if(results.next()){
+				int roomNumber = results.getInt("Romnr");
+				//The meeting is successfully returned
+				return new Meeting(appointment.getOwner(),
+						DBRoom.getRoom(roomNumber), appointment.getId(), appointment.getStart(),
+						appointment.getEnd(), appointment.getDescription());
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		//Something went wrong
+		return null;
 		
 	}
 	
@@ -91,16 +125,18 @@ public class DBMeeting {
 	 * @param to
 	 * 			a <code>long</code> representing the time to which the
 	 * 			reservation shall apply
-	 * @return a positive <code>int</code> if the meeting was created 
-	 * 			successfully; otherwise <code>-1</code>
+	 * @return a fully initialized Meeting object
 	 */
-	public static int createMeeting(int appointmentID, int roomNumber, long from, long to){
+	public static Meeting newMeeting(int appointmentID, int roomNumber, long from, long to){
 		
 		try {
-			return DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
+			int roomInsertionID = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
+			//The meeting is successfully returned
+			return DBMeeting.getMeeting(appointmentID);
 		} catch (ReservationAlreadyMadeException e) {
 			e.printStackTrace();
-			return -1;
+			//Something went wrong
+			return null;
 		}
 	}
 	
@@ -117,20 +153,55 @@ public class DBMeeting {
 	 * 			reservation shall apply
 	 * @param description
 	 * 			A textual description of the meeting
-	 * @return a positive <code>int</code> if the meeting was created 
-	 * 			successfully; otherwise <code>-1</code>
+	 * @return a fully initialized meeting object
 	 */
-	public static int createMeeting(int roomNumber, long from, long to,
+	public static Meeting newMeeting(int roomNumber, long from, long to,
 			 String description){
 
 		int appointmentID = DBAppointment.newAppointment(from, to, description).getId();
 
 		try {
-			return DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
+			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
+			//The meeting is successfully returned
+			return DBMeeting.getMeeting(appointmentID);
 		} catch (ReservationAlreadyMadeException e) {
 			e.printStackTrace();
-			return -1;
+			//Something went wrong
+			return null;
 		}
+	}
+	
+	/**
+	 * Fetches all users that are invited to the given meeting
+	 * 
+	 * @param appointmentID
+	 * 			A unique database appointment ID
+	 * @return an <code>ArrayList</code> containing the users invited to the
+	 * 			meeting specified by the appointment ID
+	 */
+	public static ArrayList<User> getInvitedUsers(int appointmentID){
+		
+		ArrayList<User> list = new ArrayList<User>();
+		String sql = "SELECT * FROM Bruker WHERE ID IN "
+					+ "(SELECT Bruker_ID FROM Bruker JOIN Deltaker ON "
+					+ "Bruker.ID = Bruker_ID WHERE Avtale_ID = "
+					+ appointmentID
+					+ ") ORDER BY Navn ASC;";
+		
+		try {
+			
+			ResultSet results = Database.execute(sql);
+			while(results.next()){
+				String name = results.getString("Navn");
+				String username = results.getString("Brukernavn");
+				list.add(new User(name, username));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+		
 	}
 	
 }
