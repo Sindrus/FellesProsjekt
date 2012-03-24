@@ -22,9 +22,32 @@ import java.util.ArrayList;
  */
 public class Meeting extends Appointment{
 
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public ArrayList<User> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(ArrayList<User> participants) {
+		this.participants = participants;
+	}
+
 	private User owner;
 	private Room room;
-	private String description;
 	private ArrayList<User> participants; 
 	
 	/**
