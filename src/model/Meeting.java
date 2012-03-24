@@ -53,6 +53,15 @@ public class Meeting extends Appointment{
 		this.room = room;
 	}
 	
+	/**
+	 * Add a new participant to the participants arraylist
+	 * @param par
+	 * 			A <code>User</code> that will be attending the meeting
+	 */
+	public void addParticipant(User par){
+		participants.add(par);
+	}
+	
 	public void notifyUser(User usr, Message n){
 		usr.addMsg(n);
 	}
