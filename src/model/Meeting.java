@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Meeting extends Appointment{
-
+	
 	public User getOwner() {
 		return owner;
 	}
@@ -53,7 +53,20 @@ public class Meeting extends Appointment{
 	public void setParticipants(ArrayList<User> participants) {
 		this.participants = participants;
 	}
-
+	
+	/**
+	 * Returns whether or not a <code>User</code> is a participant of a meeting
+	 * @param user
+	 * 			The <code>User</code> that is asked for
+	 * @return Returns true if the <code>User</code> is participating and false if the <code>User</code> is not
+	 */
+	public boolean isParticipant(User user){
+		if (participants.contains(user))
+			return true;
+		else
+			return false;
+	}
+	
 	private User owner;
 	private Room room;
 	private ArrayList<User> participants; 
