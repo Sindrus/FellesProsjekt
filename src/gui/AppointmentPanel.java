@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -50,6 +51,7 @@ public class AppointmentPanel extends JPanel{
 		for (int i = 1; i <= 31; i++) {
 			dag[i-1] = Integer.toString(i);
 		}
+		
 
 		gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
@@ -64,8 +66,7 @@ public class AppointmentPanel extends JPanel{
 
 		whatg.gridy = 0;
 		whatg.gridx = 0;
-		JLabel h = new JLabel("Hva:");
-		whatPanel.add(h, whatg);
+		whatPanel.add(new JLabel("Hva:"), whatg);
 		what = new JTextField("");
 		Font f = new Font(what.getFont().getName(), what.getFont().getStyle(),
 				14);
@@ -119,7 +120,7 @@ public class AppointmentPanel extends JPanel{
 		whenPanel.add(new JLabel("År:"),wheng);
 		
 		wheng.gridx = 8;
-		startYear = new JTextField("",4);
+		startYear = new JTextField(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
 		whenPanel.add(startYear,wheng);
 	// Til tidspunkt
 		
@@ -154,7 +155,7 @@ public class AppointmentPanel extends JPanel{
 		whenPanel.add(new JLabel("År:"),wheng);
 		
 		wheng.gridx=8;
-		endYear = new JTextField("",4);
+		endYear = new JTextField(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
 		whenPanel.add(endYear,wheng);
 
 // end whenPanel
@@ -218,10 +219,10 @@ public class AppointmentPanel extends JPanel{
 	}
 	/**
 	 * Returns what day of the month the event starts
-	 * @return a day of the month as a string
+	 * @return a day of the month as an int
 	 */
-	public String getStartDay(){
-		return startDay.getSelectedItem().toString();
+	public int getStartDay(){
+		return Integer.parseInt(startDay.getSelectedItem().toString());
 	}
 	/**
 	 * Returns what month the event starts 
@@ -232,24 +233,28 @@ public class AppointmentPanel extends JPanel{
 	}
 	/**
 	 * Returns what time the event starts
-	 * @return the time the events starts as a string
+	 * @return the time the events starts as an array of int with [hour,minute]
 	 */
-	public String getStartTime(){
-		return startTime.getSelectedItem().toString();
+	public int[] getStartTime(){
+		int[] time = new int[2];
+		String[] hold = startTime.getSelectedItem().toString().split(":");
+		time[0]=Integer.parseInt(hold[0]);
+		time[1]=Integer.parseInt(hold[1]);
+		return time;
 	}
 	/**
 	 * Returns what year the evnent starts
-	 * @return what year as a string
+	 * @return what year as an int
 	 */
-	public String getStartYear(){
-		return startYear.getText();
+	public int getStartYear(){
+		return Integer.parseInt(startYear.getText());
 	}
 	/**
 	 * Returns what day the event ends
-	 * @return returns the day as a string
+	 * @return returns the day as an int
 	 */
-	public String getEndDay(){
-		return endDay.getSelectedItem().toString();
+	public int getEndDay(){
+		return Integer.parseInt(endDay.getSelectedItem().toString());
 	}
 	/**
 	 * Returns what month the event ends
@@ -260,17 +265,21 @@ public class AppointmentPanel extends JPanel{
 	}
 	/**
 	 * Returns the time the events ends
-	 * @return return time as a string
+	 * @return return time as an array of int with [hour,minute]
 	 */
-	public String getEndTime(){
-		return endTime.getSelectedItem().toString();
+	public int[] getEndTime(){
+		int[] time = new int[2];
+		String[] hold = startTime.getSelectedItem().toString().split(":");
+		time[0]=Integer.parseInt(hold[0]);
+		time[1]=Integer.parseInt(hold[1]);
+		return time;
 	}
 	/**
 	 * Returns the year the event ends
-	 * @return return the year as a string
+	 * @return return the year as an int
 	 */
-	public String getEndYear(){
-		return endYear.getText();
+	public int getEndYear(){
+		return Integer.parseInt(endYear.getText());
 	}
 	/**
 	 * Returns a description for the event
@@ -280,7 +289,12 @@ public class AppointmentPanel extends JPanel{
 		return description.getText();
 	}
 	
-	class Cancel implements ActionListener { // no logic.
+	/**
+	 * 
+	 * Classes for btn action
+	 *
+	 */
+	class Cancel implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
 			gls.notifyListeners(ChangeType.CANCEL, array);
@@ -292,12 +306,17 @@ public class AppointmentPanel extends JPanel{
 			gls.notifyListeners(ChangeType.MEETING, array);
 		}
 	}
-	class Done implements ActionListener { // no logic.
+	class Done implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
 			gls.notifyListeners(ChangeType.CREATE, array);
 		}
 	}
+	/**
+	 * 
+	 * Changes number of days in a month to the appropriate length 
+	 *
+	 */
 	class startMonth implements ActionListener { //Combobox listener.
 		public void actionPerformed(ActionEvent e) {
 			if (startMonth.getSelectedItem() == "April" || startMonth.getSelectedItem() == "Juni" || startMonth.getSelectedItem() == "September" || startMonth.getSelectedItem() == "November"){
