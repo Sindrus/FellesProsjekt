@@ -41,7 +41,15 @@ public class Meeting extends Appointment{
 	public ArrayList<User> getParticipants() {
 		return participants;
 	}
-
+	
+	public void removeParticipant(User participant){
+		participants.remove(participant);
+	}
+	
+	public void removeParticipants(){
+		participants.clear();
+	}
+	
 	public void setParticipants(ArrayList<User> participants) {
 		this.participants = participants;
 	}
