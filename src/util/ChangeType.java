@@ -15,4 +15,5 @@ public enum ChangeType {
 	BACK,
 	CREATEMEETING,
 	DELETE,
+	SAVECHANGE,
 }
