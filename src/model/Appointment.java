@@ -9,6 +9,7 @@ public class Appointment {
 	protected Timestamp end;
 	protected String description;
 	protected User owner;
+	protected String what;
 	
 	public User getOwner() {
 		return owner;
@@ -38,7 +39,14 @@ public class Appointment {
 		this.description = description;
 		
 	}
-
+	
+	public void setWhat(String what){
+		this.what = what;
+	}
+	public String getWhat(){
+		return what;
+	}
+	
 	public Timestamp getStart() {
 		return start;
 	}
