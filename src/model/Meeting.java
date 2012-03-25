@@ -21,10 +21,54 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Meeting extends Appointment{
+	
+	public User getOwner() {
+		return owner;
+	}
 
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public ArrayList<User> getParticipants() {
+		return participants;
+	}
+	
+	public void removeParticipant(User participant){
+		participants.remove(participant);
+	}
+	
+	public void removeParticipants(){
+		participants.clear();
+	}
+	
+	public void setParticipants(ArrayList<User> participants) {
+		this.participants = participants;
+	}
+	
+	/**
+	 * Returns whether or not a <code>User</code> is a participant of a meeting
+	 * @param user
+	 * 			The <code>User</code> that is asked for
+	 * @return Returns true if the <code>User</code> is participating and false if the <code>User</code> is not
+	 */
+	public boolean isParticipant(User user){
+		if (participants.contains(user))
+			return true;
+		else
+			return false;
+	}
+	
 	private User owner;
 	private Room room;
-	private String description;
 	private ArrayList<User> participants; 
 	
 	/**
@@ -51,6 +95,15 @@ public class Meeting extends Appointment{
 		super(id, owner, start, end, description);
 		this.owner = owner;
 		this.room = room;
+	}
+	
+	/**
+	 * Add a new participant to the participants arraylist
+	 * @param par
+	 * 			A <code>User</code> that will be attending the meeting
+	 */
+	public void addParticipant(User par){
+		participants.add(par);
 	}
 	
 	public void notifyUser(User usr, Message n){

@@ -32,10 +32,13 @@ public class EditAppointmentPanel extends AppointmentPanel {
 	
 	public EditAppointmentPanel() {
 		super();
+		
+		invite.setText("Endre møte");
+		
 		delete = new JButton("Slett");
 		
-		super.btng.gridx=3;
-		super.btnPanel.add(delete,super.btng);
+		btng.gridx=3;
+		btnPanel.add(delete,btng);
 	}
 
 	public static void main(String args[]) {

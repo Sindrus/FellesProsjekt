@@ -3,9 +3,17 @@ package gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import java.sql.Timestamp;
+
+import model.Appointment;
+import model.DBAppointment;
+import model.DBMeeting;
+import model.Meeting;
 
 import util.ChangeType;
 import util.GUIListener;
@@ -18,10 +26,6 @@ import util.GUIListener;
  * NewAppointmentPanel
  * NewMeetingPanel
  * 
- * To create new appointment id use:
- * 
- * DBAppointment.newAppointment(Timestamp startTimestamp, Timestamp endTimestamp, String desc)
- * returnerer et nytt appointmentobject.
  * 
  */
 
@@ -30,8 +34,15 @@ public class NewPanel extends JPanel implements GUIListener{
 	NewMeetingPanel newMeetingPanel;
 	NewAppointmentPanel newAppointmentPanel;
 	private boolean isMeetingPanel;
+	private boolean isMeeting;
 	GridBagConstraints g;
 	
+	private Appointment app;
+	private Meeting meet;
+	
+	/**
+	 * Constructor for NewPanel
+	 */
 	public NewPanel(){
 		setLayout(new GridBagLayout());
 		g = new GridBagConstraints();
@@ -39,6 +50,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		g.anchor = GridBagConstraints.CENTER;
 		
 		isMeetingPanel=false;
+		isMeeting=false;
 		newMeetingPanel = new NewMeetingPanel();
 		newMeetingPanel.addGuiListener(this);
 		newAppointmentPanel = new NewAppointmentPanel();
@@ -46,6 +58,9 @@ public class NewPanel extends JPanel implements GUIListener{
 		redraw();
 	}
 	
+	/**
+	 * redraws the panel to whatever is needed
+	 */
 	public void redraw(){
 		removeAll();
 		if(!isMeetingPanel){
@@ -56,21 +71,97 @@ public class NewPanel extends JPanel implements GUIListener{
 		repaint();
 		revalidate();
 	}
-
+	
+	/**
+	 * Listenes for changes in the other panels so redraw can change to the right panel
+	 * @see redraw()
+	 */
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		if(ct==ChangeType.MEETING){
 			isMeetingPanel=true;
+			isMeeting=true;
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
 			System.exit(0);
 		}else if(ct==ChangeType.CREATEMEETING){
-			
+			saveData();
+			System.exit(0);
+		}else if(ct==ChangeType.CREATE){
+			saveData();
+			System.exit(0);
 		}else{
 			isMeetingPanel=false;
 		}
 		redraw();
+	}
+	
+	/**
+	 * Method to save data that has been entered. 
+	 */
+	private void saveData(){
+		Timestamp startTimestamp = new Timestamp(0);
+		Timestamp endTimestamp = new Timestamp(0);
+		
+		startTimestamp.setTime(getMillitime(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
+				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0));
+		
+		endTimestamp.setTime(getMillitime(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
+				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1],0));
+		
+		int roomNumber = newMeetingPanel.getRoomNumber();
+		
+		if(!isMeeting){
+			System.out.println("Lager avtale");
+			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
+			System.out.println("ID: "+app.getId());
+		}
+		else if(isMeeting){
+			meet = DBMeeting.newMeeting(roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
+			for(int i=0;i<newMeetingPanel.getParticipants().length;i++)
+				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
+			
+		}
+	}
+	
+	/**
+	 * This method takes in a date and converts it into milliseconds. 
+	 * @param year
+	 * 			Takes a year argument as an <code>int</code>
+	 * @param month
+	 * 			Takes a month argument as an <code>int</code>
+	 * @param day
+	 * 			Takes a day argument as an <code>int</code>
+	 * @param hour
+	 * 			Takes an hour argument as an <code>int</code>
+	 * @param min
+	 * 			Takes a min argument as an <code>int</code>
+	 * @param sec
+	 * 			Takes a sec argument as an <code>int</code>
+	 * @return Returns the computed value as a <code>long</code> in milliseconds
+	 */
+	public static long getMillitime(int year, int month, int day, int hour, int min, int sec){
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, day, hour, min, sec);
+		return cal.getTimeInMillis();
+	}
+	
+	/**
+	 * Takes a month as a <code>string</code> in norwegian and converts it into a 0 based month number
+	 * Also used by EditPanel
+	 * 
+	 * @param month
+	 * 			Monthname as a <code>string</code> in Norwegian
+	 * @return returns the 0 based number of the month
+	 * @see EditPanel
+	 */
+	public static int getMonthNumber(String month){
+		String[] monthStr = { "Januar", "Februar", "Mars", "April", "Mai", "Juni","Juli", "August", "September", "Oktober", "November","Desember" };
+		for (int i=0;i<monthStr.length;i++)
+			if(monthStr[i].equals(month))
+				return i;
+		return -1;
 	}
 	
 	public static void main(String args[]) {
@@ -81,6 +172,5 @@ public class NewPanel extends JPanel implements GUIListener{
 		frame.pack();
 		frame.setVisible(true);
 	}
-
 	
 }

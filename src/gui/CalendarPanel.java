@@ -60,7 +60,7 @@ public class CalendarPanel extends JPanel{
 		
 		btntoprightg.gridx = 0;
 		btntoprightg.gridy = 0;
-		logout = new JButton("Log ut");
+		logout = new JButton("Logg ut");
 		logout.addActionListener(new logOut());
 		btntoprightPanel.add(logout,btntopleftg);
 		//finish logout.
