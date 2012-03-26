@@ -29,6 +29,7 @@ public class CalendarPanel extends JPanel{
 	private JPanel btntopleftPanel, btntoprightPanel,listPanel,btnbtmPanel;
 	LoginPanel loginPanel;
 	NewPanel newPanel;
+	JFrame f;
 	JPanel notificationPanel;
 	
 	public CalendarPanel(){
@@ -130,8 +131,11 @@ public class CalendarPanel extends JPanel{
 	
 	class varS implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			notificationPanel = new JPanel();
-			add(notificationPanel);
+			f = new JFrame("Notifications");
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			f.add(new NotificationPanel());
+			f.setVisible(true);
 		}
 	}
 	
