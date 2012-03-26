@@ -93,6 +93,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 			array.add(usernameField.getText());
 			array.add(passwordField.getText());
 			gls.notifyListeners(ChangeType.LOGIN, array);
+			usernameField.setText("");
+			passwordField.setText("");
 		}
 	}
 	
@@ -107,6 +109,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 				array.add(usernameField.getText());
 				array.add(passwordField.getText());
 				gls.notifyListeners(ChangeType.LOGIN, array);
+				usernameField.setText("");
+				passwordField.setText("");
 			}
 		}
 		public void keyReleased(KeyEvent e){
