@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	NewPanel newPanel;
 	JFrame f;
 	GridBagConstraints g, btntopleftg, btntoprightg, lisg, btnbtmg;
+	private Toolkit tool = Toolkit.getDefaultToolkit();
 	
 	GUIListenerSupport gls;
 	private DefaultListModel newModel;
@@ -48,7 +50,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		
 		setBackground(Color.PINK);
 		gls = new GUIListenerSupport();
-		setPreferredSize(new Dimension(1000, 1000));
+
 		g = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		g.insets = new Insets(5, 5, 5, 5);
@@ -136,13 +138,14 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 			//end the two lists.
 				g.gridx = 0;
 				g.gridy = 1;
+				listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
 				add(listPanel, g);
 				
 			//WeeklyCalendar
 				g.gridx = 1;
 				g.gridy = 1;
 				WeeklyCalendarPanel wp = new WeeklyCalendarPanel();
-
+				wp.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()/(1.6)), (int)(tool.getScreenSize().getHeight()/(1.3))));
 				add(wp, g);
 				//finish.
 				
@@ -177,6 +180,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		if(e.getSource()==newap){
 			removeAll();
 			newPanel = new NewPanel();
+			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
 			newPanel.addGuiListener(this);
 			add(newPanel);
 			repaint();

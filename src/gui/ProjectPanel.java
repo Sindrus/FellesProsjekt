@@ -3,6 +3,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -36,11 +37,12 @@ public class ProjectPanel extends JPanel implements GUIListener{
 
 	private User user;
 	private Boolean loggedIn;
+	private Toolkit tool = Toolkit.getDefaultToolkit();
 
 	
 	public ProjectPanel()
 	{
-		setMinimumSize(new Dimension(2000, 1000));
+		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setBackground(Color.GREEN);
 		loggedIn = false;
 
@@ -63,13 +65,14 @@ public class ProjectPanel extends JPanel implements GUIListener{
 		removeAll();
 		
 		if (!loggedIn){
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			add(loginPanel);
 			repaint();
 			revalidate();
 		}
 		else if(panel.equals("calendar")){
 			//calendarPanel.setMinimumSize(new Dimension(3000, 3000));
-			calendarPanel.setPreferredSize(new Dimension(1700, 1000));
+			calendarPanel.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
 			//calendarPanel.setMaximumSize(new Dimension(3000, 3000));
 			add(calendarPanel);
 			repaint();

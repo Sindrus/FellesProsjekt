@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private JLabel ukenummer = new JLabel();
 	private Year y;
 	private JScrollPane[] dayScroll;
+	private Toolkit tool = Toolkit.getDefaultToolkit();
 
 
 	public WeeklyCalendarPanel(){
@@ -95,7 +97,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			//dayScroll[i].setPreferredSize(new Dimension(415,420));
 			//dayScroll[i].setViewportView(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			dayScroll[i].setVisible(true);
-			dayScroll[i].setMinimumSize(new Dimension(175, 600));
+			dayScroll[i].setMinimumSize(new Dimension((int)tool.getScreenSize().getWidth()/13, (int)(tool.getScreenSize().getHeight()/(1.5))));
 			add(dayScroll[i], g);
 			g.gridx += 1;
 

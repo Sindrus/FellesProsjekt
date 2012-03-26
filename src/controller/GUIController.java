@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 public class GUIController {
 
 	private ProjectPanel pp;
+	private Toolkit tool = Toolkit.getDefaultToolkit();
 	
 	public GUIController(){
 		JFrame jf = new JFrame("Kalender");
@@ -27,8 +29,8 @@ public class GUIController {
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.CENTER;
-		jf.getContentPane().setPreferredSize(new Dimension(jf.getWidth(), jf.getHeight()));
 		jf.setContentPane(pp);
+		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
 		
 		jf.setBackground(Color.BLACK);
 		jf.getContentPane().setBackground(Color.MAGENTA);
