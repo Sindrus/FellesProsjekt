@@ -38,7 +38,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	LoginPanel loginPanel;
 	NewPanel newPanel;
 	JFrame f;
-	JPanel notificationPanel;
 	GridBagConstraints g, btntopleftg, btntoprightg, lisg, btnbtmg;
 	
 	GUIListenerSupport gls;
@@ -174,7 +173,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 			revalidate();
 		}else if(e.getSource()==vars){
 			
-			notificationPanel = new NotificationPanel(); //adds a jframe, with a list of notifications and a close button.
 			f = new JFrame("Notifications");
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.setExtendedState(JFrame.MAXIMIZED_BOTH);
