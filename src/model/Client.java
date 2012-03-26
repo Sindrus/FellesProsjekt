@@ -21,7 +21,6 @@ public class Client {
 		g.anchor = GridBagConstraints.CENTER;
 
 		jf.add(pp, g);
-		jf.pack();
 		jf.setVisible(true);
 
 	};
