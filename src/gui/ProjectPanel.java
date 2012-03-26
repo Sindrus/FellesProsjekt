@@ -31,6 +31,7 @@ public class ProjectPanel extends JPanel implements GUIListener{
 	CalendarPanel calendarPanel;
 	EditPanel editPanel;
 	NewPanel newPanel;
+	WeeklyCalendarPanel wcp;
 
 	private User user;
 	private Boolean loggedIn;

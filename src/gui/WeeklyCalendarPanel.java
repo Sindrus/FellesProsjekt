@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,6 +27,10 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
+import util.ChangeType;
+import util.GUIListener;
+import util.GUIListenerSupport;
 
 /**
  * 
@@ -57,25 +62,31 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private GridBagConstraints g = new GridBagConstraints();
 	private JLabel ukenummer = new JLabel();
 	private Year y;
+	private GUIListenerSupport gls;
 
 
 	public WeeklyCalendarPanel(){
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 
+		gls = new GUIListenerSupport();
+		
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
 		left = new JButton("<=");
+		left.setBackground(Color.YELLOW);
 		left.addActionListener(this);
 		add(left,g);
 
-		g.gridx = 1;
+		g.gridx = 6;
 		right = new JButton("=>");
+		right.setBackground(Color.YELLOW);
 		right.addActionListener(this);
 		add(right,g);
 
-		g.gridx = 2;
+		g.gridx = 3;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
+		ukenummer.setBackground(Color.PINK);
 		add (ukenummer,g);
 
 		g.gridy = 3;
@@ -91,13 +102,16 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
-			//dayScroll[i] = new JScrollPane(dayList[i]);
+			dayScroll[i] = new JScrollPane();
+
+			dayScroll[i].getViewport().add(dayList[i]);
 			add(dayList[i], g);
 			g.gridx += 1;
 
 		}
 
 
+		setBackground(Color.WHITE);
 
 		updateWeek();
 
@@ -120,10 +134,10 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		//get all appointments for this week
 
 		for (int i = 0; i < dayList.length; i++) {
-			
+
 			dayList[i].clearList();
-			for (int j = 0; j < 10; j++) {
-				
+			for (int j = 0; j < 20; j++) {
+
 				JButton b = new JButton();
 				b.setLayout(new BorderLayout());
 				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
@@ -132,9 +146,10 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 				b.add(BorderLayout.NORTH,label1);
 				b.add(BorderLayout.CENTER, label3);
 				b.add(BorderLayout.SOUTH,label2);
+				b.setBackground(Color.LIGHT_GRAY);
 				dayList[i].addButton(b);
 			}
-	
+
 
 		}
 
@@ -206,16 +221,20 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		if(e.getSource()== left){
 			weeknum -= 1;
 			updateWeek();
+			//(gls.notifyListeners(ChangeType.PREVWEEK, null);
 		}
 		else if(e.getSource()== right){
 			weeknum += 1;
 			updateWeek();
+			//(gls.notifyListeners(ChangeType.NEXTWEEK, null);
 		}
 
 	}
 
 
-
+	public void addListener(GUIListener l){
+		gls.add(l);
+	}
 
 }
 
