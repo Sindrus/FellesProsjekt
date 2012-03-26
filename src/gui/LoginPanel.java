@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,9 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import util.ChangeType;
 import util.GUIListener;
 import util.GUIListenerSupport;
@@ -93,6 +89,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 			array.add(usernameField.getText());
 			array.add(passwordField.getText());
 			gls.notifyListeners(ChangeType.LOGIN, array);
+			usernameField.setText("");
+			passwordField.setText("");
 		}
 	}
 	
@@ -107,6 +105,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 				array.add(usernameField.getText());
 				array.add(passwordField.getText());
 				gls.notifyListeners(ChangeType.LOGIN, array);
+				usernameField.setText("");
+				passwordField.setText("");
 			}
 		}
 		public void keyReleased(KeyEvent e){

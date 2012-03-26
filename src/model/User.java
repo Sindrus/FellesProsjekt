@@ -17,7 +17,7 @@ public class User {
 	private String name;
 //	private String email;
 //	private Date dateOfBirth;
-	private long id;
+	private static long id;
 	private PropertyChangeSupport propChangeSupp;
 	private String password;
 	private String username;
@@ -208,7 +208,7 @@ public class User {
 	 * 
 	 * @return The person's unique identification.
 	 */
-	public long getId() {
+	public static long getId() {
 		return id;
 	}
 

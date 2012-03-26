@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import model.Appointment;
 import model.Meeting;
-import model.User;
 import util.ChangeType;
 import util.GUIListener;
 

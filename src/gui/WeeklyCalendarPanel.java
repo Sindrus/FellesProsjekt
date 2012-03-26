@@ -6,28 +6,23 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+
 import javax.swing.BorderFactory;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 /**
  * 
@@ -50,20 +45,18 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private static String[] weekdays = {"Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lordag","Sondag"};
 	private static String[] monthnames = {"Jan", "Feb", "Mars", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Des"};
 	private static int weeknum = c.get(Calendar.WEEK_OF_YEAR);
-	private static int daynum = c.get(Calendar.DAY_OF_MONTH);
-	private static int monthnum = Calendar.MONTH+1;
 	private JButton left,right;
 	private JLabel[] dayLabels = new JLabel[7];
 	private DayListPanel[] dayList = new DayListPanel[7];
-	private JScrollPane[] dayScroll = new JScrollPane[7];
 	private GridBagConstraints g = new GridBagConstraints();
 	private JLabel ukenummer = new JLabel();
 	private Year y;
+	private JScrollPane[] dayScroll;
 
 
 	public WeeklyCalendarPanel(){
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
-
+		dayScroll = new JScrollPane[7];
 		
 		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
@@ -205,8 +198,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			c.set(year, month, 1);
 
 		}
-		Integer[] x= {12, 19};
-
 		return new Year(weeks, dayMonth, keys);
 	}
 
