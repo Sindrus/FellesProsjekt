@@ -1,13 +1,12 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -30,6 +29,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	GUIListenerSupport gls;
 
 	public LoginPanel(){
+		
 		gls = new GUIListenerSupport();
 
 		setLayout(new GridBagLayout());

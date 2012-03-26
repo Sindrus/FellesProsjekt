@@ -17,6 +17,7 @@ import model.Meeting;
 
 import util.ChangeType;
 import util.GUIListener;
+import util.GUIListenerSupport;
 
 /**
  * 
@@ -37,6 +38,8 @@ public class NewPanel extends JPanel implements GUIListener{
 	private boolean isMeeting;
 	GridBagConstraints g;
 	
+	GUIListenerSupport gls;
+	
 	private Appointment app;
 	private Meeting meet;
 	
@@ -44,6 +47,7 @@ public class NewPanel extends JPanel implements GUIListener{
 	 * Constructor for NewPanel
 	 */
 	public NewPanel(){
+		gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
 		g = new GridBagConstraints();
 		
@@ -87,7 +91,7 @@ public class NewPanel extends JPanel implements GUIListener{
 			System.exit(0);
 		}else if(ct==ChangeType.CREATEMEETING){
 			saveData();
-			System.exit(0);
+			gls.notifyListeners(ct, null);
 		}else if(ct==ChangeType.CREATE){
 			saveData();
 			System.exit(0);
@@ -95,6 +99,10 @@ public class NewPanel extends JPanel implements GUIListener{
 			isMeetingPanel=false;
 		}
 		redraw();
+	}
+	
+	public void addGuiListener(GUIListener listener){
+		gls.add(listener);
 	}
 	
 	/**
