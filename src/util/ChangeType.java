@@ -9,6 +9,7 @@ package util;
 
 public enum ChangeType {
 	LOGIN,
+	LOGOUT,
 	MEETING,
 	CREATE,
 	CANCEL,
