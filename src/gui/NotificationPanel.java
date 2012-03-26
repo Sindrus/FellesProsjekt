@@ -42,7 +42,7 @@ public class NotificationPanel extends JPanel{
 
 	class Close implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			close.
+		}
 	}
 	public static void main(String args[]) {
 		JFrame frame = new JFrame("Appointment");
