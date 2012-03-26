@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -44,8 +45,10 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	private DefaultListModel newModel;
 	
 	public CalendarPanel(){
-		gls = new GUIListenerSupport();
 		
+		setBackground(Color.PINK);
+		gls = new GUIListenerSupport();
+		setPreferredSize(new Dimension(1000, 1000));
 		g = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		g.insets = new Insets(5, 5, 5, 5);
@@ -88,7 +91,10 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	
 	public void buildCalendarPanel(){
 		//New Appointment.
-				btntopleftg.anchor = GridBagConstraints.NORTHWEST;
+				
+		
+		
+		btntopleftg.anchor = GridBagConstraints.NORTHWEST;
 				
 				btntopleftg.gridx = 0;
 				btntopleftg.gridy = 0;
@@ -135,7 +141,9 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 			//WeeklyCalendar
 				g.gridx = 1;
 				g.gridy = 1;
-				add(new WeeklyCalendarPanel(), g);
+				WeeklyCalendarPanel wp = new WeeklyCalendarPanel();
+
+				add(wp, g);
 				//finish.
 				
 			//Bottom Button Panel
@@ -150,6 +158,8 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 				g.gridx = 0;
 				g.gridy = 2;
 				add(btnbtmPanel, g);
+				
+				revalidate();
 	}
 	
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {

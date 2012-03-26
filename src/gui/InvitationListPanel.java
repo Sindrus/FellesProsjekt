@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -66,6 +67,7 @@ public class InvitationListPanel extends JPanel {
 		inkallingPanel.add(inkallingList,invg);
 		
 		JScrollPane personScroll = new JScrollPane(inkallingList);
+		personScroll.setMinimumSize(new Dimension(100, 300));
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		inkallingPanel.add(personScroll,invg);
 		

@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -29,7 +31,9 @@ public class CalendarListPanel extends JPanel {
 	private DefaultListModel defaultPersonListModel;
 
 	public CalendarListPanel(){
-
+		
+		
+		
 		GUIListenerSupport gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
@@ -56,6 +60,7 @@ public class CalendarListPanel extends JPanel {
 		calendarPanel.add(calendarList,calg);
 		
 		JScrollPane personScroll = new JScrollPane(calendarList);
+		personScroll.setMinimumSize(new Dimension(100, 300));
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		calendarPanel.add(personScroll,calg);
 		
@@ -64,10 +69,10 @@ public class CalendarListPanel extends JPanel {
 		
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.add(new CalendarListPanel());
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame();
+//		frame.add(new CalendarListPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 }

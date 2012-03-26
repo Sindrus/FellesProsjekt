@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,6 +15,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,6 +64,8 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public WeeklyCalendarPanel(){
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 
+		
+		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
@@ -69,12 +73,12 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		left.addActionListener(this);
 		add(left,g);
 
-		g.gridx = 1;
+		g.gridx = 6;
 		right = new JButton("=>");
 		right.addActionListener(this);
 		add(right,g);
 
-		g.gridx = 2;
+		g.gridx = 3;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
 		add (ukenummer,g);
 
@@ -91,8 +95,15 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
-			//dayScroll[i] = new JScrollPane(dayList[i]);
-			add(dayList[i], g);
+			//dayList[i].setPreferredSize(new Dimension(415,420));
+
+			dayList[i].setBorder(BorderFactory.createEtchedBorder());
+			dayScroll[i] = new JScrollPane(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			//dayScroll[i].setPreferredSize(new Dimension(415,420));
+			//dayScroll[i].setViewportView(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			dayScroll[i].setVisible(true);
+			dayScroll[i].setMinimumSize(new Dimension(175, 600));
+			add(dayScroll[i], g);
 			g.gridx += 1;
 
 		}
@@ -102,9 +113,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		updateWeek();
 
 
-		//validate();
-		//repaint();
-		//revalidate();
+		validate();
+		repaint();
+		revalidate();
 
 	}
 
@@ -122,7 +133,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		for (int i = 0; i < dayList.length; i++) {
 			
 			dayList[i].clearList();
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 20; j++) {
 				
 				JButton b = new JButton();
 				b.setLayout(new BorderLayout());
@@ -142,15 +153,15 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
 
 	}
-
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.add(new WeeklyCalendarPanel());
-		frame.setSize(1000, 700);
-		//frame.pack();
-		frame.setVisible(true);
-
-	}
+//
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame();
+//		frame.add(new WeeklyCalendarPanel());
+//		frame.setSize(1000, 700);
+//		//frame.pack();
+//		frame.setVisible(true);
+//
+//	}
 
 
 	private Year getYear(int year){

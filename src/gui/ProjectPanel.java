@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -27,6 +28,8 @@ import util.GUIListener;
 
 public class ProjectPanel extends JPanel implements GUIListener{
 
+	
+	
 	LoginPanel loginPanel;
 	CalendarPanel calendarPanel;
 	EditPanel editPanel;
@@ -38,6 +41,8 @@ public class ProjectPanel extends JPanel implements GUIListener{
 	
 	public ProjectPanel()
 	{
+		setMinimumSize(new Dimension(2000, 1000));
+		setBackground(Color.GREEN);
 		loggedIn = false;
 
 		loginPanel = new LoginPanel();
@@ -64,6 +69,9 @@ public class ProjectPanel extends JPanel implements GUIListener{
 			revalidate();
 		}
 		else if(panel.equals("calendar")){
+			//calendarPanel.setMinimumSize(new Dimension(3000, 3000));
+			calendarPanel.setPreferredSize(new Dimension(1700, 1000));
+			//calendarPanel.setMaximumSize(new Dimension(3000, 3000));
 			add(calendarPanel);
 			repaint();
 			revalidate();

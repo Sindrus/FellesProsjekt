@@ -2,6 +2,8 @@ package controller;
 
 import gui.ProjectPanel;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -25,9 +27,11 @@ public class GUIController {
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.CENTER;
-
-		jf.add(pp, g);
-		jf.pack();
+		jf.getContentPane().setPreferredSize(new Dimension(jf.getWidth(), jf.getHeight()));
+		jf.setContentPane(pp);
+		
+		jf.setBackground(Color.BLACK);
+		jf.getContentPane().setBackground(Color.MAGENTA);
 		jf.setVisible(true);
 	}
 	
