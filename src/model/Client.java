@@ -20,6 +20,5 @@ public class Client {
 
 		jf.add(pp, g);
 		jf.setVisible(true);
-
 	};
 }
