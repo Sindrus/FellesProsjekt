@@ -174,6 +174,7 @@ public class AppointmentPanel extends JPanel{
 
 		description = new JTextArea(4, 30);
 		description.setFont(f);
+		description.setLineWrap(true);
 		desg.gridx = 1;
 		desPanel.add(description, desg);
 
