@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import util.ChangeType;
@@ -31,7 +33,7 @@ import util.GUIListenerSupport;
 
 public class CalendarPanel extends JPanel implements GUIListener, ActionListener{
 	
-	JButton newap, logout, vars;
+	JButton newap, logout, vars, close;
 	private JPanel btntopleftPanel, btntoprightPanel,listPanel,btnbtmPanel;
 	LoginPanel loginPanel;
 	NewPanel newPanel;
@@ -40,6 +42,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	GridBagConstraints g, btntopleftg, btntoprightg, lisg, btnbtmg;
 	
 	GUIListenerSupport gls;
+	private DefaultListModel newModel;
 	
 	public CalendarPanel(){
 		gls = new GUIListenerSupport();
@@ -170,15 +173,42 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 			repaint();
 			revalidate();
 		}else if(e.getSource()==vars){
+			
+			notificationPanel = new NotificationPanel(); //adds a jframe, with a list of notifications and a close button.
 			f = new JFrame("Notifications");
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			f.add(new NotificationPanel());
 			f.setVisible(true);
+			
+			JPanel ntf = new JPanel();  //creates a Jpanel and sets layout.
+			GridBagConstraints g = new GridBagConstraints();
+			g.gridx = 0;
+			g.gridy = 0;
+			g.anchor = GridBagConstraints.CENTER;
+			ntf.setLayout(new GridBagLayout());
+			
+			newModel = new DefaultListModel(); //List model (to be replaced with DB)
+			newModel.addElement("First Notification");
+			newModel.addElement("Second Notification");
+			JList list = new JList(newModel);
+			ntf.add(list,g);	
+			
+			g.gridy = 1;  // Close Button.
+			close = new JButton("Lukk");
+			close.addActionListener(new Close());
+			ntf.add(close,g);
+			
+			f.add(ntf);
+			
 		}else if(e.getSource()==logout){
 			ArrayList array = new ArrayList();
 			array.add("");
 			gls.notifyListeners(ChangeType.LOGOUT, array);
+		}
+	}
+	class Close implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			f.dispose();
 		}
 	}
 	
