@@ -60,7 +60,6 @@ public class MeetingPanel extends JPanel{
 		innerPanel.add(new JLabel("Velg deltakere: "),parg);
 		
 		defaultPersonListModel = new DefaultListModel();
-		System.out.println("Trollol");
 		personList = new JList(defaultPersonListModel);
 		personList.setCellRenderer(new PersonListRenderer());
 		personList.setVisibleRowCount(5);
