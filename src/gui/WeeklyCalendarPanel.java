@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 
 import java.awt.GridBagLayout;
@@ -13,8 +17,11 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -37,18 +44,19 @@ import javax.swing.table.TableColumnModel;
 
 public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
-	static Calendar c = Calendar.getInstance();
-	static String[] weekdays = {"Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lordag","Sondag"};
-	static String[] monthnames = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "Semptember", "Oktober", "November", "Desember"};
-	static int weeknum = c.get(Calendar.WEEK_OF_YEAR);
-	static int daynum = c.get(Calendar.DAY_OF_MONTH);
-	static int monthnum = Calendar.MONTH+1;
-	JButton left,right;
-	GridBagConstraints g = new GridBagConstraints();
-	String[] day = new String[7];
-	JLabel ukenummer = new JLabel();
-	JTable weekTable;
-	Year y;
+	private static Calendar c = Calendar.getInstance();
+	private static String[] weekdays = {"Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lordag","Sondag"};
+	private static String[] monthnames = {"Jan", "Feb", "Mars", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Des"};
+	private static int weeknum = c.get(Calendar.WEEK_OF_YEAR);
+	private static int daynum = c.get(Calendar.DAY_OF_MONTH);
+	private static int monthnum = Calendar.MONTH+1;
+	private JButton left,right;
+	private JLabel[] dayLabels = new JLabel[7];
+	private DayListPanel[] dayList = new DayListPanel[7];
+	private JScrollPane[] dayScroll = new JScrollPane[7];
+	private GridBagConstraints g = new GridBagConstraints();
+	private JLabel ukenummer = new JLabel();
+	private Year y;
 
 
 	public WeeklyCalendarPanel(){
@@ -56,57 +64,90 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
+		g.gridx = 0;
 		left = new JButton("<=");
 		left.addActionListener(this);
 		add(left,g);
 
-		g.gridy = 1;
+		g.gridx = 1;
 		right = new JButton("=>");
 		right.addActionListener(this);
 		add(right,g);
 
-		g.gridy = 2;
+		g.gridx = 2;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
 		add (ukenummer,g);
 
 		g.gridy = 3;
-		weekTable = new JTable();
+		g.gridx = 0;
+		for (int i = 0; i < 7; i++) {
+			dayLabels[i] = new JLabel(String.valueOf(i));
+			add(dayLabels[i], g);
+			g.gridx += 1;
+		}
+
+		g.gridy = 4;
+		g.gridx = 0;
+		for (int i = 0; i < 7; i++) {
+
+			dayList[i] = new DayListPanel();
+			//dayScroll[i] = new JScrollPane(dayList[i]);
+			add(dayList[i], g);
+			g.gridx += 1;
+
+		}
+
+
 
 		updateWeek();
-		add(weekTable, g);
+
 
 		validate();
+		repaint();
+		revalidate();
 
 	}
 
 
 	private void updateWeek(){
 
-		DefaultTableModel l = new DefaultTableModel();
 		for (int i = 0; i < weekdays.length; i++) {
-			String[] day = new String[1];
-			Integer[] dm= {weeknum, y.weeks.get(weeknum)[i]};
-			System.out.println(weeknum + " " + y.weeks.get(weeknum)[i] + " " + y.dayMonth.get(dm));
-			day[0] = weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)];
-			l.addColumn(weekdays[i], day);
+			String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
+			dayLabels[i].setText("   " + weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)]);
 		}
 
-		weekTable.setModel(l);
+
+		//get all appointments for this week
+
+		for (int i = 0; i < dayList.length; i++) {
+			
+			dayList[i].clearList();
+			for (int j = 0; j < 4; j++) {
+				
+				JButton b = new JButton();
+				b.setLayout(new BorderLayout());
+				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
+				JLabel label2 = new JLabel("From 15:00");
+				JLabel label3 = new JLabel("To 16:40");
+				b.add(BorderLayout.NORTH,label1);
+				b.add(BorderLayout.CENTER, label3);
+				b.add(BorderLayout.SOUTH,label2);
+				dayList[i].addButton(b);
+			}
+	
+
+		}
+
+
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
-
-		weekTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		for (int i = 0; i < weekdays.length; i++) {
-			weekTable.getColumnModel().getColumn(i).setPreferredWidth(100);
-
-		}
 
 	}
 
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
 		frame.add(new WeeklyCalendarPanel());
-		frame.pack();
+		frame.setSize(1000, 700);
+		//frame.pack();
 		frame.setVisible(true);
 
 	}
@@ -125,8 +166,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		int[] weekDays = new int[7];
 		int dayCount = 6;
 		int monthCount = -1;
-		HashMap<Integer[], Integer > dayMonth = new HashMap<Integer[], Integer>();
+		HashMap<String, Integer > dayMonth = new HashMap<String, Integer>();
 		int weekCount = 0;
+		ArrayList<String> keys =  new ArrayList<String>();
 
 		for (int i = 0; i < 12; i++) {
 			for (int j = 0; j < c.getActualMaximum(Calendar.DAY_OF_MONTH); j++) {
@@ -136,38 +178,25 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 				}
 				weekDays[dayCount] = j+1;
 				dayCount += 1;
-				Integer[] h = { weekCount, j+1};
+				String h = String.valueOf(weekCount) + String.valueOf(j+1);
 				dayMonth.put(h, monthCount);
-				System.out.println(h[0] +" " + h[1] + " " + dayMonth.get(h));
 
+				keys.add(h);
 				if (dayCount == 7){
 					dayCount = 0;
 					weeks.add(weekDays);
 					weekDays = new int[7];
 					weekCount += 1;
 				}		
+
 			}
 			month += 1;
 			c.set(year, month, 1);
-			
+
 		}
 		Integer[] x= {12, 19};
-		System.out.println(12 +" " + 19 + " " + dayMonth.get(x));
-		System.out.println("Made calendar");
-		//		String[] months = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"};
-		//		int mCount = -1;
-		//		for (int i = 0; i < weeks.size(); i++) {
-		//
-		//			System.out.println("Week " +(i+1));
-		//			for (int j = 0; j < 7; j++) {
-		//				if(weeks.get(i)[j] == 1){
-		//					mCount += 1;
-		//					System.out.println(months[mCount]);
-		//				}
-		//				System.out.println(weeks.get(i)[j]);
-		//			}
-		//		}
-		return new Year(weeks, dayMonth);
+
+		return new Year(weeks, dayMonth, keys);
 	}
 
 
@@ -186,17 +215,51 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	}
 
 
+
+
 }
 
+/**
+ * @deprecated
+ * @author jorgen
+ *
+ */
+class ButtonCellRenderer implements ListCellRenderer {
+
+	public Component getListCellRendererComponent(final JList list,
+			final Object value, final int index, final boolean isSelected,
+			final boolean cellHasFocus) {
+		return new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+
+				g.setColor(isSelected ? list.getSelectionBackground() : list
+						.getBackground());
+				g.fillRect(0, 0, getWidth(), getHeight());
+				g.setColor(isSelected ? list.getSelectionForeground() : list
+						.getForeground());
+				String text = ((JButton) value).getText();
+				g.drawString(text, 0, 0);
+			}
+
+
+
+		};
+	}
+}
 class Year{
 	public ArrayList<int[]> weeks;
-	public HashMap<Integer[], Integer> dayMonth;
+	public HashMap<String, Integer> dayMonth;
+	public ArrayList<String> keys;
 
 
-	public Year(ArrayList<int[]> weeks, HashMap<Integer[], Integer> dayMonth){
+	public Year(ArrayList<int[]> weeks, HashMap<String, Integer> dayMonth, ArrayList<String> keys){
 		this.weeks = weeks;
 		this.dayMonth = dayMonth;
+		this.keys = keys;
 	}
+
+
 
 
 }
