@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -66,6 +68,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 
 		g.gridx=1;
 		g.gridy=2;
+		passwordField.addKeyListener(new passListen());
 		add(passwordField,g);
 
 		loginBtn = new JButton("Logg inn");
@@ -90,8 +93,25 @@ public class LoginPanel extends JPanel implements ActionListener{
 			array.add(usernameField.getText());
 			array.add(passwordField.getText());
 			gls.notifyListeners(ChangeType.LOGIN, array);
-
 		}
 	}
+	
+	class passListen implements KeyListener { //Listeners.
 
+		public void keyPressed(KeyEvent e)
+		{
+			int key = e.getKeyCode();
+			if (key == KeyEvent.VK_ENTER)
+			{ 
+				ArrayList<Object> array = new ArrayList<Object>();
+				array.add(usernameField.getText());
+				array.add(passwordField.getText());
+				gls.notifyListeners(ChangeType.LOGIN, array);
+			}
+		}
+		public void keyReleased(KeyEvent e){
+		}
+		public void keyTyped(KeyEvent arg0){
+		}
+	}
 }
