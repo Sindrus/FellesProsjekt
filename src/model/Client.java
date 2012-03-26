@@ -1,8 +1,6 @@
 package model;
 
 import gui.ProjectPanel;
-
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 

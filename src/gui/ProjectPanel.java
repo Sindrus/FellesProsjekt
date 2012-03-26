@@ -1,12 +1,8 @@
 package gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
 import model.User;
-
 import util.ChangeType;
 import util.GUIListener;
 
