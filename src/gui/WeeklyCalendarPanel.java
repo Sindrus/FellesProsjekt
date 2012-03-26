@@ -102,9 +102,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		updateWeek();
 
 
-		validate();
-		repaint();
-		revalidate();
+		//validate();
+		//repaint();
+		//revalidate();
 
 	}
 
@@ -122,7 +122,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		for (int i = 0; i < dayList.length; i++) {
 			
 			dayList[i].clearList();
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 10; j++) {
 				
 				JButton b = new JButton();
 				b.setLayout(new BorderLayout());
@@ -247,6 +247,9 @@ class ButtonCellRenderer implements ListCellRenderer {
 		};
 	}
 }
+
+
+
 class Year{
 	public ArrayList<int[]> weeks;
 	public HashMap<String, Integer> dayMonth;
