@@ -652,7 +652,5 @@ public abstract class AbstractConnection implements Connection {
      *            Packet to test.
      * @return true if packet is free of errors, false otherwise.
      */
-    protected boolean checksumCheck(KtnDatagram packet){
-    	return false;
-    }
+    protected abstract boolean checksumCheck(KtnDatagram packet);
 }
