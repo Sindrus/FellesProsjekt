@@ -27,6 +27,8 @@ public class CalendarPanel extends JPanel{
 	
 	JButton newap, logout, vars;
 	private JPanel btntopleftPanel, btntoprightPanel,listPanel,btnbtmPanel;
+	LoginPanel loginPanel;
+	NewPanel newPanel;
 	
 	public CalendarPanel(){
 		
@@ -117,7 +119,11 @@ public class CalendarPanel extends JPanel{
 	
 	class newApp implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			
+			removeAll();
+			newPanel = new NewPanel();
+			add(newPanel);
+			repaint();
+			revalidate();
 		}
 	}
 	
@@ -129,7 +135,11 @@ public class CalendarPanel extends JPanel{
 	
 	class logOut implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			
+			removeAll();
+			loginPanel = new LoginPanel();
+			add(loginPanel);
+			repaint();
+			revalidate();
 		}
 	}
 	

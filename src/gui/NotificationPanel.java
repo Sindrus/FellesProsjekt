@@ -8,6 +8,6 @@ package gui;
  * 
  */
 
-public class InvitesPanel {
+public class NotificationPanel {
 	
 }
