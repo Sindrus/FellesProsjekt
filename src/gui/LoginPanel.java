@@ -30,7 +30,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	public LoginPanel(){
 		
 		gls = new GUIListenerSupport();
-		setBackground(Color.WHITE);
+		setBackground(GConfig.LOGINCOLOR);
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 

@@ -127,7 +127,7 @@ gls = new GUIListenerSupport();
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
-			System.exit(0);
+			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else if(ct==ChangeType.CREATEMEETING || ct==ChangeType.CREATE){
 			saveChanges();
 		}else{
@@ -168,14 +168,14 @@ gls = new GUIListenerSupport();
 		app.setEnd(end);
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame("Appointment");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.add(new EditPanel());
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame("Appointment");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.add(new EditPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 	
 	public void addListener(GUIListener l){
 		gls.add(l);

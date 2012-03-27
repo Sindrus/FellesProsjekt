@@ -4,6 +4,7 @@ package controller;
 
 import gui.*;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -73,6 +74,8 @@ public class GUIController implements GUIListener{
 		System.out.println("Initializing panels");
 
 		pp = new ProjectPanel();
+		//pp.setLayout(new BorderLayout());
+		
 
 		loginPanel = new LoginPanel();
 		loginPanel.addGuiListener(this);
@@ -180,6 +183,7 @@ public class GUIController implements GUIListener{
 			System.out.println("ct = logout");
 			user = null;
 			loggedIn = false;
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
@@ -198,7 +202,7 @@ public class GUIController implements GUIListener{
 			ArrayList a = DBUser.getUserAppointments(user.getId());
 			calendarPanel.wp.setAppointments(a);
 	
-			pp.add(calendarPanel);
+			pp.add(calendarPanel, BorderLayout.CENTER);
 		}
 
 
