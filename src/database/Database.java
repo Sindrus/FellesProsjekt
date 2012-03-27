@@ -58,6 +58,7 @@ public class Database {
 	 */
 	
 	public static ResultSet execute(String sql) throws SQLException{
+		System.out.println(sql);
 		//Establish database connection
 		Connection conn = connectionSetup();
 		
