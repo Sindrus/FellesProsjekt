@@ -52,7 +52,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 	public CalendarPanel(){
 
-		setBackground(Color.PINK);
+		setBackground(Color.DARK_GRAY);
 		gls = new GUIListenerSupport();
 
 		g = new GridBagConstraints();

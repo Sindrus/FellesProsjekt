@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,7 +30,7 @@ public class LoginPanel extends JPanel implements ActionListener{
 	public LoginPanel(){
 		
 		gls = new GUIListenerSupport();
-
+		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 

@@ -55,7 +55,7 @@ public class GUIController implements GUIListener{
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		jf.setContentPane(pp);
 		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
-		jf.getContentPane().setBackground(Color.BLUE);
+		jf.getContentPane().setBackground(Color.DARK_GRAY);
 		jf.setVisible(true);
 
 		notifyGui(ChangeType.LOGOUT, null);

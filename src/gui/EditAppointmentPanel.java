@@ -14,7 +14,7 @@ public class EditAppointmentPanel extends AppointmentPanel {
 	public EditAppointmentPanel() {
 		super();
 		
-		invite.setText("Endre møte");
+		invite.setText("Edit meeting");
 		
 		delete = new JButton("Slett");
 		
