@@ -68,11 +68,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 	public WeeklyCalendarPanel(){
-		
+
 		gls = new GUIListenerSupport();
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
-		
+
 		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
@@ -131,14 +131,14 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public void addGuiListener(GUIListener l){
 		gls.add(l);
 	}
-	
+
 	private void updateWeek(){
 		System.out.println("updating week " + weeknum);
 		for (int i = 0; i < weekdays.length; i++) {
 			String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
 			dayLabels[i].setText("   " + weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)]);
 		}
-		
+
 		firstDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[0]))), (y.weeks.get(weeknum)[0]), 0, 0, 0);
 		lastDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[6]))), (y.weeks.get(weeknum)[6]), 0, 0, 0);
 
@@ -147,17 +147,17 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
 
 	}
-//
-//	public static void main(String args[]) {
-//		JFrame frame = new JFrame();
-//		frame.add(new WeeklyCalendarPanel());
-//		frame.setSize(1000, 700);
-//		//frame.pack();
-//		frame.setVisible(true);
-//
-//	}
+	//
+	//	public static void main(String args[]) {
+	//		JFrame frame = new JFrame();
+	//		frame.add(new WeeklyCalendarPanel());
+	//		frame.setSize(1000, 700);
+	//		//frame.pack();
+	//		frame.setVisible(true);
+	//
+	//	}
 
-	
+
 	public long getLastDay(){
 		return lastDay;
 	}
@@ -221,33 +221,39 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			weeknum += 1;
 			gls.notifyListeners(ChangeType.NEXTWEEK, null);
 		}
+		else{
+			ArrayList<Object> a = new ArrayList<Object>();
+			a.add(e.getSource());
+			gls.notifyListeners(ChangeType.APPBUTTON, a);
+		}
 
 	}
 
 
 	public void setAppointments(ArrayList<Appointment> a) {
+
+		updateWeek();
 		System.out.println("Setting " + a.size() + " appointments");
-		
+
 		for (int i = 0; i < dayList.length; i++) {
-			
+
 			dayList[i].clearList();
+
+
 			for (int j = 0; j < a.size(); j++) {
-				Appointment app = a.get(j);
-				JButton b = new JButton();
-				b.setLayout(new BorderLayout());
-				JLabel label1 = new JLabel(app.getTitle());
-				JLabel label2 = new JLabel("Fra: " + app.getStart());
-				JLabel label3 = new JLabel("Til: " + app.getEnd());
-				b.add(BorderLayout.NORTH,label1);
-				b.add(BorderLayout.CENTER, label3);
-				b.add(BorderLayout.SOUTH,label2);
-				dayList[i].addButton(b);
+				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[j])){
+					Appointment app = a.get(j);
+					AButton b = new AButton(a.get(j));
+					b.addActionListener(this);
+					dayList[i].addButton(b);
+					
+				}
 			}
-	
+
 
 		}
-		updateWeek();
-		
+
+
 	}
 
 

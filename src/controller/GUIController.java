@@ -179,6 +179,14 @@ public class GUIController implements GUIListener{
 			pp.add(loginPanel);
 
 		}
+		
+		//Appointment button called, switching to editPanel for selected appointment
+		else if(ct == ChangeType.APPBUTTON){
+			System.out.println("Appointment button called");
+			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			ep.addListener(this);
+			pp.add(ep);
+		}
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){

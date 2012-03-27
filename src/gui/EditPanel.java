@@ -8,11 +8,14 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.GUIController;
+
 import model.Appointment;
 import model.Meeting;
 import util.ChangeType;
 import util.DateHelpers;
 import util.GUIListener;
+import util.GUIListenerSupport;
 
 /**
  * 
@@ -33,6 +36,7 @@ public class EditPanel extends JPanel implements GUIListener{
 	GridBagConstraints g;
 	private Appointment app;
 	private Meeting meet;
+	private GUIListenerSupport gls;
 	
 	/**
 	 * Constructs an <code>EditPanel</code> based on an appointment
@@ -42,10 +46,11 @@ public class EditPanel extends JPanel implements GUIListener{
 	 * 			Takes <code>Appointment</code> as a parameter so it can populate all fields
 	 */
 	public EditPanel(Appointment app){
+		
 		this();
 		this.app = app;
 		isMeeting = false;
-
+gls = new GUIListenerSupport();
 		editAppointmentPanel.what.setText(app.getTitle());
 
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
@@ -168,5 +173,9 @@ public class EditPanel extends JPanel implements GUIListener{
 		frame.add(new EditPanel());
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void addListener(GUIListener l){
+		gls.add(l);
 	}
 }
