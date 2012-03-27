@@ -181,7 +181,7 @@ public class DBMeeting {
 	 * @return a fully initialized meeting object
 	 */
 	public static Meeting newMeeting(User owner, int roomNumber, long from, long to,
-			 String title, String description){
+			 String title, String description, ArrayList<User> participants){
 
 		int appointmentID = DBAppointment.newAppointment(from, to, title, description).getId();
 
@@ -192,12 +192,23 @@ public class DBMeeting {
 					+ ");";
 		Database.executeUpdate(makeMeetingRef);
 		
-		String makeNotificationRef = "INSERT INTO Varsel(Avtale_ID, Beskrivelse) VALUES "
+		String makeNotificationRef = "INSERT INTO Varsel(Avtale_ID, Beskrivelse) VALUES ("
 									+ appointmentID
 									+ ", '"
 									+ title
 									+ "');";
 		Database.executeUpdate(makeNotificationRef);
+
+		for(User user : participants){
+			String addParticipants = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES ("
+									+ appointmentID
+									+ ", "
+									+ user.getId()
+									+ ", "
+									+ DBNotification.getNotificationID(appointmentID)
+									+ ");";
+			Database.executeUpdate(addParticipants);
+		}
 		
 		try {
 			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);

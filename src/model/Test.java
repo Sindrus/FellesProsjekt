@@ -6,7 +6,11 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		testCreateMeeting();
+		ArrayList<User> list = new ArrayList<User>();
+		User owner = DBUser.newUser("Even Lislebø", "evenlis", "lættis");
+		list.add(DBUser.newUser("Made Ziius", "ziius", "jegerfet"));
+		list.add(DBUser.newUser("Christian Chavez", "chavez", "kult"));
+		Meeting m = DBMeeting.newMeeting(owner, 12, 20120327140000L, 20120327160000L, "Fett møte", "Det blir sykt lol", list);
 
 	}
 	
@@ -35,13 +39,6 @@ public class Test {
 		int success = DBMeeting.deleteMeeting(12, 20120323180000L, 20120323230000L);
 		System.out.println((success==-1 ? "Gikk dritt" : "Gikk fint"));
 		
-	}
-
-	private static void testCreateMeeting(){
-
-		Meeting m = DBMeeting.newMeeting(DBUser.newUser("Made Ziius", "ziius", "jegerfet"), 
-				1337, 20120324100000L, 20120324140000L, "Fet tittel det her ja", "Test av createMeeting");
-
 	}
 
 	private static void testAddRoom(){
