@@ -82,7 +82,7 @@ public class DBMeeting {
 				//The meeting is successfully returned
 				return new Meeting(owner,
 						DBRoom.getRoom(roomNumber), appointment.getId(), appointment.getStart(),
-						appointment.getEnd(), appointment.getDescription());
+						appointment.getEnd(), appointment.getTitle(), appointment.getDescription());
 			}
 			
 		}catch(SQLException e){
@@ -181,16 +181,23 @@ public class DBMeeting {
 	 * @return a fully initialized meeting object
 	 */
 	public static Meeting newMeeting(User owner, int roomNumber, long from, long to,
-			 String description){
+			 String title, String description){
 
-		int appointmentID = DBAppointment.newAppointment(from, to, description).getId();
+		int appointmentID = DBAppointment.newAppointment(from, to, title, description).getId();
 
-		String sql = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES( "
+		String makeMeetingRef = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES( "
 					+ owner.getId()
 					+ ", "
 					+ appointmentID
 					+ ");";
-		Database.executeUpdate(sql);
+		Database.executeUpdate(makeMeetingRef);
+		
+		String makeNotificationRef = "INSERT INTO Varsel(Avtale_ID, Beskrivelse) VALUES "
+									+ appointmentID
+									+ ", '"
+									+ title
+									+ "');";
+		Database.executeUpdate(makeNotificationRef);
 		
 		try {
 			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
@@ -234,6 +241,46 @@ public class DBMeeting {
 			e.printStackTrace();
 		}
 		return list;
+		
+	}
+	
+	/**
+	 * Changes the participants of the given meeting
+	 * 
+	 * @param appointmentID
+	 * @param oldParticipants
+	 * 			An <code>ArrayList</code> containing the participants that used
+	 * 			to be partaking in the meeting
+	 * @param newParticipants
+	 * 			An <code>ArrayList</code> containing the participants that are 
+	 * 			now partaking in the meeting
+	 * @return <code>1</code> if the update was successful; otherwise <code>-1</code>
+	 */
+	public static int changeParticipants(int appointmentID, ArrayList<User> oldParticipants, ArrayList<User> newParticipants){
+		
+		int successfulDeletion = -1;
+		for(User user : oldParticipants){
+			String delete = "DELETE FROM Deltaker WHERE Avtale_ID = "
+							+ appointmentID
+							+ " AND Bruker_ID = "
+							+ user.getId()
+							+ ";";
+			successfulDeletion = Database.executeUpdate(delete);
+		}
+		
+		int successfulInsertion = -1;
+		for(User user : newParticipants){
+			String insert = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES("
+							+ appointmentID
+							+ ", "
+							+ user.getId()
+							+ ", "
+							+ DBNotification.getNotificationID(appointmentID)
+							+ ");";
+			successfulInsertion = Database.executeUpdate(insert);
+		}
+		
+		return (successfulDeletion>-1 && successfulInsertion>0 ? 1 : -1);
 		
 	}
 	

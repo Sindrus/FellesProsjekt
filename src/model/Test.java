@@ -6,7 +6,7 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		testGetInvitedUsers();
+		testCreateMeeting();
 
 	}
 	
@@ -39,7 +39,8 @@ public class Test {
 
 	private static void testCreateMeeting(){
 
-		Meeting m = DBMeeting.newMeeting(new User("Made Ziius", "ziius"), 1337, 20120324100000L, 20120324140000L, "Test av createMeeting");
+		Meeting m = DBMeeting.newMeeting(DBUser.newUser("Made Ziius", "ziius", "jegerfet"), 
+				1337, 20120324100000L, 20120324140000L, "Fet tittel det her ja", "Test av createMeeting");
 
 	}
 

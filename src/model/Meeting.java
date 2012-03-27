@@ -90,9 +90,9 @@ public class Meeting extends Appointment{
 	 * 			A textual description of the meeting
 	 */
 	public Meeting(User owner, Room room, int id, 
-			Timestamp start, Timestamp end, String description){
+			Timestamp start, Timestamp end, String title, String description){
 		
-		super(id, start, end, description);
+		super(id, start, end, title, description);
 		this.owner = owner;
 		this.room = room;
 	}

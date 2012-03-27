@@ -35,7 +35,7 @@ public class DBAppointment {
 	 */
 	public static Appointment getAppointment(int appointmentID){
 
-		String sql = "SELECT ID, Tid_start, Tid_slutt, Beskrivelse FROM Avtale WHERE Avtale.ID = "
+		String sql = "SELECT ID, Tid_start, Tid_slutt, Tittel, Beskrivelse FROM Avtale WHERE Avtale.ID = "
 			+ appointmentID + ";";
 		try{
 
@@ -45,8 +45,9 @@ public class DBAppointment {
 				int id = results.getInt("ID");
 				Timestamp start = results.getTimestamp("Tid_start");
 				Timestamp end = results.getTimestamp("Tid_slutt");
+				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
-				return new Appointment(id, start, end, desc);
+				return new Appointment(id, start, end, title, desc);
 
 			}
 
@@ -72,14 +73,16 @@ public class DBAppointment {
 	 * @return a fully initialized <code>Appointment</code> object for the new
 	 *  		appointment
 	 */
-	public static Appointment newAppointment(long start, long end, String desc){
+	public static Appointment newAppointment(long start, long end, String title, String desc){
 
-		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Beskrivelse)" +
+		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Tittel, Beskrivelse)" +
 		" VALUES (" 
 		+ start
 		+ ", "
 		+ end
 		+ ", '"
+		+ title
+		+ "', '"
 		+ desc
 		+ "');";
 
@@ -137,8 +140,9 @@ public class DBAppointment {
 				int id = results.getInt("ID");
 				Timestamp start = results.getTimestamp("Tid_start");
 				Timestamp end = results.getTimestamp("Tid_slutt");
+				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
-				list.add(new Appointment(id, start, end, desc));
+				list.add(new Appointment(id, start, end, title, desc));
 				
 			}
 			
@@ -170,6 +174,26 @@ public class DBAppointment {
 					+ newTimeFrom
 					+ ", Tid_slutt="
 					+ newTimeTo
+					+ " WHERE ID = "
+					+ appointmentID
+					+ ";";
+		
+		return Database.executeUpdate(sql);
+		
+	}
+	
+	/**
+	 * Changes the description of the given appointment
+	 * 
+	 * @param appointmentID
+	 * @param newDescription
+	 * @return a positive <code>int</code> if the update was successful;
+	 * 			otherwise <code>-1</code>
+	 */
+	public static int changeAppointmentDescription(int appointmentID, String newDescription){
+		
+		String sql = "UPDATE Avtale set Beskrivelse = "
+					+ newDescription
 					+ " WHERE ID = "
 					+ appointmentID
 					+ ";";

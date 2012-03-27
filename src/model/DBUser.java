@@ -53,6 +53,14 @@ public class DBUser {
 		
 	}
 	
+	/**
+	 * Creates a new user in the database with the provided information
+	 * 
+	 * @param name
+	 * @param username
+	 * @param password
+	 * @return a fully initialized User object
+	 */
 	public static User newUser(String name, String username, String password){
 		
 		String sql = "INSERT INTO Bruker(Navn, Brukernavn, Passord) VALUES('"

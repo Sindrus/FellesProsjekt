@@ -8,7 +8,7 @@ public class Appointment {
 	protected Timestamp start;
 	protected Timestamp end;
 	protected String description;
-	protected String what;
+	protected String title;
 
 	/**
 	 * Constructs an <code>Appointment</code> object with the submitted 
@@ -22,20 +22,21 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	public Appointment(int id, Timestamp start, Timestamp end, String description){
+	public Appointment(int id, Timestamp start, Timestamp end, String title, String description){
 		
 		this.id = id;
 		this.start = start;
 		this.end = end;
+		this.title = title;
 		this.description = description;
 		
 	}
 	
-	public void setWhat(String what){
-		this.what = what;
+	public void setTitle(String what){
+		this.title = what;
 	}
-	public String getWhat(){
-		return what;
+	public String getTitle(){
+		return title;
 	}
 	
 	public Timestamp getStart() {
