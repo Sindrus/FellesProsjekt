@@ -139,9 +139,9 @@ public class DBUser {
 	
 	public static User getUser(String username){
 		
-		String sql = "SELECT * FROM Bruker WHERE Brukernavn = "
+		String sql = "SELECT * FROM Bruker WHERE Brukernavn = '"
 					+ username
-					+ ";";
+					+ "';";
 		
 		try {
 			ResultSet results = Database.execute(sql);
