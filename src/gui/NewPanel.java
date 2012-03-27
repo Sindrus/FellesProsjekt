@@ -2,24 +2,22 @@ package gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.util.Collections;
-
-import java.sql.Timestamp;
 
 import model.Appointment;
 import model.DBAppointment;
 import model.DBMeeting;
 import model.Meeting;
 import model.User;
-
 import util.ChangeType;
+import util.DateHelpers;
 import util.GUIListener;
 import util.GUIListenerSupport;
 
@@ -122,10 +120,10 @@ public class NewPanel extends JPanel implements GUIListener{
 		Timestamp startTimestamp = new Timestamp(0);
 		Timestamp endTimestamp = new Timestamp(0);
 		
-		startTimestamp.setTime(getMillitime(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
+		startTimestamp.setTime(DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
 				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0));
 		
-		endTimestamp.setTime(getMillitime(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
+		endTimestamp.setTime(DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
 				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1],0));
 		
 		int roomNumber = newMeetingPanel.getRoomNumber();
@@ -133,7 +131,8 @@ public class NewPanel extends JPanel implements GUIListener{
 		if(!isMeeting){
 			System.out.println("Lager avtale");
 
-			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
+			System.out.println(startTimestamp.getTime());
+			app = DBAppointment.newAppointment(user.getId(), startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
