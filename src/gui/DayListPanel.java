@@ -33,7 +33,6 @@ public class DayListPanel extends JPanel{
 		add(buttons.get(buttons.size()-1));
 
 		
-		
 		y += 1;
 	}
 	

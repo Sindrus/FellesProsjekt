@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import model.DBUser;
 import model.User;
 import util.ChangeType;
 import util.GUIListener;
@@ -135,8 +136,7 @@ public class GUIController implements GUIListener{
 
 			//Here there should be a call to Database for user matching the username. 
 			//Place user in this variable and call validate Login on it.
-			user = new User();
-
+			user = DBUser.getUser((String)list.get(0));
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
