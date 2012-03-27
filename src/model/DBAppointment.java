@@ -43,8 +43,12 @@ public class DBAppointment {
 			while(results.next()){
 
 				int id = results.getInt("ID");
-				long start = Long.parseLong(results.getTimestamp("Tid_start").toString());
-				long end = Long.parseLong(results.getTimestamp("Tid_slutt").toString());
+				String timeFrom = results.getTimestamp("Tid_start").toString();
+				timeFrom = timeFrom.replaceAll("[- :.]", "");
+				String timeTo = results.getTimestamp("Tid_slutt").toString();
+				timeTo = timeTo.replaceAll("[- :.]", "");
+				long start = Long.parseLong(timeFrom.substring(0, timeFrom.length()-1));
+				long end = Long.parseLong(timeTo.substring(0, timeFrom.length()-1));
 				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
 				return new Appointment(id, start, end, title, desc);

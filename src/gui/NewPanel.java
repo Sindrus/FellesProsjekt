@@ -123,8 +123,6 @@ public class NewPanel extends JPanel implements GUIListener{
 		System.out.println("22222222222222ØÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆSAFASDHJFBWIAFCIASJNFØLAÆFASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
 				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
-		System.out.println(DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
-				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1]));
 		
 		endTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
 				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1]);

@@ -106,10 +106,6 @@ public class DateHelpers {
 		
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(DateHelpers.convertToTimestamp(2012, 03, 28, 14));
-	}
-	
 	/**
 	 * Formats an int to have leading zeros if it should
 	 * @param input

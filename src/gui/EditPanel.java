@@ -53,12 +53,12 @@ public class EditPanel extends JPanel implements GUIListener{
 		
 		
 	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
-		editAppointmentPanel.startDay.setSelectedItem(app.getStart().getDay());
-		editAppointmentPanel.startMonth.setSelectedIndex(app.getStart().getMonth());
-		editAppointmentPanel.startYear.setText(Integer.toString(app.getStart().getYear()));
-		editAppointmentPanel.endDay.setSelectedItem(app.getEnd().getDay());
-		editAppointmentPanel.endMonth.setSelectedIndex(app.getEnd().getMonth());
-		editAppointmentPanel.endYear.setText(Integer.toString(app.getEnd().getYear()));
+		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
+		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
+		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
+		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
+		editAppointmentPanel.endMonth.setSelectedIndex(endValues.get("month"));
+		editAppointmentPanel.endYear.setText(Integer.toString(endValues.get("year")));
 		editAppointmentPanel.description.setText(app.getDescription());
 	}
 	
@@ -68,14 +68,17 @@ public class EditPanel extends JPanel implements GUIListener{
 		isMeeting = true;
 
 		editAppointmentPanel.what.setText(app.getTitle());
-
+		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
+		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
+		
+		
 	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
-		editAppointmentPanel.startDay.setSelectedItem(app.getStart().getDay());
-		editAppointmentPanel.startMonth.setSelectedIndex(app.getStart().getMonth());
-		editAppointmentPanel.startYear.setText(Integer.toString(app.getStart().getYear()));
-		editAppointmentPanel.endDay.setSelectedItem(app.getEnd().getDay());
-		editAppointmentPanel.endMonth.setSelectedIndex(app.getEnd().getMonth());
-		editAppointmentPanel.endYear.setText(Integer.toString(app.getEnd().getYear()));
+		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
+		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
+		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
+		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
+		editAppointmentPanel.endMonth.setSelectedIndex(endValues.get("month"));
+		editAppointmentPanel.endYear.setText(Integer.toString(endValues.get("year")));
 		editAppointmentPanel.description.setText(app.getDescription());
 		
 		
@@ -127,21 +130,21 @@ public class EditPanel extends JPanel implements GUIListener{
 	}
 	
 	public void saveChanges(){
-		Timestamp startTimestamp = new Timestamp(0);
-		Timestamp endTimestamp = new Timestamp(0);
+		long startTimestamp = 0L;
+		long endTimestamp = 0L;
 		
-		startTimestamp.setTime(NewPanel.getMillitime(editAppointmentPanel.getStartYear(), NewPanel.getMonthNumber(editAppointmentPanel.getStartMonth()), 
-				editAppointmentPanel.getStartDay(), editAppointmentPanel.getStartTime()[0], editAppointmentPanel.getStartTime()[1],0));
+		startTimestamp = DateHelpers.convertToTimestamp(editAppointmentPanel.getStartYear(), NewPanel.getMonthNumber(editAppointmentPanel.getStartMonth()), 
+				editAppointmentPanel.getStartDay(), editAppointmentPanel.getStartTime()[0], editAppointmentPanel.getStartTime()[1]);
 		
-		endTimestamp.setTime(NewPanel.getMillitime(editAppointmentPanel.getEndYear(),NewPanel.getMonthNumber(editAppointmentPanel.getEndMonth()),
-				editAppointmentPanel.getEndDay(), editAppointmentPanel.getEndTime()[0], editAppointmentPanel.getEndTime()[1],0));
+		endTimestamp = DateHelpers.convertToTimestamp(editAppointmentPanel.getEndYear(),NewPanel.getMonthNumber(editAppointmentPanel.getEndMonth()),
+				editAppointmentPanel.getEndDay(), editAppointmentPanel.getEndTime()[0], editAppointmentPanel.getEndTime()[1]);
 		
 		if(isMeeting)
 			saveMeeting(startTimestamp,endTimestamp);
 		else
 			saveAppointment(startTimestamp,endTimestamp);
 	}
-	private void saveMeeting(Timestamp start, Timestamp end){
+	private void saveMeeting(long start, long end){
 		meet.setDescription(editAppointmentPanel.getDesc());
 		meet.setTitle(editAppointmentPanel.getWhat());
 		meet.setStart(start);
@@ -151,7 +154,7 @@ public class EditPanel extends JPanel implements GUIListener{
 		meet.setParticipants(editMeetingPanel.getSelectedParticipants());
 		
 	}
-	private void saveAppointment(Timestamp start, Timestamp end){
+	private void saveAppointment(long start, long end){
 		app.setDescription(editAppointmentPanel.getDesc());
 		app.setTitle(editAppointmentPanel.getWhat());
 		app.setStart(start);
