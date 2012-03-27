@@ -56,9 +56,10 @@ gls = new GUIListenerSupport();
 
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
 		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
-		
-		
-	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
+		System.out.println("_______________________");
+		System.out.println(app.getId());
+		System.out.println(app.getStart());
+		System.out.println(app.getEnd());
 		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
 		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
 		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
