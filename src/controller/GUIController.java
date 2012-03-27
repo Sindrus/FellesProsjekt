@@ -39,6 +39,7 @@ public class GUIController implements GUIListener{
 	private CalendarPanel calendarPanel;
 	private NewPanel newPanel;
 	private User user;
+	private GridBagConstraints g;
 
 
 
@@ -55,7 +56,7 @@ public class GUIController implements GUIListener{
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		jf.setContentPane(pp);
-		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
+//		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
 		jf.getContentPane().setBackground(Color.DARK_GRAY);
 		jf.setVisible(true);
 
@@ -72,9 +73,13 @@ public class GUIController implements GUIListener{
 	 */
 	private void startPanels(){
 		System.out.println("Initializing panels");
-
+		
+		g = new GridBagConstraints();
+		g.weightx = 1;
+		g.weighty = 1;
+		g.fill = GridBagConstraints.BOTH;
 		pp = new ProjectPanel();
-		//pp.setLayout(new BorderLayout());
+		pp.setLayout(new GridBagLayout());
 		
 
 		loginPanel = new LoginPanel();
@@ -131,7 +136,7 @@ public class GUIController implements GUIListener{
 		//If user in
 		if (!loggedIn){
 			System.out.println("not logged in");
-			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
+//			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
@@ -159,8 +164,8 @@ public class GUIController implements GUIListener{
 		else if(ct == ChangeType.CALENDAR){
 			System.out.println("adding calendar");
 
-			calendarPanel.setPreferredSize(
-					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
+//			calendarPanel.setPreferredSize(
+//					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
 
 			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
 			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
@@ -211,7 +216,7 @@ public class GUIController implements GUIListener{
 			System.out.println("ct = newApp");
 
 			newPanel = new NewPanel();
-			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
+//			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
 			newPanel.addGuiListener(this);
 			newPanel.setUser(this.user);
 			pp.add(newPanel);

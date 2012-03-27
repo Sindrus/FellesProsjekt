@@ -95,7 +95,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		}else if(ct==ChangeType.CREATEMEETING){
 			gls.notifyListeners(ct, null);
 		}else if(ct==ChangeType.CREATE){
-			System.out.println("11111111111111111ØÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆSAFASDHJFBWIAFCIASJNFØLAÆFASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
+			System.out.println("11111111111111111ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SAFASDHJFBWIAFCIASJNFï¿½LAï¿½FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 			saveData();
 			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else{
@@ -120,7 +120,7 @@ public class NewPanel extends JPanel implements GUIListener{
 	private void saveData(){
 		long startTimestamp = 0L;
 		long endTimestamp = 0L;
-		System.out.println("22222222222222ØÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆSAFASDHJFBWIAFCIASJNFØLAÆFASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
+		System.out.println("22222222222222ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SAFASDHJFBWIAFCIASJNFï¿½LAï¿½FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
 				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
 		
@@ -183,14 +183,14 @@ public class NewPanel extends JPanel implements GUIListener{
 		return -1;
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame("Appointment");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.add(new NewPanel());
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame("Appointment");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.add(new NewPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 	
 	public void setUser(User u){
 		this.user = u;

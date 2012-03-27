@@ -72,6 +72,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		gls = new GUIListenerSupport();
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
+		
 		g.weightx = 20;
 
 		g.fill = GridBagConstraints.HORIZONTAL;
