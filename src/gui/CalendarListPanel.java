@@ -75,6 +75,10 @@ public class CalendarListPanel extends JPanel {
 		
 	}
 	
+	public void populateCalendarList(){
+		
+	}
+	
 //	public static void main(String args[]) {
 //		JFrame frame = new JFrame();
 //		frame.add(new CalendarListPanel());

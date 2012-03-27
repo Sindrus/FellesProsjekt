@@ -116,9 +116,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 		g.gridx = 0;
 		g.gridy = 1;
-<<<<<<< HEAD
 //		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
-=======
 		InvitationListPanel il = new InvitationListPanel();
 		il.setBackground(GConfig.LISTCOLOR);
 		listPanel.add(il, g);
@@ -126,7 +124,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		g.gridx = 0;
 		g.gridy = 1;
 		//listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
->>>>>>> 27bc77ab5fb7623e5fe818b1cf0222fa4278892e
 		add(listPanel, g);
 		//end the two lists.
 		
@@ -151,17 +148,9 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 		
 		//Bottom Button Panel
-<<<<<<< HEAD
-		g.anchor = GridBagConstraints.CENTER;
-		btntoprightg.anchor = GridBagConstraints.SOUTHWEST;
-
-		btntoprightg.gridx = 0;
-		btntoprightg.gridy = 0;
-=======
 		g.anchor = GridBagConstraints.SOUTHWEST;
 		g.gridx = 0;
 		g.gridy = 3;
->>>>>>> 27bc77ab5fb7623e5fe818b1cf0222fa4278892e
 		vars.addActionListener(this);
 		add(vars,g);
 		//end bottom panel
