@@ -27,6 +27,8 @@ import util.GUIListenerSupport;
  * Skal inneholde 3 paneler: Innkalinger, ukekalender og kalenderliste
  * Skal kunne lage en ny JFrame som inneholder et varselpanel
  * 
+ * Bygger Kalender viewet som inneholder ukekalender, kalenderliste og liste over innkallinger. Sender all sin informasjon til GUIController
+ * 
  *  CalendarListPanel
  *  WeeklyCalendarPanel
  *  InvitesPanel
@@ -91,6 +93,11 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		buildCalendarPanel();
 	}
 
+	
+	
+	
+	
+	
 	public void buildCalendarPanel(){
 		//New Appointment.
 

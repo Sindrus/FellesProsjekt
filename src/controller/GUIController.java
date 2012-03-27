@@ -33,6 +33,11 @@ public class GUIController implements GUIListener{
 	private NewPanel newPanel;
 	private User user;
 
+
+
+	/**
+	 * Initializes the GUI and frame, then calls ChangePanel with no input to open the loginPanel.
+	 */
 	public GUIController(){
 		System.out.println("Starting GuiController");
 
@@ -47,10 +52,17 @@ public class GUIController implements GUIListener{
 		jf.getContentPane().setBackground(Color.BLUE);
 		jf.setVisible(true);
 
-		changePanel("");
+		notifyGui(ChangeType.LOGOUT, null);
+		
 		System.out.println("GuiController made");
 	}
 
+
+
+
+	/**
+	 * Initializes all the panels, and adds listeners.
+	 */
 	private void startPanels(){
 		System.out.println("Initializing panels");
 
@@ -66,64 +78,36 @@ public class GUIController implements GUIListener{
 	}
 
 
+
+
+
 	/**
-	 * Changes the content of ProjectPanel to the specified JPanel.<p>
+	 * This method is located in GUIController, and handles all input from the GUI panels. 
+	 * Changes the content of ProjectPanel to the specified JPanel.
 	 * 
-	 * @param panel
-	 * <p>"calendar" opens the CalendarPanel.
+	 * @param ct
+	 * ct is used to specify the type of event that occurred in the gui panel. 
+	 * If an existing ChangeType exists that describes your purpose, use that. 
+	 * If not, add it to the ChangeType class and fill in the description here.
+	 * 
+	 * @param list
+	 * The arrayList parameter list is used to pass any information related to the GUI event. 
+	 * If there is no information to be passed, this parameter can be set to "null". 
+	 * You do not need to make an empty array List. 
+	 * What the list indexes contain are described below, 
+	 * where L1 means list.get(1), L0 means list.get(0) and so on.
+	 * 
+	 * <p> ChangeTypes currently accepted are:
+	 * <p> LOGIN 	- L0 = username, L1 = password	-	Retrieves the user from DB, then tries to log in. If successful, open calendar.
+	 * <p> LOGOUT	- list = null	-	Sets user and LoggedIn to null, opens LoginPanel.
+	 * <p> NEWAPP	- list = null	-	Opens NewPanel after button is clicked in CalendarPanel.
+	 *
 	 */
-	public void changePanel(String panel){
-
-		pp.removeAll();
-
-		if (!loggedIn){
-			System.out.println("not logged in");
-			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
-			pp.add(loginPanel);
-
-		}
-
-		else if(panel.equals("calendar")){
-			System.out.println("adding calendar");
-			//calendarPanel.setMinimumSize(new Dimension(3000, 3000));
-			calendarPanel.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
-			//calendarPanel.setMaximumSize(new Dimension(3000, 3000));
-			pp.add(calendarPanel);
-
-		}
-
-		else if(panel.equals("logout")){
-			System.out.println("adding loginPanel");
-			loggedIn = false;
-			pp.add(loginPanel);
-
-		}
-
-		else if (panel.equals("newapp")){
-			System.out.println("adding newPanel");
-			newPanel = new NewPanel();
-			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
-			newPanel.addGuiListener(this);
-			pp.add(newPanel);
-		}
-
-		else{
-			System.out.println("panel did not match");
-			pp.add(calendarPanel);
-
-		}
-		
-		pp.validate();
-		pp.revalidate();
-		pp.repaint();
-
-
-	}
-
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		System.out.println("Notifying GUI: " + ct);
 
+		//Lists all the items of list for debugging.
 		if(list != null){
 
 			for (int i = 0; i < list.size(); i++) {
@@ -132,35 +116,77 @@ public class GUIController implements GUIListener{
 		}
 
 
+		pp.removeAll();
+
+
+		//If user in
+		if (!loggedIn){
+			System.out.println("not logged in");
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
+			pp.add(loginPanel);
+
+		}
+
+
+
+		// Attempts to log the user in using list.get(0) as Username and list.get(1) as password. 
 		if(ct == ChangeType.LOGIN){
 			System.out.println("Ct = login");
+
+			//Here there should be a call to Database for user matching the username. 
+			//Place user in this variable and call validate Login on it.
 			user = new User();
 
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
-				changePanel("calendar");
+				notifyGui(ChangeType.CALENDAR, null);
 			}
 		}
 
+
+		
+		//Opens the calendarPanel
+		else if(ct == ChangeType.CALENDAR){
+			System.out.println("adding calendar");
+			//calendarPanel.setMinimumSize(new Dimension(3000, 3000));
+			calendarPanel.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
+			//calendarPanel.setMaximumSize(new Dimension(3000, 3000));
+			pp.add(calendarPanel);
+		}
+
+		
+		
+		// Logout button pressed in CalendarPanel. Log user out and return to LoginPanel.
 		else if(ct == ChangeType.LOGOUT){
 			System.out.println("ct = logout");
 			user = null;
-
-			changePanel("logout");
+			loggedIn = false;
+			pp.add(loginPanel);
 
 		}
-		
+
+
+		// New appointment button clicked in Calendar Panel. Change view to newPanel.
 		else if(ct == ChangeType.NEWAPP){
 			System.out.println("ct = newApp");
-			changePanel("newapp");
-			
+	
+			newPanel = new NewPanel();
+			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
+			newPanel.addGuiListener(this);
+			pp.add(newPanel);
+
 		}
-		
+
 		else{
 			System.out.println("ChangeType not recognized");
 
 		}
+
+
+		pp.validate();
+		pp.revalidate();
+		pp.repaint();
 	}
 
 
