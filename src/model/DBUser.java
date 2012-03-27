@@ -137,4 +137,26 @@ public class DBUser {
 		
 	}
 	
+	public static User getUser(String username){
+		
+		String sql = "SELECT * FROM Bruker WHERE Brukernavn = "
+					+ username
+					+ ";";
+		
+		try {
+			ResultSet results = Database.execute(sql);
+			if(results.next()){
+				String name = results.getString("Navn");
+				String password = results.getString("Passord");
+				int id = results.getInt("ID");
+				return new User(id, name, username, password);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
 }

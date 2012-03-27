@@ -45,12 +45,19 @@ public class User {
 	 * @param username
 	 * 			The user's username
 	 */
-	public User(int id, String name, String username){
+	public User(int id, String name, String username, String password){
 		
 		this.name = name;
 		this.username = username;
 		this.id = id;
+		this.password = password;
 		
+	}
+	
+	public User(int id, String name, String username){
+		this.name = name;
+		this.id = id;
+		this.username = username;
 	}
 	
 	/**
