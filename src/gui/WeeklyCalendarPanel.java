@@ -73,7 +73,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
 		
-		setBackground(Color.WHITE);
+		g.weightx = 20;
+
+		g.fill = GridBagConstraints.NONE;
+		
+		setBackground(GConfig.WEEKLYCOLOR);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
@@ -98,8 +102,10 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			g.gridx += 1;
 		}
 
-		g.gridy = 4;
+		g.gridy = 5;
 		g.gridx = 0;
+		g.fill = GridBagConstraints.BOTH;
+		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
@@ -116,7 +122,20 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		}
 
+		g.gridy = 4;
+		for (int i = 0; i < 7; i++) {
+			g.gridx = i;
+			JLabel l = new JLabel("________________________");
+			//add(l,g);
+			
+		}
 
+		
+		for (int i = 0; i < 3; i++) {
+			g.gridy = i;
+			JLabel l = new JLabel("|");
+
+		}
 
 		updateWeek();
 
@@ -241,14 +260,22 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 			for (int j = 0; j < a.size(); j++) {
-
-				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])){
+				int x = 0;
+				String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
+				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])
+						&& DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("month") == y.dayMonth.get(dm)){
 					Appointment app = a.get(j);
 					AButton b = new AButton(a.get(j));
 					b.addActionListener(this);
 					dayList[i].addButton(b);
-					
+					x += 1;
 				}
+				
+//				if(x== 0){
+//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
+//					b.setVisible(false);
+//					dayList[i].addButton(b);
+//				}
 			}
 
 

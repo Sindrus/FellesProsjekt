@@ -40,11 +40,11 @@ import util.GUIListenerSupport;
 public class CalendarPanel extends JPanel implements GUIListener, ActionListener{
 
 	JButton newap, logout, vars, close;
-	private JPanel btntopleftPanel, btntoprightPanel,listPanel,btnbtmPanel;
+	private JPanel listPanel;
 	LoginPanel loginPanel;
 	NewPanel newPanel;
 	JFrame f;
-	GridBagConstraints g, btntopleftg, btntoprightg, lisg, btnbtmg;
+	GridBagConstraints g;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
 	public WeeklyCalendarPanel wp;
 	GUIListenerSupport gls;
@@ -52,46 +52,29 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 	public CalendarPanel(){
 
-		setBackground(Color.DARK_GRAY);
+		setBackground(GConfig.CALENDARCOLOR);
+		
 		gls = new GUIListenerSupport();
 
+		
 		g = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		g.insets = new Insets(5, 5, 5, 5);
 		g.weightx = 0.5;
 		g.weighty = 0.5;
-
-		//New Appointment.
-		btntopleftPanel = new JPanel();
-		btntopleftg = new GridBagConstraints();
-
+		g.fill = GridBagConstraints.BOTH;
+	
+		
 		newap = new JButton("Ny Avtale");
-
-		//end the AppointmentButton.
-
-		//Logout.
-		btntoprightPanel = new JPanel();
-		btntoprightg = new GridBagConstraints();
-
 		logout = new JButton("Log ut");
-		//finish logout.
-
-		//CalendarListPanel and InvitationListPanel
-		listPanel = new JPanel(new GridBagLayout());
-		lisg = new GridBagConstraints();
-		lisg.insets = new Insets(5, 5, 5, 5);
-
-		//end the two lists.
-
-		//WeeklyCalendar
-
-		//Bottom Button Panel
-		btnbtmPanel = new JPanel(new GridBagLayout());
-		btnbtmg = new GridBagConstraints();
-
 		vars = new JButton("Varslinger");
 
-		//Varslinger.
+		listPanel = new JPanel(new GridBagLayout());
+
+		listPanel.setBackground(GConfig.LISTCOLOR);
+		vars.setBackground(GConfig.VARSELCOLOR);
+		logout.setBackground(GConfig.LOGOUTCOLOR);
+
 		buildCalendarPanel();
 	}
 
@@ -101,55 +84,54 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	
 	
 	public void buildCalendarPanel(){
+		
 		//New Appointment.
-
-
-
-		btntopleftg.anchor = GridBagConstraints.NORTHWEST;
-
-		btntopleftg.gridx = 0;
-		btntopleftg.gridy = 0;
-		newap.addActionListener(this);
-		newap.setBackground(Color.GREEN);
-		btntopleftPanel.add(newap,btntopleftg);
-
-		//end the AppointmentButton.
-
+		g.anchor = GridBagConstraints.NORTHWEST;
 		g.gridx = 0;
 		g.gridy = 0;
-		add(btntopleftPanel, g);
+		newap.addActionListener(this);
+		newap.setBackground(Color.GREEN);
+		add(newap,g);
+		//end the AppointmentButton.
+
 
 		//Logout.
-		btntoprightg.anchor = GridBagConstraints.NORTHEAST;
-
-		btntoprightg.gridx = 0;
-		btntoprightg.gridy = 0;
+		g.anchor = GridBagConstraints.NORTHEAST;
+		g.gridx = 3;
+		g.gridy = 0;
 		logout.addActionListener(this);
-		btntoprightPanel.add(logout,btntopleftg);
+		add(logout,g);
 		//finish logout.
 
-		g.gridx = 2;
-		g.gridy = 0;
-		add(btntoprightPanel, g);
 
 
 		//CalendarListPanel and InvitationListPanel
-		lisg.anchor = GridBagConstraints.NORTHWEST;
+		g.anchor = GridBagConstraints.NORTHWEST;
+		g.fill = GridBagConstraints.BOTH;
+		g.gridx = 0;
+		g.gridy = 0;
+		CalendarListPanel cl = new CalendarListPanel();
+		cl.setBackground(GConfig.LISTCOLOR);
+		listPanel.add(cl, g);
 
-		lisg.gridx = 0;
-		lisg.gridy = 0;
-		listPanel.add(new CalendarListPanel(), lisg);
-
-		lisg.gridx = 0;
-		lisg.gridy = 1;
-		listPanel.add(new InvitationListPanel(), lisg);
-
-		//end the two lists.
 		g.gridx = 0;
 		g.gridy = 1;
+<<<<<<< HEAD
 //		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
+=======
+		InvitationListPanel il = new InvitationListPanel();
+		il.setBackground(GConfig.LISTCOLOR);
+		listPanel.add(il, g);
+		
+		g.gridx = 0;
+		g.gridy = 1;
+		//listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
+>>>>>>> 27bc77ab5fb7623e5fe818b1cf0222fa4278892e
 		add(listPanel, g);
-
+		//end the two lists.
+		
+		
+		
 		//WeeklyCalendar
 		g.gridx = 1;
 		g.gridy = 1;
@@ -167,20 +149,25 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		add(wp, g);
 		//finish.
 
+		
 		//Bottom Button Panel
+<<<<<<< HEAD
 		g.anchor = GridBagConstraints.CENTER;
 		btntoprightg.anchor = GridBagConstraints.SOUTHWEST;
 
 		btntoprightg.gridx = 0;
 		btntoprightg.gridy = 0;
-		vars.addActionListener(this);
-		btnbtmPanel.add(vars,btnbtmg);
-
-		//Varslinger.
+=======
+		g.anchor = GridBagConstraints.SOUTHWEST;
 		g.gridx = 0;
-		g.gridy = 2;
-		add(btnbtmPanel, g);
+		g.gridy = 3;
+>>>>>>> 27bc77ab5fb7623e5fe818b1cf0222fa4278892e
+		vars.addActionListener(this);
+		add(vars,g);
+		//end bottom panel
 
+
+		
 		revalidate();
 	}
 
@@ -246,7 +233,14 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 			g.gridy = 1;  // Close Button.
 			close = new JButton("Lukk");
-			close.addActionListener(new Close());
+			close.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					f.dispose();
+					
+				}
+			});
 			ntf.add(close,g);
 
 			f.add(ntf);

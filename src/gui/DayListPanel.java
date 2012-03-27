@@ -17,23 +17,27 @@ import javax.swing.*;
 public class DayListPanel extends JPanel{
 
 	private ArrayList<JButton> buttons = new ArrayList<JButton>();
+	private GridBagConstraints g;
+	
 
-
-	private  int y = 0;
 	
 	public DayListPanel(){
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		setBackground(Color.BLACK);
+		g = new GridBagConstraints();
+		g.gridy = 0;
+		g.weightx = 1;
+		g.fill = GridBagConstraints.HORIZONTAL;
+		setLayout(new GridBagLayout());
+		setBackground(Color.WHITE);
 		
 	}
 	
 	public void addButton(JButton b){
 		buttons.add(b);
-
-		add(buttons.get(buttons.size()-1));
-
 		
-		y += 1;
+		add(buttons.get(buttons.size()-1), g);
+		g.gridy += 1;
+		
+
 	}
 	
 	public void clearList(){
