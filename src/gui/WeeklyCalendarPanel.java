@@ -125,24 +125,24 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		//get all appointments for this week
 
-		for (int i = 0; i < dayList.length; i++) {
-			
-			dayList[i].clearList();
-			for (int j = 0; j < 20; j++) {
-				
-				JButton b = new JButton();
-				b.setLayout(new BorderLayout());
-				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
-				JLabel label2 = new JLabel("From 15:00");
-				JLabel label3 = new JLabel("To 16:40");
-				b.add(BorderLayout.NORTH,label1);
-				b.add(BorderLayout.CENTER, label3);
-				b.add(BorderLayout.SOUTH,label2);
-				dayList[i].addButton(b);
-			}
-	
-
-		}
+//		for (int i = 0; i < dayList.length; i++) {
+//			
+//			dayList[i].clearList();
+//			for (int j = 0; j < 20; j++) {
+//				
+//				JButton b = new JButton();
+//				b.setLayout(new BorderLayout());
+//				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
+//				JLabel label2 = new JLabel("From 15:00");
+//				JLabel label3 = new JLabel("To 16:40");
+//				b.add(BorderLayout.NORTH,label1);
+//				b.add(BorderLayout.CENTER, label3);
+//				b.add(BorderLayout.SOUTH,label2);
+//				dayList[i].addButton(b);
+//			}
+//	
+//
+//		}
 
 
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));

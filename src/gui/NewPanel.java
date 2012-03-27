@@ -133,7 +133,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		if(!isMeeting){
 			System.out.println("Lager avtale");
 
-			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
+			app = DBAppointment.newAppointment(user.getId(), startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
