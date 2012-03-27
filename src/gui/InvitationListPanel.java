@@ -18,7 +18,7 @@ import util.GUIListenerSupport;
 /**
  * 
  * @author Even
- *	Panelet som inneholder ubesvarte møteinnkallinger
+ *	Panelet som inneholder ubesvarte mï¿½teinnkallinger
  *
  */
 
@@ -46,7 +46,7 @@ public class InvitationListPanel extends JPanel {
 		
 		inkallingPanel = new JPanel(new GridBagLayout());
 	
-		JLabel minkall = new JLabel("Møte inkallinger");
+		JLabel minkall = new JLabel("MÃ¸teinnkallinger");
 		Font f = new Font(minkall.getFont().getName(), minkall.getFont().getStyle(),
 				16);
 		minkall.setFont(f);

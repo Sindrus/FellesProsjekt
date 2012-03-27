@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -46,8 +47,14 @@ public class CalendarListPanel extends JPanel {
 		calg.insets = new Insets(5, 5, 5, 5);
 		calg.gridx=0;
 		calg.gridy=0;
-		
+
 		calendarPanel = new JPanel(new GridBagLayout());
+		
+		JLabel minkall = new JLabel("Andre kalendere");
+		Font f = new Font(minkall.getFont().getName(), minkall.getFont().getStyle(),
+				16);
+		minkall.setFont(f);
+		calendarPanel.add(minkall,calg);
 		
 		defaultPersonListModel = new DefaultListModel();
 		calendarList = new JList(defaultPersonListModel);
@@ -63,7 +70,7 @@ public class CalendarListPanel extends JPanel {
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		calendarPanel.add(personScroll,calg);
 		
-		g.gridy=0;
+		g.gridy=1;
 		add(calendarPanel,g);
 		
 	}
