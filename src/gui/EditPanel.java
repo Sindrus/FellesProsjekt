@@ -45,7 +45,7 @@ public class EditPanel extends JPanel implements GUIListener{
 		this.app = app;
 		isMeeting = false;
 		
-		editAppointmentPanel.what.setText(app.getWhat());
+		editAppointmentPanel.what.setText(app.getTitle());
 	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
 		editAppointmentPanel.startDay.setSelectedItem(app.getStart().getDay());
 		editAppointmentPanel.startMonth.setSelectedIndex(app.getStart().getMonth());
@@ -61,7 +61,7 @@ public class EditPanel extends JPanel implements GUIListener{
 		this.meet = app;
 		isMeeting = true;
 		
-		editAppointmentPanel.what.setText(app.getWhat());
+		editAppointmentPanel.what.setText(app.getTitle());
 	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
 		editAppointmentPanel.startDay.setSelectedItem(app.getStart().getDay());
 		editAppointmentPanel.startMonth.setSelectedIndex(app.getStart().getMonth());
@@ -136,7 +136,7 @@ public class EditPanel extends JPanel implements GUIListener{
 	}
 	private void saveMeeting(Timestamp start, Timestamp end){
 		meet.setDescription(editAppointmentPanel.getDesc());
-		meet.setWhat(editAppointmentPanel.getWhat());
+		meet.setTitle(editAppointmentPanel.getWhat());
 		meet.setStart(start);
 		meet.setEnd(end);
 		meet.setRoom(editMeetingPanel.getRoom());
@@ -146,7 +146,7 @@ public class EditPanel extends JPanel implements GUIListener{
 	}
 	private void saveAppointment(Timestamp start, Timestamp end){
 		app.setDescription(editAppointmentPanel.getDesc());
-		app.setWhat(editAppointmentPanel.getWhat());
+		app.setTitle(editAppointmentPanel.getWhat());
 		app.setStart(start);
 		app.setEnd(end);
 	}

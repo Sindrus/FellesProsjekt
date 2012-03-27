@@ -5,9 +5,11 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.Collections;
 
 import java.sql.Timestamp;
 
@@ -15,6 +17,7 @@ import model.Appointment;
 import model.DBAppointment;
 import model.DBMeeting;
 import model.Meeting;
+import model.User;
 
 import util.ChangeType;
 import util.GUIListener;
@@ -106,6 +109,12 @@ public class NewPanel extends JPanel implements GUIListener{
 		gls.add(listener);
 	}
 	
+	private ArrayList<User> toMakeThisFrickingWork(User[] participants){
+		List newList = new ArrayList();
+		Collections.addAll(newList, participants);
+		return (ArrayList<User>) newList;
+	}
+	
 	/**
 	 * Method to save data that has been entered. 
 	 */
@@ -127,7 +136,7 @@ public class NewPanel extends JPanel implements GUIListener{
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
-			meet = DBMeeting.newMeeting(/*HJELP HER TRENGER VI EN USER-ID*/null, roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), new ArrayList<User>(Arrays.asList(newMeetingPanel.getParticipants())));
+			meet = DBMeeting.newMeeting(/*HJELP HER TRENGER VI EN USER-ID*/null, roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
 //			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) Dette blir gjort i metoden som kalles på, om vi får parametrene på plass riktig....
 //				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
 		}
