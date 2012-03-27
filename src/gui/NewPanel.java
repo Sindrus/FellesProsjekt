@@ -3,6 +3,7 @@ package gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
@@ -122,14 +123,13 @@ public class NewPanel extends JPanel implements GUIListener{
 		
 		if(!isMeeting){
 			System.out.println("Lager avtale");
-			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
+			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
-			meet = DBMeeting.newMeeting(roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
-			for(int i=0;i<newMeetingPanel.getParticipants().length;i++)
-				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
-			
+			meet = DBMeeting.newMeeting(/*HJELP HER TRENGER VI EN USER-ID*/null, roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), new ArrayList<User>(Arrays.asList(newMeetingPanel.getParticipants())));
+//			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) Dette blir gjort i metoden som kalles på, om vi får parametrene på plass riktig....
+//				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
 		}
 	}
 	

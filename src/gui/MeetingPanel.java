@@ -120,7 +120,7 @@ public class MeetingPanel extends JPanel{
 		
 		
 // Adding dummy rooms and users
-		addDummyValues();
+//		addDummyValues();
 		
 	}
 	
@@ -195,21 +195,21 @@ public class MeetingPanel extends JPanel{
 	}
 	
 	
-	public void addDummyValues(){
-		
-		user1 = new User("sindre", "sindrus");
-		defaultPersonListModel.addElement(user1);
-		user2 = new User("petter", "pettern");
-		defaultPersonListModel.addElement(user2);
-		user3 = new User("christer", "chris");
-		defaultPersonListModel.addElement(user3);
-		
-		room1 = new Room(1, 4);
-		defaultRomListModel.addElement(room1);
-		room2 = new Room(2, 5);
-		defaultRomListModel.addElement(room2);
-		room3 = new Room(3, 10);
-		defaultRomListModel.addElement(room3);
-		
-	}
+//	public void addDummyValues(){
+//		
+//		user1 = new User("sindre", "sindrus");
+//		defaultPersonListModel.addElement(user1);
+//		user2 = new User("petter", "pettern");
+//		defaultPersonListModel.addElement(user2);
+//		user3 = new User("christer", "chris");
+//		defaultPersonListModel.addElement(user3);
+//		
+//		room1 = new Room(1, 4);
+//		defaultRomListModel.addElement(room1);
+//		room2 = new Room(2, 5);
+//		defaultRomListModel.addElement(room2);
+//		room3 = new Room(3, 10);
+//		defaultRomListModel.addElement(room3);
+//		
+//	}
 }
