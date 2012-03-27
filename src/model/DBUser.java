@@ -33,15 +33,16 @@ public class DBUser {
 	 */
 	public static ArrayList<User> getUsersInSystem(){
 		
-		String sql = "SELECT Brukernavn, Navn FROM Bruker;";
+		String sql = "SELECT ID, Brukernavn, Navn FROM Bruker;";
 		ArrayList<User> list = new ArrayList<User>();
 		try {
 			
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
+				int userID = results.getInt("ID");
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
-				list.add(new User(name, username));
+				list.add(new User(userID, name, username));
 			}
 			
 		} catch (SQLException e) {
@@ -49,6 +50,21 @@ public class DBUser {
 		}
 		
 		return list;
+		
+	}
+	
+	public static User newUser(String name, String username, String password){
+		
+		String sql = "INSERT INTO Bruker(Navn, Brukernavn, Passord) VALUES('"
+					+ name
+					+ "', '"
+					+ username
+					+ "', '"
+					+ password
+					+ "');";
+		
+		int userID = Database.executeUpdate(sql, true);
+		return DBUser.getUser(userID);
 		
 	}
 	
@@ -103,7 +119,7 @@ public class DBUser {
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
 				//The user is successfully returned
-				return new User(name, username);
+				return new User(userID, name, username);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

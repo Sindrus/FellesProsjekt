@@ -92,7 +92,7 @@ public class Meeting extends Appointment{
 	public Meeting(User owner, Room room, int id, 
 			Timestamp start, Timestamp end, String description){
 		
-		super(id, owner, start, end, description);
+		super(id, start, end, description);
 		this.owner = owner;
 		this.room = room;
 	}

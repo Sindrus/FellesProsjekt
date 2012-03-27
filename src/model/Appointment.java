@@ -8,16 +8,7 @@ public class Appointment {
 	protected Timestamp start;
 	protected Timestamp end;
 	protected String description;
-	protected User owner;
 	protected String what;
-	
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
 
 	/**
 	 * Constructs an <code>Appointment</code> object with the submitted 
@@ -31,7 +22,7 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	public Appointment(int id,User owner, Timestamp start, Timestamp end, String description){
+	public Appointment(int id, Timestamp start, Timestamp end, String description){
 		
 		this.id = id;
 		this.start = start;

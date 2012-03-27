@@ -17,7 +17,7 @@ public class User {
 	private String name;
 //	private String email;
 //	private Date dateOfBirth;
-	private static long id;
+	private int id;
 	private PropertyChangeSupport propChangeSupp;
 	private String password;
 	private String username;
@@ -34,7 +34,6 @@ public class User {
 		password = "123";
 //		email = "";
 //		dateOfBirth = new Date();
-		id = System.currentTimeMillis();
 		propChangeSupp = new PropertyChangeSupport(this);
 	}
 	
@@ -46,10 +45,11 @@ public class User {
 	 * @param username
 	 * 			The user's username
 	 */
-	public User(String name, String username){
+	public User(int id, String name, String username){
 		
 		this.name = name;
 		this.username = username;
+		this.id = id;
 		
 	}
 	
@@ -208,8 +208,8 @@ public class User {
 	 * 
 	 * @return The person's unique identification.
 	 */
-	public static long getId() {
-		return id;
+	public int getId() {
+		return this.id;
 	}
 
 	/**

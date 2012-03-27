@@ -39,7 +39,7 @@ public class Test {
 
 	private static void testCreateMeeting(){
 
-		Meeting m = DBMeeting.newMeeting(1337, 20120324100000L, 20120324140000L, "Test av createMeeting");
+		Meeting m = DBMeeting.newMeeting(new User("Made Ziius", "ziius"), 1337, 20120324100000L, 20120324140000L, "Test av createMeeting");
 
 	}
 

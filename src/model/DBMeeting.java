@@ -54,16 +54,33 @@ public class DBMeeting {
 		
 		ArrayList<User> invited = DBMeeting.getInvitedUsers(appointmentID);
 		Appointment appointment = DBAppointment.getAppointment(appointmentID);
-		String sql = "SELECT Romnr FROM Reservasjon WHERE Avtale_ID = "
+		
+		String fetchReservation = "SELECT Romnr FROM Reservasjon WHERE Avtale_ID = "
 					+ appointmentID
 					+ ";";
+		
+		String fetchOwner = "SELECT * FROM Bruker JOIN Oppretter_og_Eier ON Bruker.ID = Bruker_ID"
+						+ " WHERE Avtale_ID = "
+						+ appointment.getId()
+						+ ";";
+		
+		User owner = null;
+		try{
+			ResultSet results = Database.execute(fetchOwner);
+			if(results.next()){
+				owner = DBUser.getUser(results.getInt("Bruker_ID"));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
 		try{
 			
-			ResultSet results = Database.execute(sql);
+			ResultSet results = Database.execute(fetchReservation);
 			if(results.next()){
 				int roomNumber = results.getInt("Romnr");
 				//The meeting is successfully returned
-				return new Meeting(appointment.getOwner(),
+				return new Meeting(owner,
 						DBRoom.getRoom(roomNumber), appointment.getId(), appointment.getStart(),
 						appointment.getEnd(), appointment.getDescription());
 			}
@@ -127,7 +144,15 @@ public class DBMeeting {
 	 * 			reservation shall apply
 	 * @return a fully initialized Meeting object
 	 */
-	public static Meeting newMeeting(int appointmentID, int roomNumber, long from, long to){
+	public static Meeting newMeeting(User owner, int appointmentID, int roomNumber, long from, long to){
+		
+		String sql = "INSERT INTO Oppretter_og_Eier VALUES "
+					+ owner.getId()
+					+ ", "
+					+ appointmentID
+					+ ";";
+		
+		Database.executeUpdate(sql);
 		
 		try {
 			int roomInsertionID = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
@@ -155,11 +180,18 @@ public class DBMeeting {
 	 * 			A textual description of the meeting
 	 * @return a fully initialized meeting object
 	 */
-	public static Meeting newMeeting(int roomNumber, long from, long to,
+	public static Meeting newMeeting(User owner, int roomNumber, long from, long to,
 			 String description){
 
 		int appointmentID = DBAppointment.newAppointment(from, to, description).getId();
 
+		String sql = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES( "
+					+ owner.getId()
+					+ ", "
+					+ appointmentID
+					+ ");";
+		Database.executeUpdate(sql);
+		
 		try {
 			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
 			//The meeting is successfully returned
@@ -192,15 +224,22 @@ public class DBMeeting {
 			
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
+				int userID = results.getInt("ID");
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
-				list.add(new User(name, username));
+				list.add(new User(userID, name, username));
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		
 		
 	}
 	
