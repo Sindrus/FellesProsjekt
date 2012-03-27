@@ -55,7 +55,7 @@ public class GUIController implements GUIListener{
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		jf.setContentPane(pp);
 		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
-		jf.getContentPane().setBackground(Color.BLUE);
+		jf.getContentPane().setBackground(Color.DARK_GRAY);
 		jf.setVisible(true);
 
 		notifyGui(ChangeType.LOGOUT, null);
@@ -188,9 +188,9 @@ public class GUIController implements GUIListener{
 		else if(ct == ChangeType.APPBUTTON){
 			System.out.println("Appointment button called");
 			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
-			//EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
-			//ep.addListener(this);
-			//pp.add(ep);
+			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			ep.addListener(this);
+			pp.add(ep);
 		}
 
 
