@@ -241,7 +241,8 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 			for (int j = 0; j < a.size(); j++) {
-				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[j])){
+
+				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])){
 					Appointment app = a.get(j);
 					AButton b = new AButton(a.get(j));
 					b.addActionListener(this);

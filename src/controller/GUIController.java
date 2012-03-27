@@ -162,10 +162,14 @@ public class GUIController implements GUIListener{
 			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
 			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
 			System.out.println("id " + user.getId());
-			calendarPanel.wp.setAppointments(
-					DBAppointment.getAppointmentsInInterval(
-							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
-
+//			calendarPanel.wp.setAppointments(
+//					DBAppointment.getAppointmentsInInterval(
+//							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+			ArrayList a = DBUser.getUserAppointments(user.getId());
+			System.out.println(DBUser.getUser(user.getId()).getName());
+			System.out.println("Number of appointments related to user: " + a.size());
+			calendarPanel.wp.setAppointments(a);
+					
 			pp.add(calendarPanel);
 		}
 
@@ -183,20 +187,17 @@ public class GUIController implements GUIListener{
 		//Appointment button called, switching to editPanel for selected appointment
 		else if(ct == ChangeType.APPBUTTON){
 			System.out.println("Appointment button called");
-			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
-			ep.addListener(this);
-			pp.add(ep);
+			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
+			//EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			//ep.addListener(this);
+			//pp.add(ep);
 		}
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
-			System.out.println(ct);
-			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
-			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
-			System.out.println("id " + user.getId());
-			calendarPanel.wp.setAppointments(
-					DBAppointment.getAppointmentsInInterval(
-							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+			ArrayList a = DBUser.getUserAppointments(user.getId());
+			calendarPanel.wp.setAppointments(a);
+	
 			pp.add(calendarPanel);
 		}
 

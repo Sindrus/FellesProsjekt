@@ -32,7 +32,7 @@ public class ProjectPanel extends JPanel {
 	
 	LoginPanel loginPanel;
 	public CalendarPanel calendarPanel;
-	EditPanel editPanel;
+
 	NewPanel newPanel;
 
 	private User user;
