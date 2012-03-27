@@ -122,7 +122,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		
 		g.gridx = 0;
 		g.gridy = 1;
-		//listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
 		add(listPanel, g);
 		//end the two lists.
 		
