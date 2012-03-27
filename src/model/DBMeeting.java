@@ -183,7 +183,7 @@ public class DBMeeting {
 	public static Meeting newMeeting(User owner, int roomNumber, long from, long to,
 			 String title, String description, ArrayList<User> participants){
 
-		int appointmentID = DBAppointment.newAppointment(from, to, title, description).getId();
+		int appointmentID = DBAppointment.newAppointment(owner.getId(), from, to, title, description).getId();
 
 		String makeMeetingRef = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES( "
 					+ owner.getId()

@@ -141,11 +141,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		
 		firstDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[0]))), (y.weeks.get(weeknum)[0]), 0, 0, 0);
 		lastDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[6]))), (y.weeks.get(weeknum)[6]), 0, 0, 0);
-		
-		
-		//get all appointments for this week
 
-		
 
 
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));

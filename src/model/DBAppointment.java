@@ -73,9 +73,9 @@ public class DBAppointment {
 	 * @return a fully initialized <code>Appointment</code> object for the new
 	 *  		appointment
 	 */
-	public static Appointment newAppointment(long start, long end, String title, String desc){
+	public static Appointment newAppointment(int userID, long start, long end, String title, String desc){
 
-		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Tittel, Beskrivelse)" +
+		String insertAppointment = "INSERT INTO Avtale(Tid_start, Tid_slutt, Tittel, Beskrivelse)" +
 		" VALUES (" 
 		+ start
 		+ ", "
@@ -86,7 +86,15 @@ public class DBAppointment {
 		+ desc
 		+ "');";
 
-		int id = Database.executeUpdate(sql, true);
+		
+		int id = Database.executeUpdate(insertAppointment, true);
+
+		String insertOwner = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES("
+				+ userID
+				+ ", "
+				+ id
+				+ ");";
+		Database.executeUpdate(insertOwner);
 
 		return DBAppointment.getAppointment(id);
 
@@ -203,9 +211,8 @@ public class DBAppointment {
 	}
 	
 	public static void main(String[] args) {
+
 		
-		Appointment a = DBAppointment.newAppointment(20120327180000L, 20120327200000L, "Fett", "Rått");
-		System.out.println(a.getDescription());
 		
 	}
 

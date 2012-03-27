@@ -21,6 +21,9 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Meeting extends Appointment{
+	private User owner;
+	private Room room;
+	private ArrayList<User> participants; 
 	
 	public User getOwner() {
 		return owner;
@@ -67,9 +70,6 @@ public class Meeting extends Appointment{
 			return false;
 	}
 	
-	private User owner;
-	private Room room;
-	private ArrayList<User> participants; 
 	
 	/**
 	 * Constructs a <code>Meeting</code> with the submitted values
