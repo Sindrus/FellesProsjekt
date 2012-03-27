@@ -183,9 +183,10 @@ public class GUIController implements GUIListener{
 		//Appointment button called, switching to editPanel for selected appointment
 		else if(ct == ChangeType.APPBUTTON){
 			System.out.println("Appointment button called");
-			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
-			ep.addListener(this);
-			pp.add(ep);
+			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
+			//EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			//ep.addListener(this);
+			//pp.add(ep);
 		}
 
 
