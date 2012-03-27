@@ -142,6 +142,7 @@ public class GUIController implements GUIListener{
 			//Here there should be a call to Database for user matching the username. 
 			//Place user in this variable and call validate Login on it.
 			user = DBUser.getUser((String)list.get(0));
+			System.out.println(user.getName());
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
 				loggedIn= true;
@@ -158,6 +159,9 @@ public class GUIController implements GUIListener{
 			calendarPanel.setPreferredSize(
 					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
 
+			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
+			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
+			System.out.println("id " + user.getId());
 			calendarPanel.wp.setAppointments(
 					DBAppointment.getAppointmentsInInterval(
 							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
@@ -178,9 +182,14 @@ public class GUIController implements GUIListener{
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
+			System.out.println(ct);
+			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
+			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
+			System.out.println("id " + user.getId());
 			calendarPanel.wp.setAppointments(
 					DBAppointment.getAppointmentsInInterval(
 							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+			pp.add(calendarPanel);
 		}
 
 

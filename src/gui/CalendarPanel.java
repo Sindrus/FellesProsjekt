@@ -188,6 +188,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	
 	public void addGuiListener(GUIListener listener){
 		gls.add(listener);
+		wp.addGuiListener(listener);
 	}
 
 	

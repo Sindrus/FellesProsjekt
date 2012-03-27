@@ -133,7 +133,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	}
 	
 	private void updateWeek(){
-
+		System.out.println("updating week " + weeknum);
 		for (int i = 0; i < weekdays.length; i++) {
 			String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
 			dayLabels[i].setText("   " + weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)]);
@@ -226,6 +226,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 	public void setAppointments(ArrayList<Appointment> a) {
+		System.out.println("Setting " + a.size() + " appointments");
 		
 		for (int i = 0; i < dayList.length; i++) {
 			
