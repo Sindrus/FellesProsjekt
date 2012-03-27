@@ -93,13 +93,12 @@ public class NewPanel extends JPanel implements GUIListener{
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
-			System.exit(0);
+			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else if(ct==ChangeType.CREATEMEETING){
-			saveData();
 			gls.notifyListeners(ct, null);
 		}else if(ct==ChangeType.CREATE){
 			saveData();
-			System.exit(0);
+			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else{
 			isMeetingPanel=false;
 		}
