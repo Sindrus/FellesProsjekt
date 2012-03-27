@@ -226,6 +226,8 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 	public void setAppointments(ArrayList<Appointment> a) {
+		
+		updateWeek();
 		System.out.println("Setting " + a.size() + " appointments");
 		
 		for (int i = 0; i < dayList.length; i++) {
@@ -246,7 +248,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	
 
 		}
-		updateWeek();
+		
 		
 	}
 
