@@ -34,7 +34,7 @@ public class Database {
 	 */
 	
 	public static Connection connectionSetup(){
-		
+		System.out.println("Setting up connection");
 		try{
 			
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
