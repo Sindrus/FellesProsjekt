@@ -174,6 +174,7 @@ public class GUIController implements GUIListener{
 			newPanel = new NewPanel();
 			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
 			newPanel.addGuiListener(this);
+			newPanel.setUser(this.user);
 			pp.add(newPanel);
 
 		}

@@ -52,7 +52,7 @@ public class InvitationListPanel extends JPanel {
 		minkall.setFont(f);
 		inkallingPanel.add(minkall,invg);
 		defaultPersonListModel = new DefaultListModel();
-		//defaultPersonListModel.addElement(DBUser.getUserAppointments((int)User.getId()));
+//		defaultPersonListModel.addElement(DBUser.getUserAppointments((int)User.getId()));
 		inkallingList = new JList(defaultPersonListModel);
 		inkallingList.setVisibleRowCount(5);
 		inkallingList.setFixedCellWidth(140);

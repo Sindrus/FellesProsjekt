@@ -3,10 +3,13 @@ package gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.Collections;
 
 import java.sql.Timestamp;
 
@@ -14,6 +17,7 @@ import model.Appointment;
 import model.DBAppointment;
 import model.DBMeeting;
 import model.Meeting;
+import model.User;
 
 import util.ChangeType;
 import util.GUIListener;
@@ -37,6 +41,7 @@ public class NewPanel extends JPanel implements GUIListener{
 	private boolean isMeetingPanel;
 	private boolean isMeeting;
 	GridBagConstraints g;
+	User user;
 	
 	GUIListenerSupport gls;
 	
@@ -105,6 +110,12 @@ public class NewPanel extends JPanel implements GUIListener{
 		gls.add(listener);
 	}
 	
+	private ArrayList<User> toMakeThisFrickingWork(User[] participants){
+		List newList = new ArrayList();
+		Collections.addAll(newList, participants);
+		return (ArrayList<User>) newList;
+	}
+	
 	/**
 	 * Method to save data that has been entered. 
 	 */
@@ -122,14 +133,15 @@ public class NewPanel extends JPanel implements GUIListener{
 		
 		if(!isMeeting){
 			System.out.println("Lager avtale");
-		//	app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
+
+			app = DBAppointment.newAppointment(startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
-	//		meet = DBMeeting.newMeeting(roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc());
-			for(int i=0;i<newMeetingPanel.getParticipants().length;i++)
+			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
+			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) 
 				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
-			
+
 		}
 	}
 	
@@ -179,6 +191,10 @@ public class NewPanel extends JPanel implements GUIListener{
 		frame.add(new NewPanel());
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void setUser(User u){
+		this.user = u;
 	}
 	
 }
