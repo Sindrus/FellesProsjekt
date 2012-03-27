@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -24,6 +25,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+
+import util.ChangeType;
+import util.DateHelpers;
+import util.GUIListener;
+import util.GUIListenerSupport;
+
+
+import model.Appointment;
 
 /**
  * 
@@ -54,9 +63,13 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private Year y;
 	private JScrollPane[] dayScroll;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
+	private long firstDay, lastDay;
+	private GUIListenerSupport gls;
 
 
 	public WeeklyCalendarPanel(){
+		
+		gls = new GUIListenerSupport();
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
 		
@@ -115,34 +128,24 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	}
 
 
+	public void addGuiListener(GUIListener l){
+		gls.add(l);
+	}
+	
 	private void updateWeek(){
 
 		for (int i = 0; i < weekdays.length; i++) {
 			String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
 			dayLabels[i].setText("   " + weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)]);
 		}
-
-
+		
+		firstDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[0]))), (y.weeks.get(weeknum)[0]), 0, 0, 0);
+		lastDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[6]))), (y.weeks.get(weeknum)[6]), 0, 0, 0);
+		
+		
 		//get all appointments for this week
 
-		for (int i = 0; i < dayList.length; i++) {
-			
-			dayList[i].clearList();
-			for (int j = 0; j < 20; j++) {
-				
-				JButton b = new JButton();
-				b.setLayout(new BorderLayout());
-				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
-				JLabel label2 = new JLabel("From 15:00");
-				JLabel label3 = new JLabel("To 16:40");
-				b.add(BorderLayout.NORTH,label1);
-				b.add(BorderLayout.CENTER, label3);
-				b.add(BorderLayout.SOUTH,label2);
-				dayList[i].addButton(b);
-			}
-	
-
-		}
+		
 
 
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
@@ -158,6 +161,13 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 //
 //	}
 
+	
+	public long getLastDay(){
+		return lastDay;
+	}
+	public long getFirstDay(){
+		return firstDay;
+	}
 
 	private Year getYear(int year){
 
@@ -209,13 +219,38 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()== left){
 			weeknum -= 1;
-			updateWeek();
+			gls.notifyListeners(ChangeType.PREVWEEK, null);
 		}
 		else if(e.getSource()== right){
 			weeknum += 1;
-			updateWeek();
+			gls.notifyListeners(ChangeType.NEXTWEEK, null);
 		}
 
+	}
+
+
+	public void setAppointments(ArrayList<Appointment> a) {
+		
+		for (int i = 0; i < dayList.length; i++) {
+			
+			dayList[i].clearList();
+			for (int j = 0; j < a.size(); j++) {
+				Appointment app = a.get(j);
+				JButton b = new JButton();
+				b.setLayout(new BorderLayout());
+				JLabel label1 = new JLabel(app.getTitle());
+				JLabel label2 = new JLabel("Fra: " + app.getStart());
+				JLabel label3 = new JLabel("Til: " + app.getEnd());
+				b.add(BorderLayout.NORTH,label1);
+				b.add(BorderLayout.CENTER, label3);
+				b.add(BorderLayout.SOUTH,label2);
+				dayList[i].addButton(b);
+			}
+	
+
+		}
+		updateWeek();
+		
 	}
 
 
@@ -255,6 +290,7 @@ class ButtonCellRenderer implements ListCellRenderer {
 
 
 class Year{
+	public int year = 2012;
 	public ArrayList<int[]> weeks;
 	public HashMap<String, Integer> dayMonth;
 	public ArrayList<String> keys;

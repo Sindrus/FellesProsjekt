@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import model.Appointment;
+
 import util.ChangeType;
 import util.GUIListener;
 import util.GUIListenerSupport;
@@ -44,7 +46,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	JFrame f;
 	GridBagConstraints g, btntopleftg, btntoprightg, lisg, btnbtmg;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
-
+	public WeeklyCalendarPanel wp;
 	GUIListenerSupport gls;
 	private DefaultListModel newModel;
 
@@ -151,7 +153,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		//WeeklyCalendar
 		g.gridx = 1;
 		g.gridy = 1;
-		WeeklyCalendarPanel wp = new WeeklyCalendarPanel();
+		wp = new WeeklyCalendarPanel();
 		wp.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()/(1.6)), (int)(tool.getScreenSize().getHeight()/(1.3))));
 		add(wp, g);
 		//finish.
@@ -187,6 +189,8 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	public void addGuiListener(GUIListener listener){
 		gls.add(listener);
 	}
+
+	
 
 	
 	

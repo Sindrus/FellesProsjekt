@@ -10,9 +10,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 
+import model.DBAppointment;
 import model.User;
 import util.ChangeType;
 import util.GUIListener;
@@ -53,7 +55,7 @@ public class GUIController implements GUIListener{
 		jf.setVisible(true);
 
 		notifyGui(ChangeType.LOGOUT, null);
-		
+
 		System.out.println("GuiController made");
 	}
 
@@ -145,18 +147,23 @@ public class GUIController implements GUIListener{
 		}
 
 
-		
+
 		//Opens the calendarPanel
 		else if(ct == ChangeType.CALENDAR){
 			System.out.println("adding calendar");
-			//calendarPanel.setMinimumSize(new Dimension(3000, 3000));
-			calendarPanel.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
-			//calendarPanel.setMaximumSize(new Dimension(3000, 3000));
+
+			calendarPanel.setPreferredSize(
+					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
+
+			calendarPanel.wp.setAppointments(
+					DBAppointment.getAppointmentsInInterval(
+							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+
 			pp.add(calendarPanel);
 		}
 
-		
-		
+
+
 		// Logout button pressed in CalendarPanel. Log user out and return to LoginPanel.
 		else if(ct == ChangeType.LOGOUT){
 			System.out.println("ct = logout");
@@ -167,10 +174,17 @@ public class GUIController implements GUIListener{
 		}
 
 
+		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
+			calendarPanel.wp.setAppointments(
+					DBAppointment.getAppointmentsInInterval(
+							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+		}
+
+
 		// New appointment button clicked in Calendar Panel. Change view to newPanel.
 		else if(ct == ChangeType.NEWAPP){
 			System.out.println("ct = newApp");
-	
+
 			newPanel = new NewPanel();
 			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
 			newPanel.addGuiListener(this);
