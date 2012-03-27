@@ -295,6 +295,24 @@ public class DBMeeting {
 		
 	}
 	
+	public static int inviteParticipants(int appointmentID, ArrayList<User> participants){
+		
+		for(User user : participants){
+			
+			String sql = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES ("
+						+ appointmentID
+						+ ", "
+						+ user.getId()
+						+ ", "
+						+ DBNotification.getNotificationID(appointmentID)
+						+ ");";
+			return Database.executeUpdate(sql);
+			
+		}
+		return -1;
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		

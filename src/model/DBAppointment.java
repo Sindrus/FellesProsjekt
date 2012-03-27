@@ -201,5 +201,12 @@ public class DBAppointment {
 		return Database.executeUpdate(sql);
 		
 	}
+	
+	public static void main(String[] args) {
+		
+		Appointment a = DBAppointment.newAppointment(20120327180000L, 20120327200000L, "Fett", "Rått");
+		System.out.println(a.getDescription());
+		
+	}
 
 }
