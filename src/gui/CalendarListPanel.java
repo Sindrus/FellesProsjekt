@@ -38,7 +38,7 @@ public class CalendarListPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.CENTER;
-		g.insets = new Insets(5, 5, 5, 5);
+		g.insets = new  Insets(5, 5, 5, 5);
 		g.weightx = 0.5;
 		g.weighty = 0.5;
 		
