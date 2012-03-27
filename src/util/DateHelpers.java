@@ -68,7 +68,7 @@ public class DateHelpers {
 	 */
 	public static long convertToTimestamp(int year, int month, int day, 
 			int hour){
-		return convertToTimestamp(year, month, day, hour, 0, 0);
+		return convertToTimestamp(year, month, day, hour, 0);
 	}
 	
 	/**
@@ -104,6 +104,10 @@ public class DateHelpers {
 		
 		return map;
 		
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(DateHelpers.convertToTimestamp(2012, 03, 28, 14));
 	}
 	
 	/**

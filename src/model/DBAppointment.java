@@ -43,8 +43,8 @@ public class DBAppointment {
 			while(results.next()){
 
 				int id = results.getInt("ID");
-				Timestamp start = results.getTimestamp("Tid_start");
-				Timestamp end = results.getTimestamp("Tid_slutt");
+				long start = Long.parseLong(results.getTimestamp("Tid_start").toString());
+				long end = Long.parseLong(results.getTimestamp("Tid_slutt").toString());
 				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
 				return new Appointment(id, start, end, title, desc);
@@ -146,8 +146,8 @@ public class DBAppointment {
 			while(results.next()){
 				
 				int id = results.getInt("ID");
-				Timestamp start = results.getTimestamp("Tid_start");
-				Timestamp end = results.getTimestamp("Tid_slutt");
+				long start = results.getTimestamp("Tid_start").getTime();
+				long end = results.getTimestamp("Tid_slutt").getTime();
 				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
 				list.add(new Appointment(id, start, end, title, desc));

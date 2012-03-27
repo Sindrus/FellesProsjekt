@@ -3,7 +3,7 @@ package gui;
 import java.awt.GridBagConstraints;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import gui.NewPanel;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import model.Appointment;
 import model.Meeting;
 import util.ChangeType;
+import util.DateHelpers;
 import util.GUIListener;
 
 /**
@@ -47,6 +48,10 @@ public class EditPanel extends JPanel implements GUIListener{
 
 		editAppointmentPanel.what.setText(app.getTitle());
 
+		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
+		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
+		
+		
 	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
 		editAppointmentPanel.startDay.setSelectedItem(app.getStart().getDay());
 		editAppointmentPanel.startMonth.setSelectedIndex(app.getStart().getMonth());
