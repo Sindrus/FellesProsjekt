@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import model.Appointment;
 import model.DBAppointment;
 import model.DBMeeting;
+import model.DBRoom;
+import model.DBUser;
 import model.Meeting;
+import model.NoAvailableRoomsException;
 import model.User;
 import util.ChangeType;
 import util.DateHelpers;
@@ -33,19 +36,19 @@ import util.GUIListenerSupport;
  */
 
 public class NewPanel extends JPanel implements GUIListener{
-	
+
 	NewMeetingPanel newMeetingPanel;
 	NewAppointmentPanel newAppointmentPanel;
 	private boolean isMeetingPanel;
 	private boolean isMeeting;
 	GridBagConstraints g;
 	User user;
-	
+
 	GUIListenerSupport gls;
-	
+
 	private Appointment app;
 	private Meeting meet;
-	
+
 	/**
 	 * Constructor for NewPanel
 	 */
@@ -53,9 +56,9 @@ public class NewPanel extends JPanel implements GUIListener{
 		gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
 		g = new GridBagConstraints();
-		
+
 		g.anchor = GridBagConstraints.CENTER;
-		
+
 		isMeetingPanel=false;
 		isMeeting=false;
 		newMeetingPanel = new NewMeetingPanel();
@@ -64,21 +67,36 @@ public class NewPanel extends JPanel implements GUIListener{
 		newAppointmentPanel.addGuiListener(this);
 		redraw();
 	}
-	
+
 	/**
 	 * redraws the panel to whatever is needed
+
 	 */
-	public void redraw(){
+	public void redraw() {
 		removeAll();
 		if(!isMeetingPanel){
 			add(newAppointmentPanel,g);
 		}else{
+			long startTimestamp = 0L;
+			long endTimestamp = 0L;
+
+			startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
+					newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
+
+			endTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
+					newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1]);
+			try {
+				newMeetingPanel.fillLists(DBRoom.getAvailibleRooms(1, startTimestamp, endTimestamp), DBUser.getUsersInSystem());
+			} catch (NoAvailableRoomsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			add(newMeetingPanel,g);
 		}
 		repaint();
 		revalidate();
 	}
-	
+
 	/**
 	 * Listenes for changes in the other panels so redraw can change to the right panel
 	 * @see redraw()
@@ -86,8 +104,10 @@ public class NewPanel extends JPanel implements GUIListener{
 	@Override
 	public void notifyGui(ChangeType ct, ArrayList<Object> list) {
 		if(ct==ChangeType.MEETING){
+			System.out.println("ct == meeting");
 			isMeetingPanel=true;
 			isMeeting=true;
+			notifyGui(ChangeType.CREATE, null);
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
@@ -103,17 +123,17 @@ public class NewPanel extends JPanel implements GUIListener{
 		}
 		redraw();
 	}
-	
+
 	public void addGuiListener(GUIListener listener){
 		gls.add(listener);
 	}
-	
+
 	private ArrayList<User> toMakeThisFrickingWork(User[] participants){
 		List newList = new ArrayList();
 		Collections.addAll(newList, participants);
 		return (ArrayList<User>) newList;
 	}
-	
+
 	/**
 	 * Method to save data that has been entered. 
 	 */
@@ -123,12 +143,12 @@ public class NewPanel extends JPanel implements GUIListener{
 		System.out.println("22222222222222�����������������������SAFASDHJFBWIAFCIASJNF�LA�FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
 				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
-		
+
 		endTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
 				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1]);
-		
+
 		int roomNumber = newMeetingPanel.getRoomNumber();
-		
+
 		if(!isMeeting){
 			System.out.println("Lager avtale");
 
@@ -143,7 +163,7 @@ public class NewPanel extends JPanel implements GUIListener{
 
 		}
 	}
-	
+
 	/**
 	 * This method takes in a date and converts it into milliseconds. 
 	 * @param year
@@ -165,7 +185,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		cal.set(year, month, day, hour, min, sec);
 		return cal.getTimeInMillis();
 	}
-	
+
 	/**
 	 * Takes a month as a <code>string</code> in norwegian and converts it into a 0 based month number
 	 * Also used by EditPanel
@@ -182,18 +202,18 @@ public class NewPanel extends JPanel implements GUIListener{
 				return i;
 		return -1;
 	}
-	
-//	public static void main(String args[]) {
-//		JFrame frame = new JFrame("Appointment");
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		frame.add(new NewPanel());
-//		frame.pack();
-//		frame.setVisible(true);
-//	}
-	
+
+	//	public static void main(String args[]) {
+	//		JFrame frame = new JFrame("Appointment");
+	//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	//		frame.add(new NewPanel());
+	//		frame.pack();
+	//		frame.setVisible(true);
+	//	}
+
 	public void setUser(User u){
 		this.user = u;
 	}
-	
+
 }
