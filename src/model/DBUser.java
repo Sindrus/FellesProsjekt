@@ -87,9 +87,9 @@ public class DBUser {
 		
 		ArrayList<Appointment> list = new ArrayList<Appointment>();
 		
-		String sql = "SELECT ID FROM Avtale WHERE Avtale.ID IN " +
-				"(SELECT Avtale_ID FROM Bruker JOIN Deltaker ON " +
-				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ") ORDER BY Tid_start;";
+		String sql = "SELECT ID FROM Avtale, Oppretter_og_Eier" +
+				"WHERE Avtale.ID = Oppretter_og_Eier.Avtale_ID" +
+				"AND Oppretter_og_Eier.Bruker_ID = " + userID + " ORDER BY Tid_start;";
 		
 		try{
 			
@@ -99,7 +99,7 @@ public class DBUser {
 				int id = results.getInt("ID");
 				list.add(DBAppointment.getAppointment(id));
 			}
-			
+			System.out.println("DET FUNKAAAAA!!!!!!");
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
