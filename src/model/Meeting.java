@@ -90,7 +90,7 @@ public class Meeting extends Appointment{
 	 * 			A textual description of the meeting
 	 */
 	public Meeting(User owner, Room room, int id, 
-			Timestamp start, Timestamp end, String title, String description){
+			long start, long end, String title, String description){
 		
 		super(id, start, end, title, description);
 		this.owner = owner;

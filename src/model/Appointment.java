@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 public class Appointment {
 	
 	protected int id;
-	protected Timestamp start;
-	protected Timestamp end;
+	protected long start;
+	protected long end;
 	protected String description;
 	protected String title;
 
@@ -22,7 +22,7 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	public Appointment(int id, Timestamp start, Timestamp end, String title, String description){
+	public Appointment(int id, long start, long end, String title, String description){
 		
 		this.id = id;
 		this.start = start;
@@ -39,19 +39,19 @@ public class Appointment {
 		return title;
 	}
 	
-	public Timestamp getStart() {
+	public long getStart() {
 		return start;
 	}
 
-	public void setStart(Timestamp start) {
+	public void setStart(long start) {
 		this.start = start;
 	}
 
-	public Timestamp getEnd() {
+	public long getEnd() {
 		return end;
 	}
 
-	public void setEnd(Timestamp end) {
+	public void setEnd(long end) {
 		this.end = end;
 	}
 

@@ -95,6 +95,7 @@ public class NewPanel extends JPanel implements GUIListener{
 		}else if(ct==ChangeType.CREATEMEETING){
 			gls.notifyListeners(ct, null);
 		}else if(ct==ChangeType.CREATE){
+			System.out.println("11111111111111111ØÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆSAFASDHJFBWIAFCIASJNFØLAÆFASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 			saveData();
 			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else{
@@ -117,26 +118,28 @@ public class NewPanel extends JPanel implements GUIListener{
 	 * Method to save data that has been entered. 
 	 */
 	private void saveData(){
-		Timestamp startTimestamp = new Timestamp(0);
-		Timestamp endTimestamp = new Timestamp(0);
+		long startTimestamp = 0L;
+		long endTimestamp = 0L;
+		System.out.println("22222222222222ØÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆSAFASDHJFBWIAFCIASJNFØLAÆFASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
+		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
+				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
+		System.out.println(DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
+				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1]));
 		
-		startTimestamp.setTime(DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
-				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0));
-		
-		endTimestamp.setTime(DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
-				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1],0));
+		endTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
+				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1]);
 		
 		int roomNumber = newMeetingPanel.getRoomNumber();
 		
 		if(!isMeeting){
 			System.out.println("Lager avtale");
 
-			System.out.println(startTimestamp.getTime());
-			app = DBAppointment.newAppointment(user.getId(), startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
+			System.out.println(startTimestamp);
+			app = DBAppointment.newAppointment(user.getId(), startTimestamp, endTimestamp, newAppointmentPanel.getWhat(), newAppointmentPanel.getDesc());
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
-			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp.getTime(), endTimestamp.getTime(), newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
+			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp, endTimestamp, newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
 			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) 
 				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
 
