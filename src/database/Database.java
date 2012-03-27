@@ -10,6 +10,7 @@ package database;
  */
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,7 +59,7 @@ public class Database {
 	 */
 	
 	public static ResultSet execute(String sql) throws SQLException{
-		System.out.println(sql);
+		System.out.println("execute query: " + sql);
 		//Establish database connection
 		Connection conn = connectionSetup();
 		
@@ -101,7 +102,7 @@ public class Database {
 	 */
 	
 	public static int executeUpdate(String sql, boolean returnInsertionID){
-		
+		System.out.println("Execute update: "+ sql);
 		//Establish database connection
 		Connection conn = connectionSetup();
 		PreparedStatement pstm;

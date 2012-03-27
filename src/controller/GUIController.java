@@ -207,7 +207,7 @@ public class GUIController implements GUIListener{
 			ArrayList a = DBUser.getUserAppointments(user.getId());
 			calendarPanel.wp.setAppointments(a);
 	
-			pp.add(calendarPanel, BorderLayout.CENTER);
+			pp.add(calendarPanel, g);
 		}
 
 
@@ -221,6 +221,10 @@ public class GUIController implements GUIListener{
 			newPanel.setUser(this.user);
 			pp.add(newPanel);
 
+		}
+		
+		else if(ct == ChangeType.CREATEMEETING){
+			notifyGui(ChangeType.CALENDAR, null);
 		}
 
 		else{

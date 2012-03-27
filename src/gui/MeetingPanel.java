@@ -32,6 +32,7 @@ public class MeetingPanel extends JPanel{
 	//Dummyvalues
 	User user1,user2,user3;
 	Room room1,room2,room3;
+	private ArrayList<Room> rooms;
 	
 	/**
 	 * Constructor for the <code>NewMeetingPanel</code> that creates all the JObjects
@@ -42,54 +43,66 @@ public class MeetingPanel extends JPanel{
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
+		
 		g.anchor = GridBagConstraints.CENTER;
 		g.insets = new Insets(5, 5, 5, 5);
 		g.weightx = 0.5;
 		g.weighty = 0.5;
 		
-//	innerPanel
-		GridBagConstraints parg = new GridBagConstraints();
-		parg.anchor = GridBagConstraints.NORTHWEST;
-		parg.insets = new Insets(5, 5, 5, 5);
-		parg.gridx=0;
-		parg.gridy=0;
+		
+		//	innerPanel
+		g.anchor = GridBagConstraints.NORTHWEST;
+		g.insets = new Insets(5, 5, 5, 5);
+		g.gridx=0;
+		g.gridy=0;
 
 		innerPanel = new JPanel(new GridBagLayout());
 
-	// Personvelger
-		innerPanel.add(new JLabel("Velg deltakere: "),parg);
+		
+		
+		// Personvelger
+		innerPanel.add(new JLabel("Velg deltakere: "),g);
 		
 		defaultPersonListModel = new DefaultListModel();
+		
+
+	
 		personList = new JList(defaultPersonListModel);
 		personList.setCellRenderer(new PersonListRenderer());
 		personList.setVisibleRowCount(5);
 		personList.setFixedCellWidth(250);
 		personList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		parg.gridx=1;
-		innerPanel.add(personList,parg);
+		g.gridx=1;
+		innerPanel.add(personList,g);
 		
 		JScrollPane personScroll = new JScrollPane(personList);
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		innerPanel.add(personScroll,parg);
+		innerPanel.add(personScroll,g);
 		
-		parg.gridx=0;
-		parg.gridy=1;
+		g.gridx=0;
+		g.gridy=1;
 	
-	// Romvelger
-		innerPanel.add(new JLabel("Reserver rom: "),parg);
+		
+		
+		// Romvelger
+		innerPanel.add(new JLabel("Reserver rom: "),g);
 		
 		defaultRomListModel = new DefaultListModel();
+		
+		
+
+		
 		romList = new JList(defaultRomListModel);
 		romList.setCellRenderer(new RoomListRenderer());
 		romList.setVisibleRowCount(5);
 		romList.setFixedCellWidth(250);
 		romList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		parg.gridx=1;
-		innerPanel.add(romList,parg);
+		g.gridx=1;
+		innerPanel.add(romList,g);
 		
 		JScrollPane romScroll = new JScrollPane(romList);
 		romScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		innerPanel.add(romScroll,parg);
+		innerPanel.add(romScroll,g);
 		
 //	end innerPanel
 		g.gridy=0;
@@ -122,6 +135,22 @@ public class MeetingPanel extends JPanel{
 // Adding dummy rooms and users
 //		addDummyValues();
 		
+	}
+	
+	public void setRooms(ArrayList<Room> r){
+		rooms = r;
+	}
+	
+	public void fillLists(ArrayList<Room> r, ArrayList<User> u){
+
+		
+		for (int i = 0; i < u.size(); i++) {
+			defaultPersonListModel.addElement(u.get(i));
+		}
+		
+		for (int i = 0; i < r.size(); i++) {
+			defaultRomListModel.addElement(r.get(i));
+		}
 	}
 	
 	/**
