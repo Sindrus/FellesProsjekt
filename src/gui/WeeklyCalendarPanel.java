@@ -75,18 +75,20 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		
 		g.weightx = 20;
 
-		g.fill = GridBagConstraints.NONE;
+		g.fill = GridBagConstraints.HORIZONTAL;
 		
 		setBackground(GConfig.WEEKLYCOLOR);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
 		left = new JButton("<=");
+		left.setBackground(GConfig.VARSELCOLOR);
 		left.addActionListener(this);
 		add(left,g);
 
 		g.gridx = 6;
 		right = new JButton("=>");
+		right.setBackground(GConfig.VARSELCOLOR);
 		right.addActionListener(this);
 		add(right,g);
 

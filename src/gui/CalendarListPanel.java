@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +17,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
+import model.DBUser;
+import model.User;
 import util.GUIListenerSupport;
 
 /**
@@ -76,6 +81,8 @@ public class CalendarListPanel extends JPanel {
 	}
 	
 	public void populateCalendarList(){
+		ArrayList<User> users = DBUser.getUsersInSystem();
+		
 		
 	}
 	

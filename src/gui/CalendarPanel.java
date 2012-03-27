@@ -107,7 +107,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 		//CalendarListPanel and InvitationListPanel
 		g.anchor = GridBagConstraints.NORTHWEST;
-		g.fill = GridBagConstraints.BOTH;
+//		g.fill = GridBagConstraints.BOTH;
 		g.gridx = 0;
 		g.gridy = 0;
 		CalendarListPanel cl = new CalendarListPanel();
@@ -117,12 +117,14 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		g.gridx = 0;
 		g.gridy = 1;
 //		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
+
 		InvitationListPanel il = new InvitationListPanel();
 		il.setBackground(GConfig.LISTCOLOR);
 		listPanel.add(il, g);
 		
 		g.gridx = 0;
 		g.gridy = 1;
+
 		//listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
 		add(listPanel, g);
 		//end the two lists.
@@ -135,10 +137,10 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	//	g.weighty=0.0;
 	//	g.weightx=0.0;
 		
-		g.gridheight = GridBagConstraints.REMAINDER;
-		g.gridheight=1;
-		g.weightx=0.0;
-		g.weighty=0.0;
+//		g.gridheight = GridBagConstraints.REMAINDER;
+//		g.gridheight=1;
+//		g.weightx=0.0;
+//		g.weighty=0.0;
 		g.anchor = GridBagConstraints.NORTH;
 		wp = new WeeklyCalendarPanel();
 //		wp.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()/(1.6)), (int)(tool.getScreenSize().getHeight()/(1.3))));
@@ -151,6 +153,11 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		g.anchor = GridBagConstraints.SOUTHWEST;
 		g.gridx = 0;
 		g.gridy = 3;
+
+		g.anchor = GridBagConstraints.SOUTHWEST;
+		g.gridx = 0;
+		g.gridy = 3;
+
 		vars.addActionListener(this);
 		add(vars,g);
 		//end bottom panel

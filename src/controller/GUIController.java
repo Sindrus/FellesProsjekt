@@ -39,6 +39,7 @@ public class GUIController implements GUIListener{
 	private CalendarPanel calendarPanel;
 	private NewPanel newPanel;
 	private User user;
+	private GridBagConstraints g;
 
 
 
@@ -72,9 +73,13 @@ public class GUIController implements GUIListener{
 	 */
 	private void startPanels(){
 		System.out.println("Initializing panels");
-
+		
+		g = new GridBagConstraints();
+		g.weightx = 1;
+		g.weighty = 1;
+		g.fill = GridBagConstraints.BOTH;
 		pp = new ProjectPanel();
-		//pp.setLayout(new BorderLayout());
+		pp.setLayout(new GridBagLayout());
 		
 
 		loginPanel = new LoginPanel();
@@ -183,7 +188,7 @@ public class GUIController implements GUIListener{
 			System.out.println("ct = logout");
 			user = null;
 			loggedIn = false;
-			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
+//			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
