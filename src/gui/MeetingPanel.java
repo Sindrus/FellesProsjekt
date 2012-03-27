@@ -197,11 +197,11 @@ public class MeetingPanel extends JPanel{
 	
 	public void addDummyValues(){
 		
-		user1 = new User("sindre", "sindrus");
+	//	user1 = new User("sindre", "sindrus");
 		defaultPersonListModel.addElement(user1);
-		user2 = new User("petter", "pettern");
+		//user2 = new User("petter", "pettern");
 		defaultPersonListModel.addElement(user2);
-		user3 = new User("christer", "chris");
+	//	user3 = new User("christer", "chris");
 		defaultPersonListModel.addElement(user3);
 		
 		room1 = new Room(1, 4);
