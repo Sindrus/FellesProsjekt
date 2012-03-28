@@ -74,7 +74,9 @@ public class NewPanel extends JPanel implements GUIListener{
 	 */
 	public void redraw() {
 		removeAll();
+		
 		if(!isMeetingPanel){
+			System.out.println("redrawing new panel_______________________________________");
 			add(newAppointmentPanel,g);
 		}else{
 			long startTimestamp = 0L;
@@ -107,21 +109,24 @@ public class NewPanel extends JPanel implements GUIListener{
 			System.out.println("ct == meeting");
 			isMeetingPanel=true;
 			isMeeting=true;
-			notifyGui(ChangeType.CREATE, null);
+			redraw();
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
+			redraw();
 		}else if(ct==ChangeType.CANCEL){
 			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else if(ct==ChangeType.CREATEMEETING){
-			gls.notifyListeners(ct, null);
+			notifyGui(ChangeType.CREATE, null);
 		}else if(ct==ChangeType.CREATE){
 			System.out.println("11111111111111111�����������������������SAFASDHJFBWIAFCIASJNF�LA�FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 			saveData();
+			System.out.println("returning to calendar ___________________________________");
 			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else{
 			isMeetingPanel=false;
+			redraw();
 		}
-		redraw();
+		
 	}
 
 	public void addGuiListener(GUIListener listener){
@@ -158,33 +163,14 @@ public class NewPanel extends JPanel implements GUIListener{
 		}
 		else if(isMeeting){
 			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp, endTimestamp, newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
+			System.out.println("Meeting ID: " + meet.getId());
 			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) 
 				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
 
 		}
 	}
 
-	/**
-	 * This method takes in a date and converts it into milliseconds. 
-	 * @param year
-	 * 			Takes a year argument as an <code>int</code>
-	 * @param month
-	 * 			Takes a month argument as an <code>int</code>
-	 * @param day
-	 * 			Takes a day argument as an <code>int</code>
-	 * @param hour
-	 * 			Takes an hour argument as an <code>int</code>
-	 * @param min
-	 * 			Takes a min argument as an <code>int</code>
-	 * @param sec
-	 * 			Takes a sec argument as an <code>int</code>
-	 * @return Returns the computed value as a <code>long</code> in milliseconds
-	 */
-	public static long getMillitime(int year, int month, int day, int hour, int min, int sec){
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, day, hour, min, sec);
-		return cal.getTimeInMillis();
-	}
+
 
 	/**
 	 * Takes a month as a <code>string</code> in norwegian and converts it into a 0 based month number

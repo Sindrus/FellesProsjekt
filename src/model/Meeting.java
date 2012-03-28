@@ -23,7 +23,8 @@ import java.util.ArrayList;
 public class Meeting extends Appointment{
 	private User owner;
 	private Room room;
-	private ArrayList<User> participants; 
+	private ArrayList<User> participants= new ArrayList<User>();; 
+
 	
 	public User getOwner() {
 		return owner;
