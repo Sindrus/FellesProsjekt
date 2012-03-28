@@ -103,9 +103,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 			dayList[i] = new DayListPanel();
 			dayScroll[i] = new JScrollPane();
-
+			
 			dayScroll[i].getViewport().add(dayList[i]);
-			add(dayList[i], g);
+			add(dayScroll[i], g);
 			g.gridx += 1;
 
 		}
