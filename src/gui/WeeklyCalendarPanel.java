@@ -35,6 +35,10 @@ import util.GUIListenerSupport;
 import model.Appointment;
 import model.DBAppointment;
 
+import util.ChangeType;
+import util.GUIListener;
+import util.GUIListenerSupport;
+
 /**
  * 
  * @author Jorgen
@@ -62,9 +66,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private GridBagConstraints g = new GridBagConstraints();
 	private JLabel ukenummer = new JLabel();
 	private Year y;
+
 	private JScrollPane[] dayScroll;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
 	private long firstDay, lastDay;
+
 	private GUIListenerSupport gls;
 
 
@@ -76,25 +82,32 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		g.weightx = 20;
 
+
 		g.fill = GridBagConstraints.HORIZONTAL;
 
 		setBackground(GConfig.WEEKLYCOLOR);
+
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
 		left = new JButton("<=");
+
 		left.setBackground(GConfig.VARSELCOLOR);
+
 		left.addActionListener(this);
 		add(left,g);
 
 		g.gridx = 6;
 		right = new JButton("=>");
+
 		right.setBackground(GConfig.VARSELCOLOR);
+
 		right.addActionListener(this);
 		add(right,g);
 
 		g.gridx = 3;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
+		ukenummer.setBackground(Color.PINK);
 		add (ukenummer,g);
 		
 		g.gridy = 3;
@@ -112,6 +125,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
+
 			//dayList[i].setPreferredSize(new Dimension(415,420));
 
 			dayList[i].setBorder(BorderFactory.createEtchedBorder());
@@ -121,10 +135,12 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			dayScroll[i].setVisible(true);
 			dayScroll[i].setMinimumSize(new Dimension((int)tool.getScreenSize().getWidth()/13, (int)(tool.getScreenSize().getHeight()/(1.5))));
 //			dayScroll[i].setMinimumSize(new Dimension(100, 100));
+
 			add(dayScroll[i], g);
 			g.gridx += 1;
 
 		}
+
 
 
 		updateWeek();
@@ -150,6 +166,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		firstDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[0]))), (y.weeks.get(weeknum)[0]), 0, 0, 0);
 		lastDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[6]))), (y.weeks.get(weeknum)[6]), 0, 0, 0);
+
 
 
 
@@ -214,6 +231,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()== left){
 			weeknum -= 1;
+
 			gls.notifyListeners(ChangeType.PREVWEEK, null);
 		}
 		else if(e.getSource()== right){
@@ -224,9 +242,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			ArrayList<Object> a = new ArrayList<Object>();
 			a.add(e.getSource());
 			gls.notifyListeners(ChangeType.APPBUTTON, a);
+
 		}
 
 	}
+
 
 
 	public void setAppointments(ArrayList<Appointment> a) {

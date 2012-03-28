@@ -34,6 +34,7 @@ public class ProjectPanel extends JPanel {
 	public CalendarPanel calendarPanel;
 
 	NewPanel newPanel;
+	WeeklyCalendarPanel wcp;
 
 	private User user;
 
