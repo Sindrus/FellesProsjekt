@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,14 +23,14 @@ public class LoginPanel extends JPanel implements ActionListener{
 
 	JTextField usernameField;
 	JTextField passwordField;
-	JButton loginBtn;
+	JButton loginBtn, exitBtn;
 
 	GUIListenerSupport gls;
 
 	public LoginPanel(){
 		
 		gls = new GUIListenerSupport();
-
+		setBackground(GConfig.LOGINCOLOR);
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 
@@ -71,10 +72,14 @@ public class LoginPanel extends JPanel implements ActionListener{
 		loginBtn.addActionListener(this);
 
 		g.anchor = GridBagConstraints.CENTER;
-		g.gridwidth=2;
 		g.gridx=0;
 		g.gridy=3;
 		add(loginBtn,g);
+		
+		exitBtn = new JButton("Avslutt");
+		exitBtn.addActionListener(this);
+		g.gridx=1;
+		add(exitBtn,g);
 	}
 
 
@@ -91,6 +96,8 @@ public class LoginPanel extends JPanel implements ActionListener{
 			gls.notifyListeners(ChangeType.LOGIN, array);
 			usernameField.setText("");
 			passwordField.setText("");
+		}else if(e.getSource()==exitBtn){
+			System.exit(0);
 		}
 	}
 	

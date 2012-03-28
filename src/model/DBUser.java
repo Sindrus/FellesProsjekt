@@ -98,9 +98,14 @@ public class DBUser {
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
 
-
 				int id = results.getInt("ID");
-				list.add(DBAppointment.getAppointment(id));
+				long start = results.getLong("Tid_start");
+				long end = results.getLong("Tid_slutt");
+				String title = results.getString("Tittel");
+				String desc = results.getString("Beskrivelse");
+				new Appointment(id, start, end, title, desc);
+
+				list.add(new Appointment(id, start, end, title, desc));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

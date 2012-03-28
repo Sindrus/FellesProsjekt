@@ -13,6 +13,7 @@ import controller.GUIController;
 
 import model.Appointment;
 import model.Meeting;
+import model.User;
 import util.ChangeType;
 import util.DateHelpers;
 import util.GUIListener;
@@ -56,9 +57,10 @@ gls = new GUIListenerSupport();
 
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
 		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
-		
-		
-	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
+		System.out.println("_______________________");
+		System.out.println(app.getId());
+		System.out.println(app.getStart());
+		System.out.println(app.getEnd());
 		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
 		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
 		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
@@ -126,13 +128,19 @@ gls = new GUIListenerSupport();
 		}else if(ct==ChangeType.BACK){
 			isMeetingPanel=false;
 		}else if(ct==ChangeType.CANCEL){
-			System.exit(0);
+			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else if(ct==ChangeType.CREATEMEETING || ct==ChangeType.CREATE){
 			saveChanges();
+		}else if(ct==ChangeType.DELETE){
+			gls.notifyListeners(ct, null);
 		}else{
 			isMeetingPanel=false;
 		}
 		redraw();
+	}
+	
+	public boolean getIsMeeting(){
+		return isMeeting;
 	}
 	
 	public void saveChanges(){
@@ -157,7 +165,11 @@ gls = new GUIListenerSupport();
 		meet.setEnd(end);
 		meet.setRoom(editMeetingPanel.getRoom());
 		meet.removeParticipants();
-		meet.setParticipants(editMeetingPanel.getSelectedParticipants());
+		ArrayList<User> users= new ArrayList<User>();
+		for(Object user : editMeetingPanel.getSelectedParticipants())
+			users.add((User)user);
+			
+		meet.setParticipants(users);
 		
 	}
 	private void saveAppointment(long start, long end){
@@ -167,14 +179,14 @@ gls = new GUIListenerSupport();
 		app.setEnd(end);
 	}
 	
-	public static void main(String args[]) {
-		JFrame frame = new JFrame("Appointment");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.add(new EditPanel());
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String args[]) {
+//		JFrame frame = new JFrame("Appointment");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.add(new EditPanel());
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 	
 	public void addListener(GUIListener l){
 		gls.add(l);

@@ -4,6 +4,7 @@ package controller;
 
 import gui.*;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -13,9 +14,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 import model.DBAppointment;
+import model.DBMeeting;
 
 import model.DBUser;
 
@@ -29,7 +33,7 @@ import util.GUIListener;
  * @author jorgen
  *
  */
-public class GUIController implements GUIListener{
+public class GUIController implements GUIListener, ListSelectionListener{
 
 	private ProjectPanel pp;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
@@ -37,7 +41,10 @@ public class GUIController implements GUIListener{
 	private LoginPanel loginPanel;
 	private CalendarPanel calendarPanel;
 	private NewPanel newPanel;
-	private User user;
+	private User user, viewUser;
+	private GridBagConstraints g;
+	private int selectedAppointmentID;
+	private boolean wasSelectedApp;
 
 
 
@@ -53,9 +60,10 @@ public class GUIController implements GUIListener{
 		jf.setLayout(new GridBagLayout());
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		jf.setContentPane(pp);
+	//	jf.setContentPane(pp);
+		jf.add(pp);
 		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
-		jf.getContentPane().setBackground(Color.BLUE);
+		jf.getContentPane().setBackground(Color.DARK_GRAY);
 		jf.setVisible(true);
 
 		notifyGui(ChangeType.LOGOUT, null);
@@ -71,21 +79,33 @@ public class GUIController implements GUIListener{
 	 */
 	private void startPanels(){
 		System.out.println("Initializing panels");
-
+		
+		g = new GridBagConstraints();
+		g.weightx = 1;
+		g.weighty = 1;
+		g.fill = GridBagConstraints.BOTH;
 		pp = new ProjectPanel();
+		pp.setLayout(new GridBagLayout());
+		
 
 		loginPanel = new LoginPanel();
 		loginPanel.addGuiListener(this);
 
 		calendarPanel = new CalendarPanel();
 		calendarPanel.addGuiListener(this);
+		calendarPanel.cl.calendarList.addListSelectionListener(this);
+		populateCalendarList();
 
 		System.out.println("Panels initialized");
 	}
 
-
-
-
+	
+	public void populateCalendarList(){
+		ArrayList<User> users = DBUser.getUsersInSystem();
+		System.out.println(users);
+		for(int i=0;i<users.size();i++)
+			calendarPanel.cl.addUserToList(users.get(i));
+	}
 
 	/**
 	 * This method is located in GUIController, and handles all input from the GUI panels. 
@@ -142,6 +162,7 @@ public class GUIController implements GUIListener{
 			//Here there should be a call to Database for user matching the username. 
 			//Place user in this variable and call validate Login on it.
 			user = DBUser.getUser((String)list.get(0));
+			viewUser = user;
 			System.out.println(user.getName());
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
@@ -180,6 +201,7 @@ public class GUIController implements GUIListener{
 			System.out.println("ct = logout");
 			user = null;
 			loggedIn = false;
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
@@ -188,20 +210,22 @@ public class GUIController implements GUIListener{
 		else if(ct == ChangeType.APPBUTTON){
 			System.out.println("Appointment button called");
 			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
-			//EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
-			//ep.addListener(this);
-			//pp.add(ep);
+			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			selectedAppointmentID = ((AButton)(list.get(0))).getAppointment().getId();
+			wasSelectedApp = ep.getIsMeeting();
+			ep.addListener(this);
+			pp.add(ep);
 		}
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
-			ArrayList a = DBUser.getUserAppointments(user.getId());
+			
+			ArrayList a = DBUser.getUserAppointments(viewUser.getId());
 			calendarPanel.wp.setAppointments(a);
-	
-			pp.add(calendarPanel);
+			calendarPanel.buildCalendarPanel();
+			pp.add(calendarPanel, g);
 		}
-
-
+		
 		// New appointment button clicked in Calendar Panel. Change view to newPanel.
 		else if(ct == ChangeType.NEWAPP){
 			System.out.println("ct = newApp");
@@ -213,14 +237,36 @@ public class GUIController implements GUIListener{
 			pp.add(newPanel);
 
 		}
-
+		
+		else if(ct == ChangeType.CREATEMEETING){
+			System.out.println("Mottatte del: "+list);
+			notifyGui(ChangeType.CALENDAR, null);
+		}else if(ct== ChangeType.DELETE){
+			System.out.println(DBAppointment.getAppointment(selectedAppointmentID));
+			if(wasSelectedApp)
+				DBAppointment.deleteAppointment(selectedAppointmentID);
+			else
+				DBMeeting.deleteMeeting(selectedAppointmentID);
+			notifyGui(ChangeType.CALENDAR, null);
+		}
 		else{
 			System.out.println("ChangeType not recognized");
-
+			
 		}
 
-
 		pp.validate();
+		pp.revalidate();
+		pp.repaint();
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		pp.removeAll();
+		viewUser = (User)calendarPanel.cl.calendarList.getSelectedValue();
+		ArrayList a = DBUser.getUserAppointments(viewUser.getId());
+		calendarPanel.wp.setAppointments(a);
+		pp.add(calendarPanel);
 		pp.revalidate();
 		pp.repaint();
 	}

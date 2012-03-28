@@ -33,6 +33,7 @@ import util.GUIListenerSupport;
 
 
 import model.Appointment;
+import model.DBAppointment;
 
 /**
  * 
@@ -73,23 +74,29 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
 
-		setBackground(Color.WHITE);
+		g.weightx = 20;
+
+		g.fill = GridBagConstraints.HORIZONTAL;
+
+		setBackground(GConfig.WEEKLYCOLOR);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
 		left = new JButton("<=");
+		left.setBackground(GConfig.VARSELCOLOR);
 		left.addActionListener(this);
 		add(left,g);
 
 		g.gridx = 6;
 		right = new JButton("=>");
+		right.setBackground(GConfig.VARSELCOLOR);
 		right.addActionListener(this);
 		add(right,g);
 
 		g.gridx = 3;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
 		add (ukenummer,g);
-
+		
 		g.gridy = 3;
 		g.gridx = 0;
 		for (int i = 0; i < 7; i++) {
@@ -98,8 +105,10 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			g.gridx += 1;
 		}
 
-		g.gridy = 4;
+		g.gridy = 5;
 		g.gridx = 0;
+		g.fill = GridBagConstraints.BOTH;
+//		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
@@ -111,11 +120,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			//dayScroll[i].setViewportView(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			dayScroll[i].setVisible(true);
 			dayScroll[i].setMinimumSize(new Dimension((int)tool.getScreenSize().getWidth()/13, (int)(tool.getScreenSize().getHeight()/(1.5))));
+//			dayScroll[i].setMinimumSize(new Dimension(100, 100));
 			add(dayScroll[i], g);
 			g.gridx += 1;
 
 		}
-
 
 
 		updateWeek();
@@ -231,9 +240,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 	public void setAppointments(ArrayList<Appointment> a) {
-
+		System.out.println(a);
 		updateWeek();
-		System.out.println("Setting " + a.size() + " appointments");
+
 
 		for (int i = 0; i < dayList.length; i++) {
 
@@ -241,14 +250,30 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 			for (int j = 0; j < a.size(); j++) {
+				int x = 0;
 
-				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])){
+
+
+				String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
+				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])
+						&& DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("month") == y.dayMonth.get(dm)){
+
 					Appointment app = a.get(j);
 					AButton b = new AButton(a.get(j));
 					b.addActionListener(this);
 					dayList[i].addButton(b);
-					
+					x += 1;
 				}
+				else{
+
+				}
+
+
+				//				if(x== 0){
+				//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
+				//					b.setVisible(false);
+				//					dayList[i].addButton(b);
+				//				}
 			}
 
 

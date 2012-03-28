@@ -1,10 +1,13 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -32,6 +35,7 @@ public class MeetingPanel extends JPanel{
 	//Dummyvalues
 	User user1,user2,user3;
 	Room room1,room2,room3;
+	private ArrayList<Room> rooms;
 	
 	/**
 	 * Constructor for the <code>NewMeetingPanel</code> that creates all the JObjects
@@ -42,54 +46,70 @@ public class MeetingPanel extends JPanel{
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
+		
 		g.anchor = GridBagConstraints.CENTER;
 		g.insets = new Insets(5, 5, 5, 5);
 		g.weightx = 0.5;
 		g.weighty = 0.5;
 		
-//	innerPanel
-		GridBagConstraints parg = new GridBagConstraints();
-		parg.anchor = GridBagConstraints.NORTHWEST;
-		parg.insets = new Insets(5, 5, 5, 5);
-		parg.gridx=0;
-		parg.gridy=0;
+		
+		//	innerPanel
+		g.anchor = GridBagConstraints.NORTHWEST;
+		g.insets = new Insets(5, 5, 5, 5);
+		g.gridx=0;
+		g.gridy=0;
 
 		innerPanel = new JPanel(new GridBagLayout());
 
-	// Personvelger
-		innerPanel.add(new JLabel("Velg deltakere: "),parg);
+		
+		
+		// Personvelger
+		innerPanel.add(new JLabel("Velg deltakere: "),g);
 		
 		defaultPersonListModel = new DefaultListModel();
+		
+
+	
 		personList = new JList(defaultPersonListModel);
 		personList.setCellRenderer(new PersonListRenderer());
 		personList.setVisibleRowCount(5);
 		personList.setFixedCellWidth(250);
 		personList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		parg.gridx=1;
-		innerPanel.add(personList,parg);
+		g.gridx=1;
+		innerPanel.add(personList,g);
 		
 		JScrollPane personScroll = new JScrollPane(personList);
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		innerPanel.add(personScroll,parg);
+		personScroll.setMinimumSize(new Dimension(300,100));
+		innerPanel.add(personScroll,g);
 		
-		parg.gridx=0;
-		parg.gridy=1;
+		g.gridx=0;
+		g.gridy=1;
 	
-	// Romvelger
-		innerPanel.add(new JLabel("Reserver rom: "),parg);
+		
+		
+		// Romvelger
+		innerPanel.add(new JLabel("Reserver rom: "),g);
 		
 		defaultRomListModel = new DefaultListModel();
+		
+		
+
+		
 		romList = new JList(defaultRomListModel);
 		romList.setCellRenderer(new RoomListRenderer());
 		romList.setVisibleRowCount(5);
 		romList.setFixedCellWidth(250);
+		romList.setFixedCellHeight(25);
+		
 		romList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		parg.gridx=1;
-		innerPanel.add(romList,parg);
+		g.gridx=1;
+		innerPanel.add(romList,g);
 		
 		JScrollPane romScroll = new JScrollPane(romList);
+		romScroll.setMinimumSize(new Dimension(300,100));
 		romScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		innerPanel.add(romScroll,parg);
+		innerPanel.add(romScroll,g);
 		
 //	end innerPanel
 		g.gridy=0;
@@ -124,6 +144,22 @@ public class MeetingPanel extends JPanel{
 		
 	}
 	
+	public void setRooms(ArrayList<Room> r){
+		rooms = r;
+	}
+	
+	public void fillLists(ArrayList<Room> r, ArrayList<User> u){
+
+		
+		for (int i = 0; i < u.size(); i++) {
+			defaultPersonListModel.addElement(u.get(i));
+		}
+		
+		for (int i = 0; i < r.size(); i++) {
+			defaultRomListModel.addElement(r.get(i));
+		}
+	}
+	
 	/**
 	 * Returns the roomnumber of the selected room
 	 * @return roomnumber as <code>int</code>
@@ -150,10 +186,10 @@ public class MeetingPanel extends JPanel{
 	 * Returns a list of selected <code>User</code> objects as an ArrayList 
 	 * @return list of <code>User</code>
 	 */
-	public ArrayList<User> getSelectedParticipants(){
-		ArrayList<User> participantList = new ArrayList<User>();
+	public ArrayList<Object> getSelectedParticipants(){
+		ArrayList<Object> participantList = new ArrayList<Object>();
 		for(int i=0;i<personList.getSelectedIndices().length;i++)
-			participantList.add((User)defaultPersonListModel.getElementAt(i));
+			participantList.add(defaultPersonListModel.getElementAt(i));
 		return participantList;
 	}
 	
@@ -186,6 +222,9 @@ public class MeetingPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
+			for(Object i : getSelectedParticipants())
+				array.add(i);
+			System.out.println("Inviterte: "+array);
 			gls.notifyListeners(ChangeType.CREATEMEETING, array);
 		}
 	}
@@ -194,8 +233,6 @@ public class MeetingPanel extends JPanel{
 		gls.add(listener);
 	}
 	
-	
-
 //	public void addDummyValues(){
 //		
 //		user1 = new User("sindre", "sindrus");

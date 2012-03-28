@@ -185,12 +185,8 @@ public class DBMeeting {
 
 		int appointmentID = DBAppointment.newAppointment(owner.getId(), from, to, title, description).getId();
 
-		String makeMeetingRef = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES( "
-					+ owner.getId()
-					+ ", "
-					+ appointmentID
-					+ ");";
-		Database.executeUpdate(makeMeetingRef);
+		
+
 		
 		String makeNotificationRef = "INSERT INTO Varsel(Avtale_ID, Beskrivelse) VALUES ("
 									+ appointmentID
@@ -209,7 +205,7 @@ public class DBMeeting {
 									+ ");";
 			Database.executeUpdate(addParticipants);
 		}
-		
+		System.out.println("meeting added to db");
 		try {
 			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
 			//The meeting is successfully returned
