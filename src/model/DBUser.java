@@ -99,12 +99,8 @@ public class DBUser {
 			while(results.next()){
 
 				int id = results.getInt("ID");
-				String timeFrom = results.getTimestamp("Tid_start").toString();
-				timeFrom = timeFrom.replaceAll("[- :.]", "");
-				String timeTo = results.getTimestamp("Tid_slutt").toString();
-				timeTo = timeTo.replaceAll("[- :.]", "");
-				long start = Long.parseLong(timeFrom.substring(0, timeFrom.length()-1));
-				long end = Long.parseLong(timeTo.substring(0, timeFrom.length()-1));
+				long start = results.getLong("Tid_start");
+				long end = results.getLong("Tid_slutt");
 				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
 				new Appointment(id, start, end, title, desc);
