@@ -184,13 +184,11 @@ public class ConnectionImpl extends AbstractConnection{
        }
 	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
 	   int tries = 5;
-	   while(tries >= 0 && !checksumCheck(ack)){ //This is not a fail. fail occurs at SafelySendAck.
+	   while(tries-- >= 0 && !checksumCheck(ack)){ //This is not a fail. fail occurs at recieve().
 		   System.out.println("do we stop here with a fail?" + tries);
 		   ack = sendDataPacketWithRetransmit(datapacket);
-		   tries = tries - 1;
 	   }
-	   if (!checksumCheck(ack) || ack.getFlag() != Flag.SYN_ACK ||
-			   ack.getFlag() != Flag.SYN || ack.getFlag() != Flag.ACK){
+	   if (!checksumCheck(ack) || ack.getFlag() != Flag.ACK){
 		   state = State.CLOSED;
 		   throw new IOException("Failed to send packet");
 	   }
@@ -214,9 +212,10 @@ public class ConnectionImpl extends AbstractConnection{
     		ktnd = receivePacket(false);
     	} catch (EOFException e){
     		throw e;
-    	} catch (IOException e) {} //Ignore
+    	} catch (IOException e) {}
     	//Send ACK and deliver content to application
-    	if(checksumCheck(ktnd) && ktnd.getFlag() == Flag.NONE && ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +1){
+    	if(checksumCheck(ktnd) && ktnd.getFlag() == Flag.NONE && ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
+    			System.out.println("we should be here now.");
     			lastValidPacketReceived = ktnd;
     			safelySendAck(ktnd);
     			return (String) ktnd.getPayload();
