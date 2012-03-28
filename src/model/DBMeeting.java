@@ -196,13 +196,13 @@ public class DBMeeting {
 		Database.executeUpdate(makeNotificationRef);
 
 		for(User user : participants){
-			String addParticipants = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES ("
+			String addParticipants = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID, Status) VALUES ("
 									+ appointmentID
 									+ ", "
 									+ user.getId()
 									+ ", "
 									+ DBNotification.getNotificationID(appointmentID)
-									+ ");";
+									+ ", 1);";
 			Database.executeUpdate(addParticipants);
 		}
 		System.out.println("meeting added to db");
