@@ -316,29 +316,27 @@ public class ConnectionImpl extends AbstractConnection{
     		//Send FIN and receive FIN_ACK
     		KtnDatagram fin = constructInternalPacket(Flag.FIN), fin_ack = null;
     		fin_ack = safelySendPacket(fin, State.ESTABLISHED, State.FIN_WAIT_1);
-    		if (!checksumCheck(fin_ack) || fin_ack.getFlag() != Flag.ACK){
+    		if (!checksumCheck(fin_ack)){
     			throw new IOException("Could not close connection; did not receive FIN_ACK");
     		}
     		state = State.FIN_WAIT_2;
     		fin = null;
-    		int timer = 4;
     		long start1 = System.currentTimeMillis();
     		do {
-    			timer--;
     			fin = receivePacket(true);
     			break;
-    	   	}while(timer >= 0 && (TRIES[3-timer] + start1) <= System.currentTimeMillis());
+    	   	}while(TIME_WAIT_DURATION + start1 <= System.currentTimeMillis());
+    		System.out.println(checksumCheck(fin));
     		if (!checksumCheck(fin) || fin.getFlag() != Flag.FIN){
     			throw new IOException("Failed to close connection; never received final FIN");
     		}
-    		timer = 4;
     		long start2 = System.currentTimeMillis();
     		do {
     			if (checksumCheck(fin)){
     				safelySendAck(fin);
     			}
     			fin = receivePacket(true);
-    		} while ((TRIES[3-timer] + start2) <= System.currentTimeMillis());
+    		} while (TIME_WAIT_DURATION + start2 <= System.currentTimeMillis());
     		state = State.CLOSED;
     	}
     }
