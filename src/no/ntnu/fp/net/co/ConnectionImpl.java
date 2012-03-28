@@ -174,9 +174,8 @@ public class ConnectionImpl extends AbstractConnection{
     	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
     		// We got here.
     		boolean sent = false;
-    		do try {
+    		try {
     			sendAck(lastValidPacketReceived, false);
-    			System.out.println("Do we get here?");
     			sent = true;
     		}catch (SocketException e) {
     		}while (sent == false);
