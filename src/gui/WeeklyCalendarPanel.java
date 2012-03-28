@@ -95,7 +95,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		g.gridx = 3;
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
 		add (ukenummer,g);
-
+		
 		g.gridy = 3;
 		g.gridx = 0;
 		for (int i = 0; i < 7; i++) {
@@ -107,7 +107,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		g.gridy = 5;
 		g.gridx = 0;
 		g.fill = GridBagConstraints.BOTH;
-		g.weighty = 0.5;
+//		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
@@ -119,6 +119,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			//dayScroll[i].setViewportView(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			dayScroll[i].setVisible(true);
 			dayScroll[i].setMinimumSize(new Dimension((int)tool.getScreenSize().getWidth()/13, (int)(tool.getScreenSize().getHeight()/(1.5))));
+//			dayScroll[i].setMinimumSize(new Dimension(100, 100));
 			add(dayScroll[i], g);
 			g.gridx += 1;
 
@@ -252,7 +253,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 
 	public void setAppointments(ArrayList<Appointment> a) {
-
+		System.out.println(a);
 		updateWeek();
 		System.out.println("Setting " + a.size() + " appointments");
 

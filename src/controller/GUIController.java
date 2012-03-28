@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 import model.DBAppointment;
@@ -30,7 +32,7 @@ import util.GUIListener;
  * @author jorgen
  *
  */
-public class GUIController implements GUIListener{
+public class GUIController implements GUIListener, ListSelectionListener{
 
 	private ProjectPanel pp;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
@@ -38,7 +40,7 @@ public class GUIController implements GUIListener{
 	private LoginPanel loginPanel;
 	private CalendarPanel calendarPanel;
 	private NewPanel newPanel;
-	private User user;
+	private User user, viewUser;
 	private GridBagConstraints g;
 
 
@@ -55,8 +57,9 @@ public class GUIController implements GUIListener{
 		jf.setLayout(new GridBagLayout());
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		jf.setContentPane(pp);
-//		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
+	//	jf.setContentPane(pp);
+		jf.add(pp);
+		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
 		jf.getContentPane().setBackground(Color.DARK_GRAY);
 		jf.setVisible(true);
 
@@ -87,13 +90,19 @@ public class GUIController implements GUIListener{
 
 		calendarPanel = new CalendarPanel();
 		calendarPanel.addGuiListener(this);
+		calendarPanel.cl.calendarList.addListSelectionListener(this);
+		populateCalendarList();
 
 		System.out.println("Panels initialized");
 	}
 
-
-
-
+	
+	public void populateCalendarList(){
+		ArrayList<User> users = DBUser.getUsersInSystem();
+		System.out.println(users);
+		for(int i=0;i<users.size();i++)
+			calendarPanel.cl.addUserToList(users.get(i));
+	}
 
 	/**
 	 * This method is located in GUIController, and handles all input from the GUI panels. 
@@ -136,7 +145,7 @@ public class GUIController implements GUIListener{
 		//If user in
 		if (!loggedIn){
 			System.out.println("not logged in");
-//			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
@@ -150,6 +159,7 @@ public class GUIController implements GUIListener{
 			//Here there should be a call to Database for user matching the username. 
 			//Place user in this variable and call validate Login on it.
 			user = DBUser.getUser((String)list.get(0));
+			viewUser = user;
 			System.out.println(user.getName());
 			if(user.validateLogin((String)list.get(0),(String)list.get(1))){
 				System.out.println("logged in");
@@ -164,8 +174,8 @@ public class GUIController implements GUIListener{
 		else if(ct == ChangeType.CALENDAR){
 			System.out.println("adding calendar");
 
-//			calendarPanel.setPreferredSize(
-//					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
+			calendarPanel.setPreferredSize(
+					new Dimension((int)(tool.getScreenSize().getWidth()-20), (int)((tool.getScreenSize().getHeight()))- 40));
 
 			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
 			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
@@ -188,7 +198,7 @@ public class GUIController implements GUIListener{
 			System.out.println("ct = logout");
 			user = null;
 			loggedIn = false;
-//			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
+			loginPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/3, (int)(tool.getScreenSize().getHeight()/3)));
 			pp.add(loginPanel);
 
 		}
@@ -204,19 +214,19 @@ public class GUIController implements GUIListener{
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
-			ArrayList a = DBUser.getUserAppointments(user.getId());
+			
+			ArrayList a = DBUser.getUserAppointments(viewUser.getId());
 			calendarPanel.wp.setAppointments(a);
-	
+			calendarPanel.buildCalendarPanel();
 			pp.add(calendarPanel, g);
 		}
-
-
+		
 		// New appointment button clicked in Calendar Panel. Change view to newPanel.
 		else if(ct == ChangeType.NEWAPP){
 			System.out.println("ct = newApp");
 
 			newPanel = new NewPanel();
-//			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
+			newPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth() - 40, (int)(tool.getScreenSize().getHeight()-40)));
 			newPanel.addGuiListener(this);
 			newPanel.setUser(this.user);
 			pp.add(newPanel);
@@ -232,8 +242,19 @@ public class GUIController implements GUIListener{
 
 		}
 
-
 		pp.validate();
+		pp.revalidate();
+		pp.repaint();
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		pp.removeAll();
+		viewUser = (User)calendarPanel.cl.calendarList.getSelectedValue();
+		ArrayList a = DBUser.getUserAppointments(viewUser.getId());
+		calendarPanel.wp.setAppointments(a);
+		pp.add(calendarPanel);
 		pp.revalidate();
 		pp.repaint();
 	}

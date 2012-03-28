@@ -43,12 +43,14 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	private JPanel listPanel;
 	LoginPanel loginPanel;
 	NewPanel newPanel;
+	public CalendarListPanel cl;
+	InvitationListPanel il;
 	JFrame f;
 	GridBagConstraints g;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
 	public WeeklyCalendarPanel wp;
 	GUIListenerSupport gls;
-	private DefaultListModel newModel;
+	public DefaultListModel newModel;
 
 	public CalendarPanel(){
 
@@ -66,13 +68,22 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	
 		
 		newap = new JButton("Ny Avtale");
+		newap.addActionListener(this);
+		newap.setBackground(Color.GREEN);
 		logout = new JButton("Log ut");
+		logout.addActionListener(this);
+		cl = new CalendarListPanel();
+		cl.setBackground(GConfig.LISTCOLOR);
 		vars = new JButton("Varslinger");
+		il = new InvitationListPanel();
+		il.setBackground(GConfig.LISTCOLOR);
+		wp = new WeeklyCalendarPanel();
 
 		listPanel = new JPanel(new GridBagLayout());
 
 		listPanel.setBackground(GConfig.LISTCOLOR);
 		vars.setBackground(GConfig.VARSELCOLOR);
+		vars.addActionListener(this);
 		logout.setBackground(GConfig.LOGOUTCOLOR);
 
 		buildCalendarPanel();
@@ -84,13 +95,13 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	
 	
 	public void buildCalendarPanel(){
+		System.out.println("rebuilding");
+		removeAll();
 		
 		//New Appointment.
 		g.anchor = GridBagConstraints.NORTHWEST;
 		g.gridx = 0;
 		g.gridy = 0;
-		newap.addActionListener(this);
-		newap.setBackground(Color.GREEN);
 		add(newap,g);
 		//end the AppointmentButton.
 
@@ -99,7 +110,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		g.anchor = GridBagConstraints.NORTHEAST;
 		g.gridx = 3;
 		g.gridy = 0;
-		logout.addActionListener(this);
 		add(logout,g);
 		//finish logout.
 
@@ -107,25 +117,21 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 		//CalendarListPanel and InvitationListPanel
 		g.anchor = GridBagConstraints.NORTHWEST;
-//		g.fill = GridBagConstraints.BOTH;
+		g.fill = GridBagConstraints.BOTH;
 		g.gridx = 0;
 		g.gridy = 0;
-		CalendarListPanel cl = new CalendarListPanel();
-		cl.setBackground(GConfig.LISTCOLOR);
 		listPanel.add(cl, g);
 
 		g.gridx = 0;
 		g.gridy = 1;
-//		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
+		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
 
-		InvitationListPanel il = new InvitationListPanel();
-		il.setBackground(GConfig.LISTCOLOR);
 		listPanel.add(il, g);
 		
 		g.gridx = 0;
 		g.gridy = 1;
 
-		//listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
+		listPanel.setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth()/7, (int)(tool.getScreenSize().getHeight()/(1.5))));
 		add(listPanel, g);
 		//end the two lists.
 		
@@ -134,17 +140,8 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		//WeeklyCalendar
 		g.gridx = 1;
 		g.gridy = 1;
-	//	g.weighty=0.0;
-	//	g.weightx=0.0;
-		
-//		g.gridheight = GridBagConstraints.REMAINDER;
-//		g.gridheight=1;
-//		g.weightx=0.0;
-//		g.weighty=0.0;
 		g.anchor = GridBagConstraints.NORTH;
-		wp = new WeeklyCalendarPanel();
-//		wp.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()/(1.6)), (int)(tool.getScreenSize().getHeight()/(1.3))));
-//		wp.setPreferredSize(new Dimension(1000, 650));
+		wp.setPreferredSize(new Dimension((int)(tool.getScreenSize().getWidth()/(1.6)), (int)(tool.getScreenSize().getHeight()/(1.3))));
 		add(wp, g);
 		//finish.
 
@@ -158,12 +155,10 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 		g.gridx = 0;
 		g.gridy = 3;
 
-		vars.addActionListener(this);
 		add(vars,g);
 		//end bottom panel
 
-
-		
+		repaint();
 		revalidate();
 	}
 
@@ -185,7 +180,6 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	}
 
 	
-
 	
 	
 	public void actionPerformed(ActionEvent e) {

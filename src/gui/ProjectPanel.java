@@ -42,7 +42,7 @@ public class ProjectPanel extends JPanel {
 	
 	public ProjectPanel()
 	{
-		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+//		setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 	}
 	
 }

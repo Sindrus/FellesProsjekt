@@ -32,14 +32,18 @@ import util.GUIListenerSupport;
 public class CalendarListPanel extends JPanel {
 
 	private JPanel calendarPanel;
-	private JList calendarList;
+	public JList calendarList;
 	private DefaultListModel defaultPersonListModel;
-
+	
+	public void addUserToList(User user){
+		defaultPersonListModel.addElement(user);
+	}
+	
+	
+	
 	public CalendarListPanel(){
 		
 		
-		
-		GUIListenerSupport gls = new GUIListenerSupport();
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 		g.anchor = GridBagConstraints.CENTER;
@@ -77,12 +81,6 @@ public class CalendarListPanel extends JPanel {
 		
 		g.gridy=1;
 		add(calendarPanel,g);
-		
-	}
-	
-	public void populateCalendarList(){
-		ArrayList<User> users = DBUser.getUsersInSystem();
-		
 		
 	}
 	
