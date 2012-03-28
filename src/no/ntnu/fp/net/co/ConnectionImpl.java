@@ -33,7 +33,6 @@ public class ConnectionImpl extends AbstractConnection{
     /** Keeps track of the used ports for each server port. */
     private static Map<Integer, Boolean> usedPorts = Collections.synchronizedMap(new HashMap<Integer, Boolean>());
     private static final int[] TRIES = {500,1000,2000,4000};
-//    private static final int MAX_SEND_ATTEMPTS = 5;
     private static final int TIME_WAIT_DURATION = 8000;
     /**
      * Initialise initial sequence number and setup state machine.
@@ -174,21 +173,24 @@ public class ConnectionImpl extends AbstractConnection{
     	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
     		// We got here.
     		boolean sent = false;
+    		while (sent == false){
     		try {
+    			//we got here too.
     			sendAck(lastValidPacketReceived, false);
     			sent = true;
     		}catch (SocketException e) {
-    		}while (sent == false);
+    		}
+    		}
        }
 	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
 	   int tries = 5;
-	   while(tries >= 0 && !checksumCheck(ack)){
+	   while(tries >= 0 && !checksumCheck(ack)){ //This is not a fail. fail occurs at SafelySendAck.
 		   System.out.println("do we stop here with a fail?" + tries);
 		   ack = sendDataPacketWithRetransmit(datapacket);
+		   tries = tries - 1;
 	   }
 	   if (!checksumCheck(ack) || ack.getFlag() != Flag.SYN_ACK ||
 			   ack.getFlag() != Flag.SYN || ack.getFlag() != Flag.ACK){
-		   System.out.println("hello, is it me you're looking for?");
 		   state = State.CLOSED;
 		   throw new IOException("Failed to send packet");
 	   }

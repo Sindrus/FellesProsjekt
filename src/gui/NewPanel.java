@@ -144,9 +144,9 @@ public class NewPanel extends JPanel implements GUIListener{
 	private void saveData(){
 		long startTimestamp = 0L;
 		long endTimestamp = 0L;
+		
 		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
-				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
-
+				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1]);
 		endTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getEndYear(),getMonthNumber(newAppointmentPanel.getEndMonth()),
 				newAppointmentPanel.getEndDay(), newAppointmentPanel.getEndTime()[0], newAppointmentPanel.getEndTime()[1]);
 
