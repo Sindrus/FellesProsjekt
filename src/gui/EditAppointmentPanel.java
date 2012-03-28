@@ -34,13 +34,4 @@ public class EditAppointmentPanel extends AppointmentPanel implements ActionList
 			gls.notifyListeners(ChangeType.DELETE, null);
 		}
 	}
-	
-	
-	
-//	public static void main(String args[]) {
-//		JFrame frame = new JFrame();
-//		frame.add(new EditAppointmentPanel());
-//		frame.pack();
-//		frame.setVisible(true);
-//	}
 }

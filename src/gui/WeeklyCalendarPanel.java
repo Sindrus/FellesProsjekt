@@ -121,7 +121,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		g.gridy = 5;
 		g.gridx = 0;
 		g.fill = GridBagConstraints.BOTH;
-//		g.weighty = 0.5;
+		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
@@ -173,16 +173,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
 
 	}
-	//
-	//	public static void main(String args[]) {
-	//		JFrame frame = new JFrame();
-	//		frame.add(new WeeklyCalendarPanel());
-	//		frame.setSize(1000, 700);
-	//		//frame.pack();
-	//		frame.setVisible(true);
-	//
-	//	}
-
 
 	public long getLastDay(){
 		return lastDay;
@@ -287,25 +277,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 				else{
 
 				}
-
-
-				//				if(x== 0){
-				//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
-				//					b.setVisible(false);
-				//					dayList[i].addButton(b);
-				//				}
 			}
-
-
 		}
-
-
 	}
-
-
-
-
-
 }
 
 /**
