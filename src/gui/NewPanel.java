@@ -118,7 +118,6 @@ public class NewPanel extends JPanel implements GUIListener{
 		}else if(ct==ChangeType.CREATEMEETING){
 			notifyGui(ChangeType.CREATE, null);
 		}else if(ct==ChangeType.CREATE){
-			System.out.println("11111111111111111�����������������������SAFASDHJFBWIAFCIASJNF�LA�FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 			saveData();
 			System.out.println("returning to calendar ___________________________________");
 			gls.notifyListeners(ChangeType.CALENDAR, null);
@@ -145,7 +144,6 @@ public class NewPanel extends JPanel implements GUIListener{
 	private void saveData(){
 		long startTimestamp = 0L;
 		long endTimestamp = 0L;
-		System.out.println("22222222222222�����������������������SAFASDHJFBWIAFCIASJNF�LA�FASLKFAKLSDXAOSKNCUIPDHPIMWIPAWHBUIWMDF");
 		startTimestamp = DateHelpers.convertToTimestamp(newAppointmentPanel.getStartYear(), getMonthNumber(newAppointmentPanel.getStartMonth()), 
 				newAppointmentPanel.getStartDay(), newAppointmentPanel.getStartTime()[0], newAppointmentPanel.getStartTime()[1],0);
 
