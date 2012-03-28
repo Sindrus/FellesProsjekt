@@ -156,16 +156,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
 
 	}
-	//
-	//	public static void main(String args[]) {
-	//		JFrame frame = new JFrame();
-	//		frame.add(new WeeklyCalendarPanel());
-	//		frame.setSize(1000, 700);
-	//		//frame.pack();
-	//		frame.setVisible(true);
-	//
-	//	}
-
 
 	public long getLastDay(){
 		return lastDay;
