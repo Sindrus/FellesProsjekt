@@ -133,6 +133,8 @@ public class EditPanel extends JPanel implements GUIListener{
 			saveChanges();
 		}else if(ct==ChangeType.DELETE){
 			gls.notifyListeners(ct, null);
+		}else if(ct==ChangeType.SAVECHANGE){
+			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else{
 			isMeetingPanel=false;
 		}

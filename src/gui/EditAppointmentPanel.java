@@ -57,7 +57,7 @@ public class EditAppointmentPanel extends AppointmentPanel implements ActionList
 			
 			
 			model.DBAppointment.changeTimeOfAppointment(startTimestamp, endTimestamp, appointmentID);
-			gls.notifyListeners(ChangeType.CREATE, array);
+			gls.notifyListeners(ChangeType.SAVECHANGE, array);
 		}
 	}
 }
