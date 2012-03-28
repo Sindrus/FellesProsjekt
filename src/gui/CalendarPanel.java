@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import model.Appointment;
 
@@ -205,24 +207,51 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 
 			f = new JFrame("Notifications");
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			f.setSize(410, 450);
 			f.setVisible(true);
 
+			g.weightx = 0.5;
+			g.weighty = 0.5;
+			g.fill = GridBagConstraints.BOTH;
+			
+			JPanel inp = new JPanel();
 			JPanel ntf = new JPanel();  //creates a Jpanel and sets layout.
 			GridBagConstraints g = new GridBagConstraints();
 			g.gridx = 0;
 			g.gridy = 0;
 			g.anchor = GridBagConstraints.CENTER;
 			ntf.setLayout(new GridBagLayout());
+			inp.setLayout(new GridBagLayout());
 
 			newModel = new DefaultListModel(); //List model (to be replaced with DB)
 			newModel.addElement("First Notification");
 			newModel.addElement("Second Notification");
-			JList list = new JList(newModel);
+			JScrollPane list = new JScrollPane( new JList(newModel));
+			//list.setPreferredSize(new Dimension(200, 500));
+			list.setMinimumSize(new Dimension(250,350));
 			ntf.add(list,g);	
 
-			g.gridy = 1;  // Close Button.
+			
+			
+			g.gridy = 1;
+			g.gridx = 0;
 			close = new JButton("Lukk");
+			ntf.add(close,g);
+			
+			g.gridx = 1;
+			g.gridy = 1;
+			JButton edit = new JButton("Endre");
+			inp.add(edit,g);
+			
+			g.gridx = 1;
+			g.gridy = 0;  
+			JButton accept = new JButton("Godta");
+			inp.add(accept,g);
+			
+			
+			g.gridx = 1;
+			g.gridy = 0;
+			ntf.add(inp, g);
 			close.addActionListener(new ActionListener() {
 				
 				@Override
@@ -231,9 +260,13 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 					
 				}
 			});
-			ntf.add(close,g);
+			
+			f.getContentPane().setLayout(new GridBagLayout());
 
-			f.add(ntf);
+			ntf.setPreferredSize(new Dimension(400, 400));
+			ntf.setBackground(Color.WHITE);
+			
+			f.getContentPane().add(ntf, g);
 
 		}
 	}
