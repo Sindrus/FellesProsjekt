@@ -121,7 +121,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		g.gridy = 5;
 		g.gridx = 0;
 		g.fill = GridBagConstraints.BOTH;
-//		g.weighty = 0.5;
+		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
