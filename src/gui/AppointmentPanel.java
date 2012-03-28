@@ -21,7 +21,7 @@ import util.ChangeType;
 import util.GUIListener;
 import util.GUIListenerSupport;
 
-public class AppointmentPanel extends JPanel{
+public class AppointmentPanel extends JPanel implements ActionListener{
 	JButton cancel, complete, invite;
 	JPanel whatPanel, whenPanel, desPanel, btnPanel;
 	JTextField what;
@@ -197,17 +197,17 @@ public class AppointmentPanel extends JPanel{
 		btng.insets = new Insets(0, 20, 0, 20);
 
 		complete = new JButton("Fullført");
-		complete.addActionListener(new Done());
+		complete.addActionListener(this);
 		btnPanel.add(complete, btng);
 
 		btng.gridx = 1;
 		cancel = new JButton("Avbryt");
-		cancel.addActionListener(new Cancel());
+		cancel.addActionListener(this);
 		btnPanel.add(cancel, btng);
 
 		btng.gridx = 2;
 		invite = new JButton("Inviter til møte");
-		invite.addActionListener(new Meeting());
+		invite.addActionListener(this);
 		btnPanel.add(invite, btng);
 		
 // end btnPanel
@@ -300,20 +300,17 @@ public class AppointmentPanel extends JPanel{
 	 * Classes for btn action
 	 *
 	 */
-	class Cancel implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==cancel){
 			ArrayList<Object> array = new ArrayList<Object>();
-			gls.notifyListeners(ChangeType.CANCEL, array);
-		}
-	}
-	class Meeting implements ActionListener{
-		public void actionPerformed(ActionEvent e){
+			gls.notifyListeners(ChangeType.CANCEL, array);			
+		}else if(e.getSource()==invite){
 			ArrayList<Object> array = new ArrayList<Object>();
 			gls.notifyListeners(ChangeType.MEETING, array);
-		}
-	}
-	class Done implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		}else if(e.getSource()==complete){
 			ArrayList<Object> array = new ArrayList<Object>();
 			gls.notifyListeners(ChangeType.CREATE, array);
 		}

@@ -54,7 +54,9 @@ public class EditPanel extends JPanel implements GUIListener{
 		isMeeting = false;
 		gls = new GUIListenerSupport();
 		editAppointmentPanel.what.setText(app.getTitle());
-
+		
+		editAppointmentPanel.appointmentID=this.app.getId();
+		
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
 		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
 		System.out.println("_______________________");
@@ -74,7 +76,9 @@ public class EditPanel extends JPanel implements GUIListener{
 		this();
 		this.meet = app;
 		isMeeting = true;
-
+		
+		editMeetingPanel.meetingID=meet.getId();
+		
 		editAppointmentPanel.what.setText(app.getTitle());
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
 		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
