@@ -107,8 +107,6 @@ public class DBUser {
 
 				list.add(new Appointment(id, start, end, title, desc));
 			}
-
-
 		}catch(SQLException e){
 			e.printStackTrace();
 		}

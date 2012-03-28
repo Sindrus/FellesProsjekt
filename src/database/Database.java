@@ -57,7 +57,6 @@ public class Database {
 	 * @return	a <code>ResultSet</code> with the data selection
 	 * @throws SQLException
 	 */
-	
 	public static ResultSet execute(String sql) throws SQLException{
 		System.out.println("execute query: " + sql);
 		//Establish database connection
@@ -68,7 +67,6 @@ public class Database {
 		
 		//Execute query and return results
 		ResultSet rs = st.executeQuery(sql);
-
 		return rs;
 	}
 	

@@ -179,14 +179,6 @@ gls = new GUIListenerSupport();
 		app.setEnd(end);
 	}
 	
-//	public static void main(String args[]) {
-//		JFrame frame = new JFrame("Appointment");
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		frame.add(new EditPanel());
-//		frame.pack();
-//		frame.setVisible(true);
-//	}
 	
 	public void addListener(GUIListener l){
 		gls.add(l);
