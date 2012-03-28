@@ -9,5 +9,5 @@ package gui;
  */
 
 public class EditMeetingPanel extends MeetingPanel{
-
+	int meetingID;
 }

@@ -201,9 +201,9 @@ public class DBAppointment {
 	 */
 	public static int changeAppointmentDescription(int appointmentID, String newDescription){
 		
-		String sql = "UPDATE Avtale set Beskrivelse = "
+		String sql = "UPDATE Avtale set Beskrivelse = '"
 					+ newDescription
-					+ " WHERE ID = "
+					+ "' WHERE ID = "
 					+ appointmentID
 					+ ";";
 		
