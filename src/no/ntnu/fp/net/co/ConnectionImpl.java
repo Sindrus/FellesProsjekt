@@ -73,10 +73,8 @@ public class ConnectionImpl extends AbstractConnection{
     	if (this.state != State.CLOSED){
     		throw new IllegalStateException("Need to be in closed state before trying to connect.");
     	}
-    	//Set state information
     	this.remoteAddress = remoteAddress.getHostAddress();
     	this.remotePort = remotePort;
-    	//Send SYN, receive SYN_ACK and  ACK on SYN_ACK
     	//Make a syn to see if the other end returns a SYN_ACK, which is then "made to be" synAck
     	KtnDatagram synAck = null, syn = constructInternalPacket(Flag.SYN); 
     	synAck = safelySendPacket(syn, State.CLOSED, State.SYN_SENT);
@@ -125,7 +123,7 @@ public class ConnectionImpl extends AbstractConnection{
 	 	   		} catch (ConnectException e) {
 	 	   		} catch (IOException e) {
 	 	   		}
-	 	   	}while(timer >= 0 && (TRIES[3-timer] + start) <= System.currentTimeMillis());
+	 	   	}while(timer >= 0 && (TIME_WAIT_DURATION + start) <= System.currentTimeMillis());
  	   	} catch (Exception e){
  	   		throw new IOException("Unable to connect.");
  	   	}
@@ -171,11 +169,9 @@ public class ConnectionImpl extends AbstractConnection{
     		throw new IllegalStateException("Data packets can only be sent in established state");
     	}
     	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
-    		// We got here.
     		boolean sent = false;
     		while (sent == false){
     		try {
-    			//we got here too.
     			sendAck(lastValidPacketReceived, false);
     			sent = true;
     		}catch (SocketException e) {
@@ -184,8 +180,7 @@ public class ConnectionImpl extends AbstractConnection{
        }
 	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
 	   int tries = 5;
-	   while(tries-- >= 0 && !checksumCheck(ack)){ //This is not a fail. fail occurs at recieve().
-		   System.out.println("do we stop here with a fail?" + tries);
+	   while(tries-- >= 0 && !checksumCheck(ack)){
 		   ack = sendDataPacketWithRetransmit(datapacket);
 	   }
 	   if (!checksumCheck(ack) || ack.getFlag() != Flag.ACK){
@@ -215,7 +210,6 @@ public class ConnectionImpl extends AbstractConnection{
     	} catch (IOException e) {}
     	//Send ACK and deliver content to application
     	if(checksumCheck(ktnd) && ktnd.getFlag() == Flag.NONE && ktnd.getSeq_nr() <= lastValidPacketReceived.getSeq_nr() +2){
-    			System.out.println("we should be here now.");
     			lastValidPacketReceived = ktnd;
     			safelySendAck(ktnd);
     			return (String) ktnd.getPayload();
@@ -244,7 +238,7 @@ public class ConnectionImpl extends AbstractConnection{
 			   return;
 		   } catch (IOException e) {
 		   }
-	   }while(timer >= 0 && (TRIES[3-timer] + start) <= System.currentTimeMillis() && checksumCheck(ktnd));
+	   }while(timer >= 0 && (TIME_WAIT_DURATION + start) <= System.currentTimeMillis() && checksumCheck(ktnd));
 	   throw new IOException("Could not send ACK.");
    }
    
@@ -272,7 +266,7 @@ public class ConnectionImpl extends AbstractConnection{
 		   } catch (SocketException e) {
 		   } catch (IOException e) {
 		   }
-	   }while(timer >= 0 && (TRIES[3-timer] + start) <= System.currentTimeMillis() && checksumCheck(ktnd));
+	   }while(timer >= 0 && (TIME_WAIT_DURATION + start) <= System.currentTimeMillis() && checksumCheck(ktnd));
 	   return ack;
    }
    
@@ -302,7 +296,7 @@ public class ConnectionImpl extends AbstractConnection{
     	 			resend = receivePacket(true);
     	 		} catch (SocketException e){
     	 		}
-    	   	}while(timer >= 0 && (TRIES[3-timer] + start) <= System.currentTimeMillis());
+    	   	}while(timer >= 0 && TIME_WAIT_DURATION + start <= System.currentTimeMillis());
 	    	if (checksumCheck(resend) && resend.getFlag() != Flag.FIN){
 	    		throw new IOException("Could not close connection; first FIN_ACK never received.");
 	    	}
@@ -326,7 +320,6 @@ public class ConnectionImpl extends AbstractConnection{
     			fin = receivePacket(true);
     			break;
     	   	}while(TIME_WAIT_DURATION + start1 <= System.currentTimeMillis());
-    		System.out.println(checksumCheck(fin));
     		if (!checksumCheck(fin)){
     			throw new IOException("Failed to close connection; never received final FIN");
     		}
