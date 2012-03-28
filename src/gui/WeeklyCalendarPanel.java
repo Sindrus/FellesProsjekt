@@ -257,24 +257,9 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 				else{
 
 				}
-
-
-				//				if(x== 0){
-				//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
-				//					b.setVisible(false);
-				//					dayList[i].addButton(b);
-				//				}
 			}
-
-
 		}
-
-
 	}
-
-
-
-
 }
 
 /**
