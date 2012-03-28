@@ -327,7 +327,7 @@ public class ConnectionImpl extends AbstractConnection{
     			break;
     	   	}while(TIME_WAIT_DURATION + start1 <= System.currentTimeMillis());
     		System.out.println(checksumCheck(fin));
-    		if (!checksumCheck(fin) || fin.getFlag() != Flag.FIN){
+    		if (!checksumCheck(fin)){
     			throw new IOException("Failed to close connection; never received final FIN");
     		}
     		long start2 = System.currentTimeMillis();
