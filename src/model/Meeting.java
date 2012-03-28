@@ -21,6 +21,10 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Meeting extends Appointment{
+	private User owner;
+	private Room room;
+	private ArrayList<User> participants= new ArrayList<User>();; 
+
 	
 	public User getOwner() {
 		return owner;
@@ -67,9 +71,6 @@ public class Meeting extends Appointment{
 			return false;
 	}
 	
-	private User owner;
-	private Room room;
-	private ArrayList<User> participants; 
 	
 	/**
 	 * Constructs a <code>Meeting</code> with the submitted values
@@ -90,9 +91,9 @@ public class Meeting extends Appointment{
 	 * 			A textual description of the meeting
 	 */
 	public Meeting(User owner, Room room, int id, 
-			Timestamp start, Timestamp end, String description){
+			long start, long end, String title, String description){
 		
-		super(id, owner, start, end, description);
+		super(id, start, end, title, description);
 		this.owner = owner;
 		this.room = room;
 	}

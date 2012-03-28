@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -68,6 +69,7 @@ public class AppointmentPanel extends JPanel{
 		whatg.gridx = 0;
 		whatPanel.add(new JLabel("Hva:"), whatg);
 		what = new JTextField("");
+		what.setMinimumSize(new Dimension(200,50));
 		Font f = new Font(what.getFont().getName(), what.getFont().getStyle(),
 				14);
 		what.setColumns(20);
@@ -156,6 +158,7 @@ public class AppointmentPanel extends JPanel{
 		
 		wheng.gridx=8;
 		endYear = new JTextField(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
+		endYear.setMinimumSize(new Dimension(60,50));
 		whenPanel.add(endYear,wheng);
 
 // end whenPanel
@@ -173,6 +176,8 @@ public class AppointmentPanel extends JPanel{
 		desPanel.add(new JLabel("Beskrivelse:"), desg);
 
 		description = new JTextArea(4, 30);
+		description.setMinimumSize(new Dimension(400,200));
+		description.setMaximumSize(new Dimension(400,200));
 		description.setFont(f);
 		description.setLineWrap(true);
 		desg.gridx = 1;

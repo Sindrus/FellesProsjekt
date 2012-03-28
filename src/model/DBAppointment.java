@@ -35,7 +35,7 @@ public class DBAppointment {
 	 */
 	public static Appointment getAppointment(int appointmentID){
 
-		String sql = "SELECT ID, Tid_start, Tid_slutt, Beskrivelse FROM Avtale WHERE Avtale.ID = "
+		String sql = "SELECT ID, Tid_start, Tid_slutt, Tittel, Beskrivelse FROM Avtale WHERE Avtale.ID = "
 			+ appointmentID + ";";
 		try{
 
@@ -43,11 +43,12 @@ public class DBAppointment {
 			while(results.next()){
 
 				int id = results.getInt("ID");
-				int ownerID = results.getInt("Eier_ID");
-				Timestamp start = results.getTimestamp("Tid_start");
-				Timestamp end = results.getTimestamp("Tid_slutt");
+
+				long start = results.getLong("Tid_start");
+				long end = results.getLong("Tid_slutt");
+				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
-				return new Appointment(id,DBUser.getUser(ownerID), start, end, desc);
+				return new Appointment(id, start, end, title, desc);
 
 			}
 
@@ -73,18 +74,28 @@ public class DBAppointment {
 	 * @return a fully initialized <code>Appointment</code> object for the new
 	 *  		appointment
 	 */
-	public static Appointment newAppointment(long start, long end, String desc){
+	public static Appointment newAppointment(int userID, long start, long end, String title, String desc){
 
-		String sql = "INSERT INTO Avtale(Tid_start, Tid_slutt, Beskrivelse)" +
+		String insertAppointment = "INSERT INTO Avtale(Tid_start, Tid_slutt, Tittel, Beskrivelse)" +
 		" VALUES (" 
 		+ start
 		+ ", "
 		+ end
 		+ ", '"
+		+ title
+		+ "', '"
 		+ desc
 		+ "');";
 
-		int id = Database.executeUpdate(sql, true);
+		
+		int id = Database.executeUpdate(insertAppointment, true);
+
+		String insertOwner = "INSERT INTO Oppretter_og_Eier(Bruker_ID, Avtale_ID) VALUES("
+				+ userID
+				+ ", "
+				+ id
+				+ ");";
+		Database.executeUpdate(insertOwner);
 
 		return DBAppointment.getAppointment(id);
 
@@ -135,12 +146,12 @@ public class DBAppointment {
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
 				
-				int ownerID = results.getInt("Eier_ID");
 				int id = results.getInt("ID");
-				Timestamp start = results.getTimestamp("Tid_start");
-				Timestamp end = results.getTimestamp("Tid_slutt");
+				long start = results.getTimestamp("Tid_start").getTime();
+				long end = results.getTimestamp("Tid_slutt").getTime();
+				String title = results.getString("Tittel");
 				String desc = results.getString("Beskrivelse");
-				list.add(new Appointment(id, DBUser.getUser(ownerID), start, end, desc));
+				list.add(new Appointment(id, start, end, title, desc));
 				
 			}
 			
@@ -177,6 +188,32 @@ public class DBAppointment {
 					+ ";";
 		
 		return Database.executeUpdate(sql);
+		
+	}
+	
+	/**
+	 * Changes the description of the given appointment
+	 * 
+	 * @param appointmentID
+	 * @param newDescription
+	 * @return a positive <code>int</code> if the update was successful;
+	 * 			otherwise <code>-1</code>
+	 */
+	public static int changeAppointmentDescription(int appointmentID, String newDescription){
+		
+		String sql = "UPDATE Avtale set Beskrivelse = "
+					+ newDescription
+					+ " WHERE ID = "
+					+ appointmentID
+					+ ";";
+		
+		return Database.executeUpdate(sql);
+		
+	}
+	
+	public static void main(String[] args) {
+
+		
 		
 	}
 

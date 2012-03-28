@@ -54,18 +54,35 @@ public class DBMeeting {
 		
 		ArrayList<User> invited = DBMeeting.getInvitedUsers(appointmentID);
 		Appointment appointment = DBAppointment.getAppointment(appointmentID);
-		String sql = "SELECT Romnr FROM Reservasjon WHERE Avtale_ID = "
+		
+		String fetchReservation = "SELECT Romnr FROM Reservasjon WHERE Avtale_ID = "
 					+ appointmentID
 					+ ";";
+		
+		String fetchOwner = "SELECT * FROM Bruker JOIN Oppretter_og_Eier ON Bruker.ID = Bruker_ID"
+						+ " WHERE Avtale_ID = "
+						+ appointment.getId()
+						+ ";";
+		
+		User owner = null;
+		try{
+			ResultSet results = Database.execute(fetchOwner);
+			if(results.next()){
+				owner = DBUser.getUser(results.getInt("Bruker_ID"));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
 		try{
 			
-			ResultSet results = Database.execute(sql);
+			ResultSet results = Database.execute(fetchReservation);
 			if(results.next()){
 				int roomNumber = results.getInt("Romnr");
 				//The meeting is successfully returned
-				return new Meeting(appointment.getOwner(),
+				return new Meeting(owner,
 						DBRoom.getRoom(roomNumber), appointment.getId(), appointment.getStart(),
-						appointment.getEnd(), appointment.getDescription());
+						appointment.getEnd(), appointment.getTitle(), appointment.getDescription());
 			}
 			
 		}catch(SQLException e){
@@ -127,7 +144,15 @@ public class DBMeeting {
 	 * 			reservation shall apply
 	 * @return a fully initialized Meeting object
 	 */
-	public static Meeting newMeeting(int appointmentID, int roomNumber, long from, long to){
+	public static Meeting newMeeting(User owner, int appointmentID, int roomNumber, long from, long to){
+		
+		String sql = "INSERT INTO Oppretter_og_Eier VALUES "
+					+ owner.getId()
+					+ ", "
+					+ appointmentID
+					+ ";";
+		
+		Database.executeUpdate(sql);
 		
 		try {
 			int roomInsertionID = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
@@ -155,11 +180,32 @@ public class DBMeeting {
 	 * 			A textual description of the meeting
 	 * @return a fully initialized meeting object
 	 */
-	public static Meeting newMeeting(int roomNumber, long from, long to,
-			 String description){
+	public static Meeting newMeeting(User owner, int roomNumber, long from, long to,
+			 String title, String description, ArrayList<User> participants){
 
-		int appointmentID = DBAppointment.newAppointment(from, to, description).getId();
+		int appointmentID = DBAppointment.newAppointment(owner.getId(), from, to, title, description).getId();
 
+		
+
+		
+		String makeNotificationRef = "INSERT INTO Varsel(Avtale_ID, Beskrivelse) VALUES ("
+									+ appointmentID
+									+ ", '"
+									+ title
+									+ "');";
+		Database.executeUpdate(makeNotificationRef);
+
+		for(User user : participants){
+			String addParticipants = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES ("
+									+ appointmentID
+									+ ", "
+									+ user.getId()
+									+ ", "
+									+ DBNotification.getNotificationID(appointmentID)
+									+ ");";
+			Database.executeUpdate(addParticipants);
+		}
+		System.out.println("meeting added to db");
 		try {
 			int roomInsertionId = DBRoom.reserveRoom(roomNumber, appointmentID, from, to);
 			//The meeting is successfully returned
@@ -192,15 +238,80 @@ public class DBMeeting {
 			
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
+				int userID = results.getInt("ID");
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
-				list.add(new User(name, username));
+				list.add(new User(userID, name, username));
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
+		
+	}
+	
+	/**
+	 * Changes the participants of the given meeting
+	 * 
+	 * @param appointmentID
+	 * @param oldParticipants
+	 * 			An <code>ArrayList</code> containing the participants that used
+	 * 			to be partaking in the meeting
+	 * @param newParticipants
+	 * 			An <code>ArrayList</code> containing the participants that are 
+	 * 			now partaking in the meeting
+	 * @return <code>1</code> if the update was successful; otherwise <code>-1</code>
+	 */
+	public static int changeParticipants(int appointmentID, ArrayList<User> oldParticipants, ArrayList<User> newParticipants){
+		
+		int successfulDeletion = -1;
+		for(User user : oldParticipants){
+			String delete = "DELETE FROM Deltaker WHERE Avtale_ID = "
+							+ appointmentID
+							+ " AND Bruker_ID = "
+							+ user.getId()
+							+ ";";
+			successfulDeletion = Database.executeUpdate(delete);
+		}
+		
+		int successfulInsertion = -1;
+		for(User user : newParticipants){
+			String insert = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES("
+							+ appointmentID
+							+ ", "
+							+ user.getId()
+							+ ", "
+							+ DBNotification.getNotificationID(appointmentID)
+							+ ");";
+			successfulInsertion = Database.executeUpdate(insert);
+		}
+		
+		return (successfulDeletion>-1 && successfulInsertion>0 ? 1 : -1);
+		
+	}
+	
+	public static int inviteParticipants(int appointmentID, ArrayList<User> participants){
+		
+		for(User user : participants){
+			
+			String sql = "INSERT INTO Deltaker(Avtale_ID, Bruker_ID, Varsel_ID) VALUES ("
+						+ appointmentID
+						+ ", "
+						+ user.getId()
+						+ ", "
+						+ DBNotification.getNotificationID(appointmentID)
+						+ ");";
+			return Database.executeUpdate(sql);
+			
+		}
+		return -1;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		
 		
 	}
 	

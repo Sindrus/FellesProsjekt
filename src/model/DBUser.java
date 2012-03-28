@@ -32,26 +32,50 @@ public class DBUser {
 	 * 			the system
 	 */
 	public static ArrayList<User> getUsersInSystem(){
-		
-		String sql = "SELECT Brukernavn, Navn FROM Bruker;";
+
+		String sql = "SELECT ID, Brukernavn, Navn FROM Bruker;";
 		ArrayList<User> list = new ArrayList<User>();
 		try {
-			
+
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
+				int userID = results.getInt("ID");
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
-				list.add(new User(name, username));
+				list.add(new User(userID, name, username));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
-		
+
 	}
-	
+
+	/**
+	 * Creates a new user in the database with the provided information
+	 * 
+	 * @param name
+	 * @param username
+	 * @param password
+	 * @return a fully initialized User object
+	 */
+	public static User newUser(String name, String username, String password){
+
+		String sql = "INSERT INTO Bruker(Navn, Brukernavn, Passord) VALUES('"
+				+ name
+				+ "', '"
+				+ username
+				+ "', '"
+				+ password
+				+ "');";
+
+		int userID = Database.executeUpdate(sql, true);
+		return DBUser.getUser(userID);
+
+	}
+
 	/**
 	 * Get all appointments participated in by the user with the submitted user ID
 	 * @param userID
@@ -60,30 +84,39 @@ public class DBUser {
 	 * participated in by the user with the submitted user ID
 	 */
 	public static ArrayList<Appointment> getUserAppointments(int userID){
-		
+
 		ArrayList<Appointment> list = new ArrayList<Appointment>();
-		
-		String sql = "SELECT ID FROM Avtale WHERE Avtale.ID IN " +
-				"(SELECT Avtale_ID FROM Bruker JOIN Deltaker ON " +
-				"Bruker_ID = Bruker.ID WHERE Bruker.ID = " + userID + ") ORDER BY Tid_start;";
-		
+
+		String sql = "SELECT * " +  
+				"FROM Avtale, Oppretter_og_Eier " +
+				"WHERE Avtale.ID = Oppretter_og_Eier.Avtale_ID " +
+				"AND Oppretter_og_Eier.Bruker_ID = " + userID +
+				" ORDER BY Tid_start;";
+
 		try{
-			
+
 			ResultSet results = Database.execute(sql);
 			while(results.next()){
-				
+
 				int id = results.getInt("ID");
-				list.add(DBAppointment.getAppointment(id));
+				long start = results.getLong("Tid_start");
+				long end = results.getLong("Tid_slutt");
+				String title = results.getString("Tittel");
+				String desc = results.getString("Beskrivelse");
+				new Appointment(id, start, end, title, desc);
+
+				list.add(new Appointment(id, start, end, title, desc));
 			}
-			
+
+
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		
+
 		return list;
-		
+
 	}
-	
+
 	/**
 	 * Fetches a specific user from the database
 	 * 
@@ -92,25 +125,47 @@ public class DBUser {
 	 * @return A fully initialized <code>User</code> object
 	 */
 	public static User getUser(int userID){
-		
+
 		String sql = "SELECT * FROM Bruker WHERE ID = "
-					+ userID
-					+ ";";
-		
+				+ userID
+				+ ";";
+
 		try {
 			ResultSet results = Database.execute(sql);
 			if(results.next()){
 				String name = results.getString("Navn");
 				String username = results.getString("Brukernavn");
 				//The user is successfully returned
-				return new User(name, username);
+				return new User(userID, name, username);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		//Something went wrong
 		return null;
-		
+
 	}
-	
+
+	public static User getUser(String username){
+
+		String sql = "SELECT * FROM Bruker WHERE Brukernavn = '"
+				+ username
+				+ "';";
+
+		try {
+			ResultSet results = Database.execute(sql);
+			if(results.next()){
+				String name = results.getString("Navn");
+				String password = results.getString("Passord");
+				int id = results.getInt("ID");
+				return new User(id, name, username, password);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+
 }

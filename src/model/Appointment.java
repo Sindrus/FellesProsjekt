@@ -5,19 +5,10 @@ import java.sql.Timestamp;
 public class Appointment {
 	
 	protected int id;
-	protected Timestamp start;
-	protected Timestamp end;
+	protected long start;
+	protected long end;
 	protected String description;
-	protected User owner;
-	protected String what;
-	
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
+	protected String title;
 
 	/**
 	 * Constructs an <code>Appointment</code> object with the submitted 
@@ -31,35 +22,36 @@ public class Appointment {
 	 * @param description
 	 * 			A textual description of the appointment
 	 */
-	public Appointment(int id,User owner, Timestamp start, Timestamp end, String description){
+	public Appointment(int id, long start, long end, String title, String description){
 		
 		this.id = id;
 		this.start = start;
 		this.end = end;
+		this.title = title;
 		this.description = description;
 		
 	}
 	
-	public void setWhat(String what){
-		this.what = what;
+	public void setTitle(String what){
+		this.title = what;
 	}
-	public String getWhat(){
-		return what;
+	public String getTitle(){
+		return title;
 	}
 	
-	public Timestamp getStart() {
+	public long getStart() {
 		return start;
 	}
 
-	public void setStart(Timestamp start) {
+	public void setStart(long start) {
 		this.start = start;
 	}
 
-	public Timestamp getEnd() {
+	public long getEnd() {
 		return end;
 	}
 
-	public void setEnd(Timestamp end) {
+	public void setEnd(long end) {
 		this.end = end;
 	}
 

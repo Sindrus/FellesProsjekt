@@ -1,16 +1,15 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import util.ChangeType;
 import util.GUIListener;
 import util.GUIListenerSupport;
@@ -24,14 +23,14 @@ public class LoginPanel extends JPanel implements ActionListener{
 
 	JTextField usernameField;
 	JTextField passwordField;
-	JButton loginBtn;
+	JButton loginBtn, exitBtn;
 
 	GUIListenerSupport gls;
 
 	public LoginPanel(){
 		
 		gls = new GUIListenerSupport();
-
+		setBackground(GConfig.LOGINCOLOR);
 		setLayout(new GridBagLayout());
 		GridBagConstraints g = new GridBagConstraints();
 
@@ -66,16 +65,21 @@ public class LoginPanel extends JPanel implements ActionListener{
 
 		g.gridx=1;
 		g.gridy=2;
+		passwordField.addKeyListener(new passListen());
 		add(passwordField,g);
 
 		loginBtn = new JButton("Logg inn");
 		loginBtn.addActionListener(this);
 
 		g.anchor = GridBagConstraints.CENTER;
-		g.gridwidth=2;
 		g.gridx=0;
 		g.gridy=3;
 		add(loginBtn,g);
+		
+		exitBtn = new JButton("Avslutt");
+		exitBtn.addActionListener(this);
+		g.gridx=1;
+		add(exitBtn,g);
 	}
 
 
@@ -90,8 +94,31 @@ public class LoginPanel extends JPanel implements ActionListener{
 			array.add(usernameField.getText());
 			array.add(passwordField.getText());
 			gls.notifyListeners(ChangeType.LOGIN, array);
-
+			usernameField.setText("");
+			passwordField.setText("");
+		}else if(e.getSource()==exitBtn){
+			System.exit(0);
 		}
 	}
+	
+	class passListen implements KeyListener { //Listeners.
 
+		public void keyPressed(KeyEvent e)
+		{
+			int key = e.getKeyCode();
+			if (key == KeyEvent.VK_ENTER)
+			{ 
+				ArrayList<Object> array = new ArrayList<Object>();
+				array.add(usernameField.getText());
+				array.add(passwordField.getText());
+				gls.notifyListeners(ChangeType.LOGIN, array);
+				usernameField.setText("");
+				passwordField.setText("");
+			}
+		}
+		public void keyReleased(KeyEvent e){
+		}
+		public void keyTyped(KeyEvent arg0){
+		}
+	}
 }

@@ -1,12 +1,12 @@
 package model;
 
 import gui.ProjectPanel;
-
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
+
+
 
 public class Client {
 
@@ -21,8 +21,6 @@ public class Client {
 		g.anchor = GridBagConstraints.CENTER;
 
 		jf.add(pp, g);
-		jf.pack();
 		jf.setVisible(true);
-
 	};
 }

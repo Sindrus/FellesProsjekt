@@ -1,19 +1,22 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
+
+
+import javax.swing.BorderFactory;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,12 +24,16 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+
+import util.ChangeType;
+import util.DateHelpers;
+import util.GUIListener;
+import util.GUIListenerSupport;
+
+
+import model.Appointment;
+import model.DBAppointment;
 
 import util.ChangeType;
 import util.GUIListener;
@@ -53,34 +60,48 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	private static String[] weekdays = {"Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lordag","Sondag"};
 	private static String[] monthnames = {"Jan", "Feb", "Mars", "April", "Mai", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Des"};
 	private static int weeknum = c.get(Calendar.WEEK_OF_YEAR);
-	private static int daynum = c.get(Calendar.DAY_OF_MONTH);
-	private static int monthnum = Calendar.MONTH+1;
 	private JButton left,right;
 	private JLabel[] dayLabels = new JLabel[7];
 	private DayListPanel[] dayList = new DayListPanel[7];
-	private JScrollPane[] dayScroll = new JScrollPane[7];
 	private GridBagConstraints g = new GridBagConstraints();
 	private JLabel ukenummer = new JLabel();
 	private Year y;
+
+	private JScrollPane[] dayScroll;
+	private Toolkit tool = Toolkit.getDefaultToolkit();
+	private long firstDay, lastDay;
+
 	private GUIListenerSupport gls;
 
 
 	public WeeklyCalendarPanel(){
-		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 
 		gls = new GUIListenerSupport();
-		
+		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
+		dayScroll = new JScrollPane[7];
+
+		g.weightx = 20;
+
+
+		g.fill = GridBagConstraints.HORIZONTAL;
+
+		setBackground(GConfig.WEEKLYCOLOR);
+
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
 		g.gridx = 0;
 		left = new JButton("<=");
-		left.setBackground(Color.YELLOW);
+
+		left.setBackground(GConfig.VARSELCOLOR);
+
 		left.addActionListener(this);
 		add(left,g);
 
 		g.gridx = 6;
 		right = new JButton("=>");
-		right.setBackground(Color.YELLOW);
+
+		right.setBackground(GConfig.VARSELCOLOR);
+
 		right.addActionListener(this);
 		add(right,g);
 
@@ -88,7 +109,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		ukenummer = new JLabel("Ukenummer: " + Integer.toString(weeknum) + "            ");
 		ukenummer.setBackground(Color.PINK);
 		add (ukenummer,g);
-
+		
 		g.gridy = 3;
 		g.gridx = 0;
 		for (int i = 0; i < 7; i++) {
@@ -97,76 +118,78 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			g.gridx += 1;
 		}
 
-		g.gridy = 4;
+		g.gridy = 5;
 		g.gridx = 0;
+		g.fill = GridBagConstraints.BOTH;
+//		g.weighty = 0.5;
 		for (int i = 0; i < 7; i++) {
 
 			dayList[i] = new DayListPanel();
-			dayScroll[i] = new JScrollPane();
-			
-			dayScroll[i].getViewport().add(dayList[i]);
+
+			//dayList[i].setPreferredSize(new Dimension(415,420));
+
+			dayList[i].setBorder(BorderFactory.createEtchedBorder());
+			dayScroll[i] = new JScrollPane(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			//dayScroll[i].setPreferredSize(new Dimension(415,420));
+			//dayScroll[i].setViewportView(dayList[i],JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			dayScroll[i].setVisible(true);
+			dayScroll[i].setMinimumSize(new Dimension((int)tool.getScreenSize().getWidth()/13, (int)(tool.getScreenSize().getHeight()/(1.5))));
+//			dayScroll[i].setMinimumSize(new Dimension(100, 100));
+
 			add(dayScroll[i], g);
 			g.gridx += 1;
 
 		}
 
 
-		setBackground(Color.WHITE);
 
 		updateWeek();
 
 
-		//validate();
-		//repaint();
-		//revalidate();
+		validate();
+		repaint();
+		revalidate();
 
 	}
 
 
-	private void updateWeek(){
+	public void addGuiListener(GUIListener l){
+		gls.add(l);
+	}
 
+	private void updateWeek(){
+		System.out.println("updating week " + weeknum);
 		for (int i = 0; i < weekdays.length; i++) {
 			String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
 			dayLabels[i].setText("   " + weekdays[i] + " " + String.valueOf(y.weeks.get(weeknum)[i]) + ". " + monthnames[y.dayMonth.get(dm)]);
 		}
 
-
-		//get all appointments for this week
-
-		for (int i = 0; i < dayList.length; i++) {
-
-			dayList[i].clearList();
-			for (int j = 0; j < 20; j++) {
-
-				JButton b = new JButton();
-				b.setLayout(new BorderLayout());
-				JLabel label1 = new JLabel("Appointment " + String.valueOf(j));
-				JLabel label2 = new JLabel("From 15:00");
-				JLabel label3 = new JLabel("To 16:40");
-				b.add(BorderLayout.NORTH,label1);
-				b.add(BorderLayout.CENTER, label3);
-				b.add(BorderLayout.SOUTH,label2);
-				b.setBackground(Color.LIGHT_GRAY);
-				dayList[i].addButton(b);
-			}
+		firstDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[0]))), (y.weeks.get(weeknum)[0]), 0, 0, 0);
+		lastDay = DateHelpers.convertToTimestamp(y.year, (int)(y.dayMonth.get(String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[6]))), (y.weeks.get(weeknum)[6]), 0, 0, 0);
 
 
-		}
 
 
 		ukenummer.setText("Ukenummer: " + Integer.toString(weeknum));
 
 	}
+	//
+	//	public static void main(String args[]) {
+	//		JFrame frame = new JFrame();
+	//		frame.add(new WeeklyCalendarPanel());
+	//		frame.setSize(1000, 700);
+	//		//frame.pack();
+	//		frame.setVisible(true);
+	//
+	//	}
 
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		frame.add(new WeeklyCalendarPanel());
-		frame.setSize(1000, 700);
-		//frame.pack();
-		frame.setVisible(true);
 
+	public long getLastDay(){
+		return lastDay;
 	}
-
+	public long getFirstDay(){
+		return firstDay;
+	}
 
 	private Year getYear(int year){
 
@@ -209,8 +232,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 			c.set(year, month, 1);
 
 		}
-		Integer[] x= {12, 19};
-
 		return new Year(weeks, dayMonth, keys);
 	}
 
@@ -220,21 +241,70 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()== left){
 			weeknum -= 1;
-			updateWeek();
-			//(gls.notifyListeners(ChangeType.PREVWEEK, null);
+
+			gls.notifyListeners(ChangeType.PREVWEEK, null);
 		}
 		else if(e.getSource()== right){
 			weeknum += 1;
-			updateWeek();
-			//(gls.notifyListeners(ChangeType.NEXTWEEK, null);
+			gls.notifyListeners(ChangeType.NEXTWEEK, null);
+		}
+		else{
+			ArrayList<Object> a = new ArrayList<Object>();
+			a.add(e.getSource());
+			gls.notifyListeners(ChangeType.APPBUTTON, a);
+
 		}
 
 	}
 
 
-	public void addListener(GUIListener l){
-		gls.add(l);
+
+	public void setAppointments(ArrayList<Appointment> a) {
+		System.out.println(a);
+		updateWeek();
+
+
+		for (int i = 0; i < dayList.length; i++) {
+
+			dayList[i].clearList();
+
+
+			for (int j = 0; j < a.size(); j++) {
+				int x = 0;
+
+
+
+				String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
+				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])
+						&& DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("month") == y.dayMonth.get(dm)){
+
+					Appointment app = a.get(j);
+					AButton b = new AButton(a.get(j));
+					b.addActionListener(this);
+					dayList[i].addButton(b);
+					x += 1;
+				}
+				else{
+
+				}
+
+
+				//				if(x== 0){
+				//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
+				//					b.setVisible(false);
+				//					dayList[i].addButton(b);
+				//				}
+			}
+
+
+		}
+
+
 	}
+
+
+
+
 
 }
 
@@ -270,6 +340,7 @@ class ButtonCellRenderer implements ListCellRenderer {
 
 
 class Year{
+	public int year = 2012;
 	public ArrayList<int[]> weeks;
 	public HashMap<String, Integer> dayMonth;
 	public ArrayList<String> keys;
