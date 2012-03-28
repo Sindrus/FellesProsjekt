@@ -131,6 +131,8 @@ gls = new GUIListenerSupport();
 			gls.notifyListeners(ChangeType.CALENDAR, null);
 		}else if(ct==ChangeType.CREATEMEETING || ct==ChangeType.CREATE){
 			saveChanges();
+		}else if(ct==ChangeType.DELETE){
+			gls.notifyListeners(ct, null);
 		}else{
 			isMeetingPanel=false;
 		}

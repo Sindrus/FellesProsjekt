@@ -233,8 +233,6 @@ public class MeetingPanel extends JPanel{
 		gls.add(listener);
 	}
 	
-	
-
 //	public void addDummyValues(){
 //		
 //		user1 = new User("sindre", "sindrus");

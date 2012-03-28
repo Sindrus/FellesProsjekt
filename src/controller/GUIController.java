@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 
 
 import model.DBAppointment;
+import model.DBMeeting;
 
 import model.DBUser;
 
@@ -43,6 +44,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 	private User user, viewUser;
 	private GridBagConstraints g;
 	private int selectedAppointmentID;
+	private boolean wasSelectedApp;
 
 
 
@@ -210,6 +212,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
 			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
 			selectedAppointmentID = ((AButton)(list.get(0))).getAppointment().getId();
+			wasSelectedApp = ep.getIsMeeting();
 			ep.addListener(this);
 			pp.add(ep);
 		}
@@ -240,10 +243,15 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			notifyGui(ChangeType.CALENDAR, null);
 		}else if(ct== ChangeType.DELETE){
 			System.out.println(DBAppointment.getAppointment(selectedAppointmentID));
+			if(wasSelectedApp)
+				DBAppointment.deleteAppointment(selectedAppointmentID);
+			else
+				DBMeeting.deleteMeeting(selectedAppointmentID);
+			notifyGui(ChangeType.CALENDAR, null);
 		}
 		else{
 			System.out.println("ChangeType not recognized");
-
+			
 		}
 
 		pp.validate();
