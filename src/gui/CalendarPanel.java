@@ -44,7 +44,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 	LoginPanel loginPanel;
 	NewPanel newPanel;
 	public CalendarListPanel cl;
-	InvitationListPanel il;
+	public InvitationListPanel il;
 	JFrame f;
 	GridBagConstraints g;
 	private Toolkit tool = Toolkit.getDefaultToolkit();
@@ -195,7 +195,7 @@ public class CalendarPanel extends JPanel implements GUIListener, ActionListener
 			gls.notifyListeners(ChangeType.LOGOUT, null);
 		}
 
-		
+	//	else if(e.getSource() == )
 		
 		
 		

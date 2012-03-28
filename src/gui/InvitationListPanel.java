@@ -25,7 +25,7 @@ import util.GUIListenerSupport;
 public class InvitationListPanel extends JPanel {
 
 	private JPanel inkallingPanel;
-	private JList inkallingList;
+	public JList inkallingList;
 	private DefaultListModel defaultPersonListModel;
 
 	public InvitationListPanel(){
