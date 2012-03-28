@@ -52,7 +52,7 @@ public class EditPanel extends JPanel implements GUIListener{
 		this();
 		this.app = app;
 		isMeeting = false;
-gls = new GUIListenerSupport();
+		gls = new GUIListenerSupport();
 		editAppointmentPanel.what.setText(app.getTitle());
 
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
@@ -61,11 +61,11 @@ gls = new GUIListenerSupport();
 		System.out.println(app.getId());
 		System.out.println(app.getStart());
 		System.out.println(app.getEnd());
-		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
 		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
-		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
-		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
 		editAppointmentPanel.endMonth.setSelectedIndex(endValues.get("month"));
+		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
+		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
+		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
 		editAppointmentPanel.endYear.setText(Integer.toString(endValues.get("year")));
 		editAppointmentPanel.description.setText(app.getDescription());
 	}
@@ -79,17 +79,13 @@ gls = new GUIListenerSupport();
 		HashMap<String, Integer> startValues = DateHelpers.convertFromTimestamp(app.getStart());
 		HashMap<String, Integer> endValues = DateHelpers.convertFromTimestamp(app.getEnd());
 		
-		
-	// Yes, I know all the get methods are deprecated, but thats what you get for using timestamp...
-		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
 		editAppointmentPanel.startMonth.setSelectedIndex(startValues.get("month"));
-		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
-		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
 		editAppointmentPanel.endMonth.setSelectedIndex(endValues.get("month"));
+		editAppointmentPanel.endDay.setSelectedItem(endValues.get("day"));
+		editAppointmentPanel.startDay.setSelectedItem(startValues.get("day"));
+		editAppointmentPanel.startYear.setText(Integer.toString(startValues.get("year")));
 		editAppointmentPanel.endYear.setText(Integer.toString(endValues.get("year")));
 		editAppointmentPanel.description.setText(app.getDescription());
-		
-		
 	}
 	
 	public void getItemsToSelect(){
