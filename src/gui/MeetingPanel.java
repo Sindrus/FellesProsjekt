@@ -127,7 +127,6 @@ public class MeetingPanel extends JPanel{
 		createBtn = new JButton("Fullfør");
 		createBtn.addActionListener(new createAction());
 		btng.gridx=0;
-		btnPanel.add(createBtn,btng);
 		
 		backBtn = new JButton("Tilbake");
 		backBtn.addActionListener(new backAction());
@@ -149,7 +148,7 @@ public class MeetingPanel extends JPanel{
 	}
 	
 	public void fillLists(ArrayList<Room> r, ArrayList<User> u){
-
+		System.out.println("Gønner på");
 		
 		for (int i = 0; i < u.size(); i++) {
 			defaultPersonListModel.addElement(u.get(i));
