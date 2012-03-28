@@ -104,8 +104,9 @@ public class ConnectionImpl extends AbstractConnection{
     	}
     	this.state = State.LISTEN;
     	KtnDatagram syn = null; //Make a SYN packet
-		try{ //Send SYN Packet
-			syn = receivePacket(true);
+    	 while (!checksumCheck(syn))
+    		 try {
+             syn = receivePacket(true);
 		} catch (Exception e) {}
     	//Create new connection
     	ConnectionImpl connection = new ConnectionImpl(newPortNumber()); //Make Received state packet
@@ -171,20 +172,23 @@ public class ConnectionImpl extends AbstractConnection{
     		throw new IllegalStateException("Data packets can only be sent in established state");
     	}
     	if (lastValidPacketReceived.getFlag() == Flag.SYN_ACK){
+    		// We got here.
     		boolean sent = false;
-    		do try {
+    		try {
     			sendAck(lastValidPacketReceived, false);
     			sent = true;
     		}catch (SocketException e) {
     		}while (sent == false);
-    	}
+       }
 	   KtnDatagram datapacket = constructDataPacket(msg), ack = null;
 	   int tries = 5;
-	   while(tries >= 0 && checksumCheck(ack)){
+	   while(tries >= 0 && !checksumCheck(ack)){
+		   System.out.println("do we stop here with a fail?" + tries);
 		   ack = sendDataPacketWithRetransmit(datapacket);
 	   }
 	   if (!checksumCheck(ack) || ack.getFlag() != Flag.SYN_ACK ||
 			   ack.getFlag() != Flag.SYN || ack.getFlag() != Flag.ACK){
+		   System.out.println("hello, is it me you're looking for?");
 		   state = State.CLOSED;
 		   throw new IOException("Failed to send packet");
 	   }

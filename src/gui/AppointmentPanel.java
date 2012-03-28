@@ -275,7 +275,7 @@ public class AppointmentPanel extends JPanel{
 	 */
 	public int[] getEndTime(){
 		int[] time = new int[2];
-		String[] hold = startTime.getSelectedItem().toString().split(":");
+		String[] hold = endTime.getSelectedItem().toString().split(":");
 		time[0]=Integer.parseInt(hold[0]);
 		time[1]=Integer.parseInt(hold[1]);
 		return time;
