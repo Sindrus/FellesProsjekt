@@ -42,6 +42,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 	private NewPanel newPanel;
 	private User user, viewUser;
 	private GridBagConstraints g;
+	private int selectedAppointmentID;
 
 
 
@@ -208,6 +209,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			System.out.println("Appointment button called");
 			System.out.println("Appointment id: " + ((AButton)(list.get(0))).getAppointment());
 			EditPanel ep = new EditPanel(((AButton)(list.get(0))).getAppointment());
+			selectedAppointmentID = ((AButton)(list.get(0))).getAppointment().getId();
 			ep.addListener(this);
 			pp.add(ep);
 		}
@@ -234,9 +236,11 @@ public class GUIController implements GUIListener, ListSelectionListener{
 		}
 		
 		else if(ct == ChangeType.CREATEMEETING){
+			System.out.println("Mottatte del: "+list);
 			notifyGui(ChangeType.CALENDAR, null);
+		}else if(ct== ChangeType.DELETE){
+			System.out.println(DBAppointment.getAppointment(selectedAppointmentID));
 		}
-
 		else{
 			System.out.println("ChangeType not recognized");
 

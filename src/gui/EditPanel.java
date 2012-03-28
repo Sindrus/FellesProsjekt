@@ -13,6 +13,7 @@ import controller.GUIController;
 
 import model.Appointment;
 import model.Meeting;
+import model.User;
 import util.ChangeType;
 import util.DateHelpers;
 import util.GUIListener;
@@ -136,6 +137,10 @@ gls = new GUIListenerSupport();
 		redraw();
 	}
 	
+	public boolean getIsMeeting(){
+		return isMeeting;
+	}
+	
 	public void saveChanges(){
 		long startTimestamp = 0L;
 		long endTimestamp = 0L;
@@ -158,7 +163,11 @@ gls = new GUIListenerSupport();
 		meet.setEnd(end);
 		meet.setRoom(editMeetingPanel.getRoom());
 		meet.removeParticipants();
-		meet.setParticipants(editMeetingPanel.getSelectedParticipants());
+		ArrayList<User> users= new ArrayList<User>();
+		for(Object user : editMeetingPanel.getSelectedParticipants())
+			users.add((User)user);
+			
+		meet.setParticipants(users);
 		
 	}
 	private void saveAppointment(long start, long end){

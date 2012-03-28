@@ -1,10 +1,13 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -77,6 +80,7 @@ public class MeetingPanel extends JPanel{
 		
 		JScrollPane personScroll = new JScrollPane(personList);
 		personScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		personScroll.setMinimumSize(new Dimension(300,100));
 		innerPanel.add(personScroll,g);
 		
 		g.gridx=0;
@@ -96,11 +100,14 @@ public class MeetingPanel extends JPanel{
 		romList.setCellRenderer(new RoomListRenderer());
 		romList.setVisibleRowCount(5);
 		romList.setFixedCellWidth(250);
+		romList.setFixedCellHeight(25);
+		
 		romList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		g.gridx=1;
 		innerPanel.add(romList,g);
 		
 		JScrollPane romScroll = new JScrollPane(romList);
+		romScroll.setMinimumSize(new Dimension(300,100));
 		romScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		innerPanel.add(romScroll,g);
 		
@@ -179,10 +186,10 @@ public class MeetingPanel extends JPanel{
 	 * Returns a list of selected <code>User</code> objects as an ArrayList 
 	 * @return list of <code>User</code>
 	 */
-	public ArrayList<User> getSelectedParticipants(){
-		ArrayList<User> participantList = new ArrayList<User>();
+	public ArrayList<Object> getSelectedParticipants(){
+		ArrayList<Object> participantList = new ArrayList<Object>();
 		for(int i=0;i<personList.getSelectedIndices().length;i++)
-			participantList.add((User)defaultPersonListModel.getElementAt(i));
+			participantList.add(defaultPersonListModel.getElementAt(i));
 		return participantList;
 	}
 	
@@ -215,6 +222,9 @@ public class MeetingPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<Object> array = new ArrayList<Object>();
+			for(Object i : getSelectedParticipants())
+				array.add(i);
+			System.out.println("Inviterte: "+array);
 			gls.notifyListeners(ChangeType.CREATEMEETING, array);
 		}
 	}
