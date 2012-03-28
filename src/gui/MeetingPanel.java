@@ -127,6 +127,7 @@ public class MeetingPanel extends JPanel{
 		createBtn = new JButton("Fullfør");
 		createBtn.addActionListener(new createAction());
 		btng.gridx=0;
+		btnPanel.add(createBtn,btng);
 		
 		backBtn = new JButton("Tilbake");
 		backBtn.addActionListener(new backAction());
