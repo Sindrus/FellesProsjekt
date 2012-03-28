@@ -13,7 +13,9 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -45,7 +47,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 	private GridBagConstraints g;
 	private int selectedAppointmentID;
 	private boolean wasSelectedApp;
-
+	private JFrame jf;
 
 
 	/**
@@ -56,11 +58,11 @@ public class GUIController implements GUIListener, ListSelectionListener{
 
 		startPanels();
 
-		JFrame jf = new JFrame("Kalender");
+		jf = new JFrame("Kalender");
 		jf.setLayout(new GridBagLayout());
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-	//	jf.setContentPane(pp);
+		//	jf.setContentPane(pp);
 		jf.add(pp);
 		jf.getContentPane().setPreferredSize(new Dimension((int)tool.getScreenSize().getWidth(), (int)(tool.getScreenSize().getHeight())));
 		jf.getContentPane().setBackground(Color.DARK_GRAY);
@@ -79,14 +81,14 @@ public class GUIController implements GUIListener, ListSelectionListener{
 	 */
 	private void startPanels(){
 		System.out.println("Initializing panels");
-		
+
 		g = new GridBagConstraints();
 		g.weightx = 1;
 		g.weighty = 1;
 		g.fill = GridBagConstraints.BOTH;
 		pp = new ProjectPanel();
 		pp.setLayout(new GridBagLayout());
-		
+
 
 		loginPanel = new LoginPanel();
 		loginPanel.addGuiListener(this);
@@ -94,18 +96,21 @@ public class GUIController implements GUIListener, ListSelectionListener{
 		calendarPanel = new CalendarPanel();
 		calendarPanel.addGuiListener(this);
 		calendarPanel.cl.calendarList.addListSelectionListener(this);
+		calendarPanel.il.inkallingList.addListSelectionListener(this);
 		populateCalendarList();
 
 		System.out.println("Panels initialized");
 	}
 
-	
+
 	public void populateCalendarList(){
 		ArrayList<User> users = DBUser.getUsersInSystem();
 		System.out.println(users);
 		for(int i=0;i<users.size();i++)
 			calendarPanel.cl.addUserToList(users.get(i));
 	}
+
+
 
 	/**
 	 * This method is located in GUIController, and handles all input from the GUI panels. 
@@ -183,14 +188,14 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			System.out.println("firstDay: " + calendarPanel.wp.getFirstDay());
 			System.out.println("Last day: " + calendarPanel.wp.getLastDay());
 			System.out.println("id " + user.getId());
-//			calendarPanel.wp.setAppointments(
-//					DBAppointment.getAppointmentsInInterval(
-//							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
+			//			calendarPanel.wp.setAppointments(
+			//					DBAppointment.getAppointmentsInInterval(
+			//							calendarPanel.wp.getFirstDay(), calendarPanel.wp.getLastDay(), user.getId()));
 			ArrayList a = DBUser.getUserAppointments(user.getId());
 			System.out.println(DBUser.getUser(user.getId()).getName());
 			System.out.println("Number of appointments related to user: " + a.size());
 			calendarPanel.wp.setAppointments(a);
-					
+
 			pp.add(calendarPanel);
 		}
 
@@ -205,7 +210,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			pp.add(loginPanel);
 
 		}
-		
+
 		//Appointment button called, switching to editPanel for selected appointment
 		else if(ct == ChangeType.APPBUTTON){
 			System.out.println("Appointment button called");
@@ -219,13 +224,13 @@ public class GUIController implements GUIListener, ListSelectionListener{
 
 
 		else if(ct == ChangeType.NEXTWEEK || ct == ChangeType.PREVWEEK){
-			
+
 			ArrayList a = DBUser.getUserAppointments(viewUser.getId());
 			calendarPanel.wp.setAppointments(a);
 			calendarPanel.buildCalendarPanel();
 			pp.add(calendarPanel, g);
 		}
-		
+
 		// New appointment button clicked in Calendar Panel. Change view to newPanel.
 		else if(ct == ChangeType.NEWAPP){
 			System.out.println("ct = newApp");
@@ -237,7 +242,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 			pp.add(newPanel);
 
 		}
-		
+
 		else if(ct == ChangeType.CREATEMEETING){
 			System.out.println("Mottatte del: "+list);
 			notifyGui(ChangeType.CALENDAR, null);
@@ -251,7 +256,7 @@ public class GUIController implements GUIListener, ListSelectionListener{
 		}
 		else{
 			System.out.println("ChangeType not recognized");
-			
+
 		}
 
 		pp.validate();
@@ -262,13 +267,26 @@ public class GUIController implements GUIListener, ListSelectionListener{
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
-		pp.removeAll();
-		viewUser = (User)calendarPanel.cl.calendarList.getSelectedValue();
-		ArrayList a = DBUser.getUserAppointments(viewUser.getId());
-		calendarPanel.wp.setAppointments(a);
-		pp.add(calendarPanel);
-		pp.revalidate();
-		pp.repaint();
+
+		if(e.getSource() == calendarPanel.il.inkallingList){
+			String s = (String)JOptionPane.showInputDialog(
+                    jf,
+                    "Accept invitation=",
+                    JOptionPane.YES_NO_OPTION
+                    );
+			System.out.println(s);
+
+
+		}
+		else{
+			pp.removeAll();
+			viewUser = (User)calendarPanel.cl.calendarList.getSelectedValue();
+			ArrayList a = DBUser.getUserAppointments(viewUser.getId());
+			calendarPanel.wp.setAppointments(a);
+			pp.add(calendarPanel);
+			pp.revalidate();
+			pp.repaint();
+		}
 	}
 
 
