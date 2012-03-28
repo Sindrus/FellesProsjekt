@@ -11,7 +11,7 @@ Christian: Holder på med KTN... ennå... (connectionImpl)
 Jørgen: 
 Nenad: Start building the framework for the Calendar panel.
 Made: 
-Even: Appointment, DBAppointment, User, DBUser, Meeting, DBMeeting
+Even: 
 
 
 Innlevering
