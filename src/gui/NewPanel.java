@@ -162,10 +162,10 @@ public class NewPanel extends JPanel implements GUIListener{
 			System.out.println("ID: "+app.getId());
 		}
 		else if(isMeeting){
-			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp, endTimestamp, newAppointmentPanel.getDesc(), newAppointmentPanel.getWhat(), toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
+			System.out.println("creating meeting in DB");
+			meet = DBMeeting.newMeeting(user, roomNumber, startTimestamp, endTimestamp, newAppointmentPanel.getWhat(),newAppointmentPanel.getDesc(),  toMakeThisFrickingWork(newMeetingPanel.getParticipants()));
 			System.out.println("Meeting ID: " + meet.getId());
-			for(int i=0;i<newMeetingPanel.getParticipants().length;i++) 
-				meet.addParticipant(newMeetingPanel.getParticipants()[i]);
+
 
 		}
 	}

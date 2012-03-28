@@ -33,6 +33,7 @@ import util.GUIListenerSupport;
 
 
 import model.Appointment;
+import model.DBAppointment;
 
 /**
  * 
@@ -72,11 +73,11 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 		gls = new GUIListenerSupport();
 		y = getYear(Calendar.getInstance().get(Calendar.YEAR));
 		dayScroll = new JScrollPane[7];
-		
+
 		g.weightx = 20;
 
 		g.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		setBackground(GConfig.WEEKLYCOLOR);
 		setLayout(new GridBagLayout());
 		g.gridy = 0;
@@ -124,20 +125,6 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 		}
 
-		g.gridy = 4;
-		for (int i = 0; i < 7; i++) {
-			g.gridx = i;
-			JLabel l = new JLabel("________________________");
-			//add(l,g);
-			
-		}
-
-		
-		for (int i = 0; i < 3; i++) {
-			g.gridy = i;
-			JLabel l = new JLabel("|");
-
-		}
 
 		updateWeek();
 
@@ -254,7 +241,7 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 	public void setAppointments(ArrayList<Appointment> a) {
 
 		updateWeek();
-		System.out.println("Setting " + a.size() + " appointments");
+
 
 		for (int i = 0; i < dayList.length; i++) {
 
@@ -263,21 +250,29 @@ public class WeeklyCalendarPanel extends JPanel implements ActionListener{
 
 			for (int j = 0; j < a.size(); j++) {
 				int x = 0;
+
+
+
 				String dm= String.valueOf(weeknum) + String.valueOf(y.weeks.get(weeknum)[i]);
 				if(DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("day") == (y.weeks.get(weeknum)[i])
 						&& DateHelpers.convertFromTimestamp(a.get(j).getStart()).get("month") == y.dayMonth.get(dm)){
+
 					Appointment app = a.get(j);
 					AButton b = new AButton(a.get(j));
 					b.addActionListener(this);
 					dayList[i].addButton(b);
 					x += 1;
 				}
-				
-//				if(x== 0){
-//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
-//					b.setVisible(false);
-//					dayList[i].addButton(b);
-//				}
+				else{
+
+				}
+
+
+				//				if(x== 0){
+				//					AButton b = new AButton((new Appointment(1, 0000000000000, 0000000000000, "dddddddddddddddddddddddddddddddddddd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
+				//					b.setVisible(false);
+				//					dayList[i].addButton(b);
+				//				}
 			}
 
 
